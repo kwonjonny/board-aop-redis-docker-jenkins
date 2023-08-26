@@ -22,6 +22,7 @@ public class BoardListDTO {
     private String title;
     private String content;
     private String writer;
+    private int viewCount;
     private LocalDate createDate;
     private LocalDate updateDate;
 }

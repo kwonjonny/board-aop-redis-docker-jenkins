@@ -1,5 +1,32 @@
 package board.mybatis.mvc.service;
 
+import board.mybatis.mvc.dto.BoardCreateDTO;
+import board.mybatis.mvc.dto.BoardDTO;
+import board.mybatis.mvc.dto.BoardListDTO;
+import board.mybatis.mvc.dto.BoardUpdateDTO;
+import board.mybatis.mvc.util.PageRequestDTO;
+import board.mybatis.mvc.util.PageResponseDTO;
+
+// Board Service Interface 
 public interface BoardService {
-    
+    // Create Board Service 
+    Long createBoard(BoardCreateDTO boardCreateDTO);
+
+    // Read Board Service 
+    BoardDTO readBoard(Long bno);
+
+    // Update Board Service 
+    Long updateBoard(BoardUpdateDTO boardUpdateDTO);
+
+    // Delete Board Service 
+    Long deleteBoard(Long bno);
+
+    // List Board Service 
+    PageResponseDTO<BoardListDTO> listBoard(PageRequestDTO pageRequestDTO);
+
+    // Find Board Number Service 
+    void findBoardNumber(Long bno);
+
+    // Board View Count 
+    int boardViewCount(Long bno);
 }

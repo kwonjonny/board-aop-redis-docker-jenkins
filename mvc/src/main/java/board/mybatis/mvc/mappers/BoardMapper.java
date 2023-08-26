@@ -30,4 +30,10 @@ public interface BoardMapper {
 
     // Total Board 
     int total(PageRequestDTO pageRequestDTO);
+
+    // Find Board Number 
+    Long findBoardNumber(Long bno);
+
+    // Board View Count 
+    int boardViewCount(Long bno);
 }

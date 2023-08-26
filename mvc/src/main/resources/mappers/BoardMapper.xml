@@ -4,16 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- BoardMapper Xml -->
-<mapper namespace="board.mybatis.mappers.BoardMapper">
+<mapper namespace="board.mybatis.mvc.mappers.BoardMapper">
 
 <!-- BoardMapper id = "createBoard" -->
 <insert id="createBoard" parameterType="board.mybatis.mvc.dto.BoardCreateDTO"
 useGeneratedKeys="true" keyProperty="bno">
-        INSERT INTO tbl_baord 
-        (title, cotent, writer)
+        INSERT INTO tbl_board 
+        (title, content, writer)
         VALUES(#{title}, #{content}, #{writer})
         <!-- last insert id 확인 -->
-        <selectKey resultType="long" keyProperty="nno" order="AFTER">
+        <selectKey resultType="long" keyProperty="bno" order="AFTER">
                 SELECT LAST_INSERT_ID()
         </selectKey>
 </insert>
@@ -22,7 +22,7 @@ useGeneratedKeys="true" keyProperty="bno">
 <!-- BoardMapper id = "readBoard" -->
 <select id="readBoard" parameterType="long">
         SELECT * FROM 
-        tbl_baord
+        tbl_board
         WHERE bno = #{bno}
 </select>
 
@@ -77,7 +77,8 @@ useGeneratedKeys="true" keyProperty="bno">
 <select id="total" resultType="int">
         SELECT COUNT(*)
         FROM (
-        tbl_baord
+        SELECT * FROM
+        tbl_board
         WHERE bno > 0
         <if test="keyword != null and types != null">
         <trim prefix="and (" prefixOverrides="or" suffix=")">
@@ -103,5 +104,20 @@ useGeneratedKeys="true" keyProperty="bno">
         LIMIT #{countEnd}
         ) tbl_board
 </select>
+
+
+<!-- BoardMapper id = "findBoardNumber" -->
+<select id="findBoardNumber" parameterType="long" resultType="long">
+        SELECT COUNT(*)
+        FROM tbl_board
+        WHERE bno = #{bno}
+</select>
+
+<!-- BoardMapper id = "boardViewCount" -->
+<update id="boardViewCount" parameterType="long">
+        UPDATE tbl_board
+        SET viewCount = viewCount + 1 
+        WHERE bno = #{bno}
+</update>
 
 </mapper>
