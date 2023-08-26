@@ -23,7 +23,7 @@ public class LoggingAOP {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     // 포인트컷 설정 - board.file.service 패키지의 모든 메소드를 대상으로 함.
-    @Pointcut("execution(* board.file.service..*.*(..))")
+    @Pointcut("execution(* board.mybatis.mvc.service..*.*(..))")
     public void applicationPackagePointcut() {
     }
 
