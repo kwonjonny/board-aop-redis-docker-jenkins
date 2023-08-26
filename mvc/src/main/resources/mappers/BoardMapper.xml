@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- BoardMapper Xml -->
+<mapper namespace="board.mybatis.mappers.BoardMapper">
+
+<!-- BoardMapper id = "createBoard" -->
+<insert id="createBoard" parameterType="board.mybatis.mvc.dto.BoardCreateDTO"
+useGeneratedKeys="true" keyProperty="bno">
+        INSERT INTO tbl_baord 
+        (title, cotent, writer)
+        VALUES(#{title}, #{content}, #{writer})
+        <!-- last insert id 확인 -->
+        <selectKey resultType="long" keyProperty="nno" order="AFTER">
+                SELECT LAST_INSERT_ID()
+        </selectKey>
+</insert>
+
+
+<!-- BoardMapper id = "readBoard" -->
+<select id="readBoard" parameterType="long">
+        SELECT * FROM 
+        tbl_baord
+        WHERE bno = #{bno}
+</select>
+
+
+<!-- BoardMapper id = "updateBoard" -->
+<update id="updateBoard" parameterType="board.mybatis.mvc.dto.BoardUpdateDTO">
+        UPDATE tbl_board 
+        SET title = #{title}, content = #{content}, writer = #{writer}, updateDate = NOW()
+        WHERE bno = #{bno}
+</update>
+
+
+<!-- BoardMapper id = "deleteboard" -->
+<delete id="deleteBoard" parameterType="long">
+        DELETE FROM tbl_board 
+        WHERE bno = #{bno}
+</delete>
+
+
+<!-- BoardMapper id = "listboard" -->
+<select id="listBoard" parameterType="board.mybatis.mvc.dto.BoardListDTO">
+        SELECT * FROM 
+        tbl_board tb
+        WHERE tb.bno > 0
+        <if test="keyword != null and types != null">
+        <trim prefix="and (" prefixOverrides="or" suffix=")">
+        <foreach collection="types" item="searchType" separator=" OR ">
+                <if test='searchType == "t"'>
+                title like concat('%', #{keyword}, '%')
+                </if>
+                <if test='searchType == "c"'>
+                content like concat('%', #{keyword}, '%')
+                </if>
+                <if test='searchType == "w"'>
+                writer like concat('%', #{keyword}, '%')
+                </if>
+        </foreach>
+        </trim>
+        </if>
+        <if test="startDate != null">
+                AND registDate >= #{startDate}
+        </if>
+        <if test="endDate != null">
+                AND registDate &lt;= #{endDate}
+        </if>
+        ORDER BY tb.bno DESC 
+        LIMIT #{skip}, #{size}
+</select>
+
+
+<!-- BoardMapper id = "total" -->
+<select id="total" resultType="int">
+        SELECT COUNT(*)
+        FROM (
+        tbl_baord
+        WHERE bno > 0
+        <if test="keyword != null and types != null">
+        <trim prefix="and (" prefixOverrides="or" suffix=")">
+        <foreach collection="types" item="searchType" separator=" OR ">
+                <if test='searchType == "t"'>
+                title like concat('%', #{keyword}, '%')
+                </if>
+                <if test='searchType == "c"'>
+                content like concat('%', #{keyword}, '%')
+                </if>
+                <if test='searchType == "w"'>
+                writer like concat('%', #{keyword}, '%')
+                </if>
+        </foreach>
+        </trim>
+        </if>
+        <if test="startDate != null">
+                AND registDate >= #{startDate}
+        </if>
+        <if test="endDate != null">
+                AND registDate &lt;= #{endDate}
+        </if>
+        LIMIT #{countEnd}
+        ) tbl_board
+</select>
+
+</mapper>
