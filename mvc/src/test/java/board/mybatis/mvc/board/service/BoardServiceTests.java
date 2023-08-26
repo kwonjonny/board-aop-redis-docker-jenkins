@@ -1,5 +1,12 @@
 package board.mybatis.mvc.board.service;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +21,7 @@ import board.mybatis.mvc.dto.BoardListDTO;
 import board.mybatis.mvc.dto.BoardUpdateDTO;
 import board.mybatis.mvc.exception.BoardNumberNotFoundException;
 import board.mybatis.mvc.exception.DataNotFoundException;
+import board.mybatis.mvc.mappers.FileMapper;
 import board.mybatis.mvc.service.BoardService;
 import board.mybatis.mvc.util.PageRequestDTO;
 import board.mybatis.mvc.util.PageResponseDTO;
@@ -28,23 +36,31 @@ public class BoardServiceTests {
     @Autowired
     private BoardService boardService;
 
+    @Autowired(required = false)
+    private FileMapper fileMapper;
+
     // 테스트 시작시 메모리에 static 으로 올려놓고 동작
     private static final String JUNIT_TEST_TITLE = "Junit_Test_Title";
     private static final String JUNIT_TEST_CONTENT = "Junit_Test_Content";
     private static final String JUNIT_TEST_WRITER = "Junit_Test_Writer";
     private static final Long JUNIT_TEST_BNO = 2L;
+    private static final String JUNIT_TEST_FILE_NAME = "Junit_Test_File_Name.jpg";
 
     // Beforeach 사용을 위한 DTO 정의
     private BoardCreateDTO boardCreateDTO;
     private BoardUpdateDTO boardUpdateDTO;
+    private String uuid;
 
     // Beforeach Set Up
     @BeforeEach
     public void setUp() {
+        uuid = UUID.randomUUID().toString();
+
         boardCreateDTO = BoardCreateDTO.builder()
                 .content(JUNIT_TEST_CONTENT)
                 .title(JUNIT_TEST_TITLE)
                 .writer(JUNIT_TEST_WRITER)
+                .fileNames(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
                 .build();
 
         boardUpdateDTO = BoardUpdateDTO.builder()
@@ -52,6 +68,7 @@ public class BoardServiceTests {
                 .content(JUNIT_TEST_CONTENT)
                 .title(JUNIT_TEST_TITLE)
                 .writer(JUNIT_TEST_WRITER)
+                .fileNames(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
                 .build();
     }
 
@@ -68,6 +85,15 @@ public class BoardServiceTests {
                 || boardCreateDTO.getWriter() == null) {
             throw new DataNotFoundException("작성자, 제목, 내용은 필수 사항입니다.");
         }
+        List<String> fileNames = boardCreateDTO.getFileNames();
+        AtomicInteger index = new AtomicInteger(0);
+        List<Map<String, String>> list = fileNames.stream().map(str -> {
+            Long bno = boardCreateDTO.getBno();
+            String uuid = str.substring(0, 36);
+            String fileName = str.substring(37);
+            return Map.of("uuid", uuid, "fileName", fileName, "bno", "" + bno, "ord", "" + index.getAndIncrement());
+        }).collect(Collectors.toList());
+        fileMapper.createImage(list);
         // THEN
         Assertions.assertEquals(JUNIT_TEST_CONTENT, boardCreateDTO.getContent());
         Assertions.assertEquals(JUNIT_TEST_TITLE, boardCreateDTO.getTitle());
@@ -157,25 +183,25 @@ public class BoardServiceTests {
         log.info("=== End List Board Service Test ===");
     }
 
-     // View Count Board Mapper Test 
-     @Test
-     @Transactional
-     @DisplayName("Service: 게시판 조회수 테스트")
-     public void viewCountBoardTest() {
-         // GIVEN 
-         log.info("=== Start View Count Board Service Test ===");
-         // WHEN 
-         BoardDTO readBoard = boardService.readBoard(JUNIT_TEST_BNO);
-         if(readBoard == null) {
-             throw new BoardNumberNotFoundException("해당하는 게시물 번호가 없습니다.");
-         }
-         int viewCount = readBoard.getViewCount();
- 
-         boardService.boardViewCount(JUNIT_TEST_BNO);
-         // THEN 
-         BoardDTO afterReading = boardService.readBoard(JUNIT_TEST_BNO);
-         int updatedViewCount = afterReading.getViewCount();
-         Assertions.assertEquals(viewCount + 1, updatedViewCount);
-         log.info("=== End View Count Board Service Test ===");
-     }
+    // View Count Board Mapper Test
+    @Test
+    @Transactional
+    @DisplayName("Service: 게시판 조회수 테스트")
+    public void viewCountBoardTest() {
+        // GIVEN
+        log.info("=== Start View Count Board Service Test ===");
+        // WHEN
+        BoardDTO readBoard = boardService.readBoard(JUNIT_TEST_BNO);
+        if (readBoard == null) {
+            throw new BoardNumberNotFoundException("해당하는 게시물 번호가 없습니다.");
+        }
+        int viewCount = readBoard.getViewCount();
+
+        boardService.boardViewCount(JUNIT_TEST_BNO);
+        // THEN
+        BoardDTO afterReading = boardService.readBoard(JUNIT_TEST_BNO);
+        int updatedViewCount = afterReading.getViewCount();
+        Assertions.assertEquals(viewCount + 1, updatedViewCount);
+        log.info("=== End View Count Board Service Test ===");
+    }
 }

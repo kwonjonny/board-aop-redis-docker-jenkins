@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- BoardMapper Xml -->
+<mapper namespace="board.mybatis.mvc.mappers.FileMapper">
+
+<!-- FileMapper id = "createImage" -->
+<insert id="createImage" parameterType="java.util.List">
+    INSERT INTO tbl_board_image 
+    (uuid, fileName, ord, bno)
+    VALUES 
+    <foreach collection="list" item="item" separator=",">
+        (#{item.uuid}, #{item.fileName}, #{item.ord}, #{item.bno})
+    </foreach>
+</insert>
+
+
+<!-- FileMapper id = "deleteImage" -->
+<delete id="deleteImage" parameterType="long">
+    DELETE FROM tbl_board_image
+    WHERE bno = #{bno}
+</delete>
+
+
+<!-- FileMapper id = "updateImage" -->
+<insert id="updateImage" parameterType="java.util.List">
+    INSERT INTO tbl_board_image
+    (uuid, fileName, ord, bno)
+    VALUES
+    <foreach collection="list" item="item" separator=",">
+        (#{item.uuid}, #{item.fileName}, #{item.ord}, #{item.bno})
+    </foreach>
+</insert>
+
+
+</mapper>
