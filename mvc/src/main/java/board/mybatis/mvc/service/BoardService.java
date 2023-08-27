@@ -1,9 +1,9 @@
 package board.mybatis.mvc.service;
 
-import board.mybatis.mvc.dto.BoardCreateDTO;
-import board.mybatis.mvc.dto.BoardDTO;
-import board.mybatis.mvc.dto.BoardListDTO;
-import board.mybatis.mvc.dto.BoardUpdateDTO;
+import board.mybatis.mvc.dto.board.BoardCreateDTO;
+import board.mybatis.mvc.dto.board.BoardDTO;
+import board.mybatis.mvc.dto.board.BoardListDTO;
+import board.mybatis.mvc.dto.board.BoardUpdateDTO;
 import board.mybatis.mvc.util.PageRequestDTO;
 import board.mybatis.mvc.util.PageResponseDTO;
 

@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import board.mybatis.mvc.dto.BoardCreateDTO;
-import board.mybatis.mvc.dto.BoardDTO;
-import board.mybatis.mvc.dto.BoardListDTO;
-import board.mybatis.mvc.dto.BoardUpdateDTO;
+import board.mybatis.mvc.dto.board.BoardCreateDTO;
+import board.mybatis.mvc.dto.board.BoardDTO;
+import board.mybatis.mvc.dto.board.BoardListDTO;
+import board.mybatis.mvc.dto.board.BoardUpdateDTO;
 import board.mybatis.mvc.util.PageRequestDTO;
 
 // Board Mapper Interface
@@ -35,5 +35,5 @@ public interface BoardMapper {
     Long findBoardNumber(Long bno);
 
     // Board View Count 
-    int boardViewCount(Long bno);
+    int countViewBoard(Long bno);
 }

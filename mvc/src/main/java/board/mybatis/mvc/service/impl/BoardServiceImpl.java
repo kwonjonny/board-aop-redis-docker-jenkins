@@ -1,18 +1,22 @@
 package board.mybatis.mvc.service.impl;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import board.mybatis.mvc.dto.BoardCreateDTO;
-import board.mybatis.mvc.dto.BoardDTO;
-import board.mybatis.mvc.dto.BoardListDTO;
-import board.mybatis.mvc.dto.BoardUpdateDTO;
+import board.mybatis.mvc.dto.board.BoardCreateDTO;
+import board.mybatis.mvc.dto.board.BoardDTO;
+import board.mybatis.mvc.dto.board.BoardListDTO;
+import board.mybatis.mvc.dto.board.BoardUpdateDTO;
 import board.mybatis.mvc.exception.BoardNumberNotFoundException;
 import board.mybatis.mvc.exception.DataNotFoundException;
 import board.mybatis.mvc.mappers.BoardMapper;
+import board.mybatis.mvc.mappers.FileMapper;
 import board.mybatis.mvc.service.BoardService;
 import board.mybatis.mvc.util.PageRequestDTO;
 import board.mybatis.mvc.util.PageResponseDTO;
@@ -25,12 +29,14 @@ public class BoardServiceImpl implements BoardService {
 
     // 의존성 주입
     private final BoardMapper boardMapper;
+    private final FileMapper fileMapper;
 
     // Autowired 명시적 표시
     @Autowired
-    public BoardServiceImpl(BoardMapper boardMapper) {
+    public BoardServiceImpl(BoardMapper boardMapper, FileMapper fileMapper) {
         log.info("Inject BoardMapper");
         this.boardMapper = boardMapper;
+        this.fileMapper = fileMapper;
     }
 
     // Create Board Serviceimpl
@@ -42,7 +48,21 @@ public class BoardServiceImpl implements BoardService {
                 || boardCreateDTO.getContent() == null) {
             throw new DataNotFoundException("제목, 내용, 작성자는 필수입니다.");
         }
-        return boardMapper.createBoard(boardCreateDTO);
+        Long count = boardMapper.createBoard(boardCreateDTO);
+        AtomicInteger index = new AtomicInteger(0);
+        List<String> fileNames = boardCreateDTO.getFileNames();
+        Long bno = boardCreateDTO.getBno();
+
+        if (!boardCreateDTO.getFileNames().isEmpty() && boardCreateDTO.getFileNames() != null) {
+            List<Map<String, String>> list = fileNames.stream().map(str -> {
+                String[] splitData = str.split("_"); // "_"를 기준으로 문자열을 분리
+                String uuid = splitData[0];
+                String fileName = splitData[1];
+                return Map.of("uuid", uuid, "fileName", fileName, "bno", "" + bno, "ord", "" + index.getAndIncrement());
+            }).collect(Collectors.toList());
+            fileMapper.createImage(list);
+        }
+        return boardCreateDTO.getBno();
     }
 
     // Read Board Serviceimpl
@@ -66,8 +86,24 @@ public class BoardServiceImpl implements BoardService {
                 || boardUpdateDTO.getContent() == null) {
             throw new DataNotFoundException("제목, 내용, 작성자는 필수입니다.");
         }
-        findBoardNumber(boardUpdateDTO.getBno());
-        return boardMapper.updateBoard(boardUpdateDTO);
+        findBoardNumber(boardUpdateDTO.getBno()); // Check Board Number
+
+        Long count = boardMapper.updateBoard(boardUpdateDTO);
+        AtomicInteger index = new AtomicInteger(0);
+        List<String> fileNames = boardUpdateDTO.getFileNames();
+        Long bno = boardUpdateDTO.getBno();
+
+        fileMapper.deleteImage(bno);
+        if (!boardUpdateDTO.getFileNames().isEmpty() && boardUpdateDTO.getFileNames() != null) {
+            List<Map<String, String>> list = fileNames.stream().map(str -> {
+                String[] splitData = str.split("_"); // "_"를 기준으로 문자열을 분리
+                String uuid = splitData[0];
+                String fileName = splitData[1];
+                return Map.of("uuid", uuid, "fileName", fileName, "bno", "" + bno, "ord", "" + index.getAndIncrement());
+            }).collect(Collectors.toList());
+            fileMapper.updateImage(list);
+        }
+        return boardUpdateDTO.getBno();
     }
 
     // Delete Board ServiceImpl
@@ -79,6 +115,7 @@ public class BoardServiceImpl implements BoardService {
             throw new DataNotFoundException("해당하는 게시물 번호가 없습니다.");
         }
         findBoardNumber(bno); // Board Number Check
+        fileMapper.deleteImage(bno);
         return boardMapper.deleteBoard(bno);
     }
 
@@ -118,6 +155,6 @@ public class BoardServiceImpl implements BoardService {
         if (bno == null) {
             throw new DataNotFoundException("해당하는 게시글 번호가 없습니다.");
         }
-        return boardMapper.boardViewCount(bno);
+        return boardMapper.countViewBoard(bno);
     }
 }

@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import board.mybatis.mvc.dto.BoardCreateDTO;
-import board.mybatis.mvc.dto.BoardDTO;
-import board.mybatis.mvc.dto.BoardListDTO;
-import board.mybatis.mvc.dto.BoardUpdateDTO;
+import board.mybatis.mvc.dto.board.BoardCreateDTO;
+import board.mybatis.mvc.dto.board.BoardDTO;
+import board.mybatis.mvc.dto.board.BoardListDTO;
+import board.mybatis.mvc.dto.board.BoardUpdateDTO;
 import board.mybatis.mvc.service.BoardService;
 import board.mybatis.mvc.util.ManagementCookie;
 import board.mybatis.mvc.util.PageRequestDTO;

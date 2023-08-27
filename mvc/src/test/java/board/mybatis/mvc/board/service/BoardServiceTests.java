@@ -15,10 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import board.mybatis.mvc.dto.BoardCreateDTO;
-import board.mybatis.mvc.dto.BoardDTO;
-import board.mybatis.mvc.dto.BoardListDTO;
-import board.mybatis.mvc.dto.BoardUpdateDTO;
+import board.mybatis.mvc.dto.board.BoardCreateDTO;
+import board.mybatis.mvc.dto.board.BoardDTO;
+import board.mybatis.mvc.dto.board.BoardListDTO;
+import board.mybatis.mvc.dto.board.BoardUpdateDTO;
 import board.mybatis.mvc.exception.BoardNumberNotFoundException;
 import board.mybatis.mvc.exception.DataNotFoundException;
 import board.mybatis.mvc.mappers.FileMapper;
@@ -72,7 +72,7 @@ public class BoardServiceTests {
                 .build();
     }
 
-    // Board Create Test
+    // Create Board Service Test
     @Test
     @Transactional
     @DisplayName("Service: 게시글 생성 테스트")
@@ -101,7 +101,7 @@ public class BoardServiceTests {
         log.info("=== End Create Board Service Test ===");
     }
 
-    // Board Read Test
+    // Read Board Service Test
     @Test
     @Transactional
     @DisplayName("Service: 게시글 상세 조회 테스트")
@@ -120,7 +120,7 @@ public class BoardServiceTests {
         log.info("=== End Read Board Service Test ===");
     }
 
-    // Board Upate Test
+    // Update Board Service Test
     @Test
     @Transactional
     @DisplayName("Service: 게시글 업데이트 테스트")
@@ -137,6 +137,16 @@ public class BoardServiceTests {
                 || boardUpdateDTO.getTitle() == null) {
             throw new DataNotFoundException("작성자, 제목 내용은 필수 사항입니다.");
         }
+        fileMapper.deleteImage(boardUpdateDTO.getBno());
+        List<String> fileNames = boardCreateDTO.getFileNames();
+        AtomicInteger index = new AtomicInteger(0);
+        List<Map<String, String>> list = fileNames.stream().map(str -> {
+            Long bno = boardUpdateDTO.getBno();
+            String uuid = str.substring(0, 36);
+            String fileName = str.substring(37);
+            return Map.of("uuid", uuid, "fileName", fileName, "bno", "" + bno, "ord", "" + index.getAndIncrement());
+        }).collect(Collectors.toList());
+        fileMapper.updateImage(list);
         // THEN
         Assertions.assertEquals(JUNIT_TEST_CONTENT, boardUpdateDTO.getContent());
         Assertions.assertEquals(JUNIT_TEST_BNO, boardUpdateDTO.getBno());
@@ -145,7 +155,7 @@ public class BoardServiceTests {
         Assertions.assertNotNull(readBoard, "readBoard Should Be Not Null");
     }
 
-    // Board Delete Test
+    // Delete Board Service Test
     @Test
     @Transactional
     @DisplayName("Service: 게시글 삭제 테스트")
@@ -164,7 +174,7 @@ public class BoardServiceTests {
         log.info("=== End Delete Board Service Test ===");
     }
 
-    // Board List Test
+    // List Board Service Test
     @Test
     @Transactional
     @DisplayName("Service: 게시글 리스트 테스트")
@@ -183,7 +193,7 @@ public class BoardServiceTests {
         log.info("=== End List Board Service Test ===");
     }
 
-    // View Count Board Mapper Test
+    // View Count Board Service Test
     @Test
     @Transactional
     @DisplayName("Service: 게시판 조회수 테스트")

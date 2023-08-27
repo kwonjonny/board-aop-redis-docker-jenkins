@@ -3,50 +3,51 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- BoardMapper Xml -->
-<mapper namespace="board.mybatis.mvc.mappers.BoardMapper">
+<!-- NoticeMapper Xml -->
+<mapper namespace="board.mybatis.mvc.mappers.NoticeMapper">
 
-<!-- BoardMapper id = "createBoard" -->
-<insert id="createBoard" parameterType="board.mybatis.mvc.dto.board.BoardCreateDTO"
-useGeneratedKeys="true" keyProperty="bno">
-        INSERT INTO tbl_board 
+<!-- NoticeMapper id = "createNotice" -->
+<insert id="createNotice" parameterType="board.mybatis.mvc.dto.notice.NoticeCreateDTO"
+useGeneratedKeys="true" keyProperty="nno">
+        INSERT INTO tbl_notice 
         (title, content, writer)
         VALUES(#{title}, #{content}, #{writer})
         <!-- last insert id 확인 -->
-        <selectKey resultType="long" keyProperty="bno" order="AFTER">
+        <selectKey resultType="long" keyProperty="nno" order="AFTER">
                 SELECT LAST_INSERT_ID()
         </selectKey>
 </insert>
 
 
-<!-- BoardMapper id = "readBoard" -->
-<select id="readBoard" parameterType="long">
+<!-- NoticeMapper id = "readNotice" -->
+<select id="readNotice" parameterType="long">
         SELECT * FROM 
-        tbl_board
-        WHERE bno = #{bno}
+        tbl_notice
+        WHERE nno = #{nno}
 </select>
 
 
-<!-- BoardMapper id = "updateBoard" -->
-<update id="updateBoard" parameterType="board.mybatis.mvc.dto.board.BoardUpdateDTO">
-        UPDATE tbl_board 
+<!-- NoticeMapper id = "updateNotice" -->
+<update id="updateNotice" parameterType="board.mybatis.mvc.dto.notice.NoticeUpdateDTO">
+        UPDATE tbl_notice 
         SET title = #{title}, content = #{content}, writer = #{writer}, updateDate = NOW()
-        WHERE bno = #{bno}
+        WHERE nno = #{nno}
 </update>
 
 
-<!-- BoardMapper id = "deleteboard" -->
-<delete id="deleteBoard" parameterType="long">
-        DELETE FROM tbl_board 
-        WHERE bno = #{bno}
+<!-- NoticeMapper id = "deleteNotice" -->
+<delete id="deleteNotice" parameterType="long">
+        DELETE FROM 
+        tbl_notice 
+        WHERE nno = #{nno}
 </delete>
 
 
-<!-- BoardMapper id = "listboard" -->
-<select id="listBoard" parameterType="board.mybatis.mvc.dto.board.BoardListDTO">
+<!-- NoticeMapper id = "listNotice" -->
+<select id="listNotice" parameterType="board.mybatis.mvc.dto.notice.NoticeListDTO">
         SELECT * FROM 
-        tbl_board tb
-        WHERE tb.bno > 0
+        tbl_notice tn
+        WHERE tn.bno > 0
         <if test="keyword != null and types != null">
         <trim prefix="and (" prefixOverrides="or" suffix=")">
         <foreach collection="types" item="searchType" separator=" OR ">
@@ -68,18 +69,18 @@ useGeneratedKeys="true" keyProperty="bno">
         <if test="endDate != null">
                 AND registDate &lt;= #{endDate}
         </if>
-        ORDER BY tb.bno DESC 
+        ORDER BY tn.nno DESC 
         LIMIT #{skip}, #{size}
 </select>
 
 
-<!-- BoardMapper id = "total" -->
+<!-- NoticeMapper id = "total" -->
 <select id="total" resultType="int">
         SELECT COUNT(*)
         FROM (
         SELECT * FROM
-        tbl_board
-        WHERE bno > 0
+        tbl_notice
+        WHERE nno > 0
         <if test="keyword != null and types != null">
         <trim prefix="and (" prefixOverrides="or" suffix=")">
         <foreach collection="types" item="searchType" separator=" OR ">
@@ -102,22 +103,23 @@ useGeneratedKeys="true" keyProperty="bno">
                 AND registDate &lt;= #{endDate}
         </if>
         LIMIT #{countEnd}
-        ) tbl_board
+        ) tbl_notice
 </select>
 
 
-<!-- BoardMapper id = "findBoardNumber" -->
-<select id="findBoardNumber" parameterType="long" resultType="long">
+<!-- NoticeMapper id = "findNoticeNumber" -->
+<select id="findNoticeNumber" parameterType="long">
         SELECT COUNT(*)
-        FROM tbl_board
-        WHERE bno = #{bno}
+        FROM tbl_notice 
+        WHERE nno = #{nno}
 </select>
 
-<!-- BoardMapper id = "boardViewCount" -->
-<update id="countViewBoard" parameterType="long">
-        UPDATE tbl_board
+
+<!-- NoticeMapper id = "countViewNotice" -->
+<update id="countViewNotice" parameterType="long">
+        UPDATE tbl_notice
         SET viewCount = viewCount + 1 
-        WHERE bno = #{bno}
+        WHERE nno = #{nno}
 </update>
 
 </mapper>

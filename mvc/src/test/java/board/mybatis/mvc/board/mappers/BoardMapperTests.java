@@ -15,11 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import board.mybatis.mvc.dto.BoardCreateDTO;
-import board.mybatis.mvc.dto.BoardDTO;
-import board.mybatis.mvc.dto.BoardListDTO;
-import board.mybatis.mvc.dto.BoardUpdateDTO;
+import board.mybatis.mvc.dto.board.BoardCreateDTO;
+import board.mybatis.mvc.dto.board.BoardDTO;
+import board.mybatis.mvc.dto.board.BoardListDTO;
+import board.mybatis.mvc.dto.board.BoardUpdateDTO;
 import board.mybatis.mvc.exception.BoardNumberNotFoundException;
+import board.mybatis.mvc.exception.DataNotFoundException;
 import board.mybatis.mvc.mappers.BoardMapper;
 import board.mybatis.mvc.mappers.FileMapper;
 import board.mybatis.mvc.util.PageRequestDTO;
@@ -130,6 +131,20 @@ public class BoardMapperTests {
         }
         Assertions.assertNotNull(readBoard, "readBoard Should Be Not Null");
         boardMapper.updateBoard(boardUpdateDTO);
+        if (boardUpdateDTO.getBno() == null || boardUpdateDTO.getContent() == null || boardUpdateDTO.getTitle() == null
+                || boardUpdateDTO.getWriter() == null) {
+            throw new DataNotFoundException("작성자, 제목, 내용은 필수 사항입니다.");
+        }
+        fileMapper.deleteImage(boardUpdateDTO.getBno());
+        List<String> fileNames = boardCreateDTO.getFileNames();
+        AtomicInteger index = new AtomicInteger(0);
+        List<Map<String, String>> list = fileNames.stream().map(str -> {
+            Long bno = boardUpdateDTO.getBno();
+            String uuid = str.substring(0, 36);
+            String fileName = str.substring(37);
+            return Map.of("uuid", uuid, "fileName", fileName, "bno", "" + bno, "ord", "" + index.getAndIncrement());
+        }).collect(Collectors.toList());
+        fileMapper.updateImage(list);
         // THEN
         BoardDTO updatedboard = boardMapper.readBoard(JUNIT_TEST_BNO);
         Assertions.assertNotNull(updatedboard, "updatedBoard Should Be Not Null");
@@ -186,7 +201,7 @@ public class BoardMapperTests {
         }
         int viewCount = readBoard.getViewCount();
 
-        boardMapper.boardViewCount(JUNIT_TEST_BNO);
+        boardMapper.countViewBoard(JUNIT_TEST_BNO);
         // THEN
         BoardDTO afterReading = boardMapper.readBoard(JUNIT_TEST_BNO);
         int updatedViewCount = afterReading.getViewCount();
