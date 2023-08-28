@@ -16,4 +16,13 @@ public interface FileMapper {
 
     // Update Image 
     int updateImage(List<Map<String,String>> iamgeList);
+
+    // Create Notice Image 
+    int createNoticeImage(List<Map<String,String>> iamgeList);
+
+    // Delete Notice Image 
+    int deleteNoticeImage(Long nno);
+
+    // Update Notice Image 
+    int updateNoticeImage(List<Map<String,String>> iamgeList);
 }

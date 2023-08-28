@@ -19,18 +19,47 @@ useGeneratedKeys="true" keyProperty="bno">
 </insert>
 
 
+<resultMap id="FileNameResultMap" type="java.lang.String">
+  <id property="fileName" column="fileName"/>
+</resultMap>
 <!-- BoardMapper id = "readBoard" -->
 <select id="readBoard" parameterType="long">
-        SELECT * FROM 
-        tbl_board
-        WHERE bno = #{bno}
+        SELECT 
+        tb.bno,
+        tb.content,
+        tb.writer, 
+        tb.title, 
+        tb.createDate,
+        tb.updateDate,
+        tb.viewCount,
+        CONCAT(ti.uuid, '_', ti.fileName) AS fileName
+        FROM
+        tbl_board tb 
+        LEFT OUTER JOIN tbl_board_image ti ON ti.bno = tb.bno
+        WHERE tb.bno = #{bno}
 </select>
+<!-- 여러개의 사진을 가져오기 위한 resultMap using -->
+<resultMap id="BoardResultMap" type="board.mybatis.mvc.dto.board.BoardDTO">
+  <id property="bno" column="bno"/>
+  <result property="title" column="title"/>
+  <result property="content" column="content"/>
+  <result property="writer" column="writer"/>
+  <result property="createDate" column="createDate"/>
+  <result property="updateDate" column="updateDate"/>
+  <result property="viewCount" column="viewCount"/>
+  <collection property="fileName" ofType="java.lang.String" resultMap="FileNameResultMap"/>
+</resultMap>
 
 
 <!-- BoardMapper id = "updateBoard" -->
 <update id="updateBoard" parameterType="board.mybatis.mvc.dto.board.BoardUpdateDTO">
-        UPDATE tbl_board 
-        SET title = #{title}, content = #{content}, writer = #{writer}, updateDate = NOW()
+        UPDATE 
+        tbl_board 
+        SET 
+        title = #{title}, 
+        content = #{content}, 
+        writer = #{writer}, 
+        updateDate = NOW()
         WHERE bno = #{bno}
 </update>
 
@@ -44,29 +73,39 @@ useGeneratedKeys="true" keyProperty="bno">
 
 <!-- BoardMapper id = "listboard" -->
 <select id="listBoard" parameterType="board.mybatis.mvc.dto.board.BoardListDTO">
-        SELECT * FROM 
-        tbl_board tb
+        SELECT
+        tb.bno,
+        tb.title,
+        tb.content,
+        tb.writer,
+        tb.createDate,
+        tb.updateDate,
+        tb.viewCount,
+        CONCAT(ti.uuid, '_', ti.fileName) AS fileName 
+        FROM tbl_board tb
+        LEFT OUTER JOIN tbl_board_image ti ON ti.bno = tb.bno
+        AND ti.ord = 0
         WHERE tb.bno > 0
         <if test="keyword != null and types != null">
         <trim prefix="and (" prefixOverrides="or" suffix=")">
         <foreach collection="types" item="searchType" separator=" OR ">
                 <if test='searchType == "t"'>
-                title like concat('%', #{keyword}, '%')
+                tb.title like concat('%', #{keyword}, '%')
                 </if>
                 <if test='searchType == "c"'>
-                content like concat('%', #{keyword}, '%')
+                tb.content like concat('%', #{keyword}, '%')
                 </if>
                 <if test='searchType == "w"'>
-                writer like concat('%', #{keyword}, '%')
+                tb.writer like concat('%', #{keyword}, '%')
                 </if>
         </foreach>
         </trim>
         </if>
         <if test="startDate != null">
-                AND registDate >= #{startDate}
+                AND createDate >= #{startDate}
         </if>
         <if test="endDate != null">
-                AND registDate &lt;= #{endDate}
+                AND createDate &lt;= #{endDate}
         </if>
         ORDER BY tb.bno DESC 
         LIMIT #{skip}, #{size}
@@ -77,29 +116,38 @@ useGeneratedKeys="true" keyProperty="bno">
 <select id="total" resultType="int">
         SELECT COUNT(*)
         FROM (
-        SELECT * FROM
-        tbl_board
-        WHERE bno > 0
+        SELECT 
+        tb.bno,
+        tb.writer,
+        tb.content,
+        tb.title,
+        tb.createDate,
+        tb.updateDate,
+        tb.viewCount
+        FROM
+        tbl_board tb
+        LEFT OUTER JOIN tbl_board_image ti ON ti.bno = tb.bno
+        WHERE tb.bno > 0
         <if test="keyword != null and types != null">
         <trim prefix="and (" prefixOverrides="or" suffix=")">
         <foreach collection="types" item="searchType" separator=" OR ">
                 <if test='searchType == "t"'>
-                title like concat('%', #{keyword}, '%')
+                tb.title like concat('%', #{keyword}, '%')
                 </if>
                 <if test='searchType == "c"'>
-                content like concat('%', #{keyword}, '%')
+                tb.content like concat('%', #{keyword}, '%')
                 </if>
                 <if test='searchType == "w"'>
-                writer like concat('%', #{keyword}, '%')
+                tb.writer like concat('%', #{keyword}, '%')
                 </if>
         </foreach>
         </trim>
         </if>
         <if test="startDate != null">
-                AND registDate >= #{startDate}
+                AND createDate >= #{startDate}
         </if>
         <if test="endDate != null">
-                AND registDate &lt;= #{endDate}
+                AND createDate &lt;= #{endDate}
         </if>
         LIMIT #{countEnd}
         ) tbl_board
@@ -108,15 +156,19 @@ useGeneratedKeys="true" keyProperty="bno">
 
 <!-- BoardMapper id = "findBoardNumber" -->
 <select id="findBoardNumber" parameterType="long" resultType="long">
-        SELECT COUNT(*)
-        FROM tbl_board
+        SELECT 
+        COUNT(*)
+        FROM 
+        tbl_board
         WHERE bno = #{bno}
 </select>
 
 <!-- BoardMapper id = "boardViewCount" -->
 <update id="countViewBoard" parameterType="long">
-        UPDATE tbl_board
-        SET viewCount = viewCount + 1 
+        UPDATE 
+        tbl_board
+        SET 
+        viewCount = viewCount + 1 
         WHERE bno = #{bno}
 </update>
 

@@ -35,4 +35,33 @@
 </insert>
 
 
+<!-- FileMapper id = "createNoticeImage" -->
+<insert id="createNoticeImage" parameterType="java.util.List">
+    INSERT INTO tbl_notice_image 
+    (uuid, fileName, ord, nno)
+    VALUES
+    <foreach collection="list" item="item" separator=",">
+        (#{item.uuid}, #{item.fileName}, #{item.ord}, #{item.nno})
+    </foreach>
+</insert>
+
+
+<!-- FileMapper id = "deleteNoticeImage" -->
+<delete id="deleteNoticeImage" parameterType="long">
+    DELETE FROM 
+    tbl_notice_image 
+    WHERE nno = #{nno}
+</delete>
+
+
+<!-- FileMapper id = "updateNoticeImage" -->
+<insert id="updateNoticeImage" parameterType="java.util.List">
+    INSERT INTO tbl_notice_image 
+    (uuid, fileName, ord, nno)
+    VALUES
+    <foreach collection="list" item="item" separator=",">
+        (#{item.uuid}, #{item.fileName}, #{item.ord}, #{item.nno})
+    </foreach>
+</insert>
+
 </mapper>

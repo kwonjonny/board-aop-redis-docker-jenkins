@@ -28,5 +28,5 @@ public interface BoardService {
     void findBoardNumber(Long bno);
 
     // Board View Count 
-    int boardViewCount(Long bno);
+    int countviewBoard(Long bno);
 }

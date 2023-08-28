@@ -54,7 +54,7 @@ public class BoardController {
         log.info("GET | Read Board Controller");
         if (managementCookie.createCookie(request, response, bno)) {
             log.info("Making Cookie");
-            boardService.boardViewCount(bno);
+            boardService.countviewBoard(bno);
         }
         BoardDTO list = boardService.readBoard(bno);
         model.addAttribute("list", list);
@@ -94,7 +94,7 @@ public class BoardController {
         log.info("POST | Update Board Contoller");
         Long bno = boardService.updateBoard(boardUpdateDTO);
         redirectAttributes.addFlashAttribute("message", "게시물 업데이트 완료.");
-        return "redirect:/board/read" + boardUpdateDTO.getBno();
+        return "redirect:/board/read/" + boardUpdateDTO.getBno();
     }
 
     // POST | Delete Board

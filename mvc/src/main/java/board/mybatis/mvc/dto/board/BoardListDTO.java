@@ -1,4 +1,4 @@
-package board.mybatis.mvc.dto;
+package board.mybatis.mvc.dto.board;
 
 import java.time.LocalDate;
 

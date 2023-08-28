@@ -19,18 +19,37 @@ useGeneratedKeys="true" keyProperty="nno">
 </insert>
 
 
+<resultMap id="FileNameResultMap" type="java.lang.String">
+  <id property="fileName" column="fileName"/>
+</resultMap>
 <!-- NoticeMapper id = "readNotice" -->
 <select id="readNotice" parameterType="long">
         SELECT * FROM 
         tbl_notice
         WHERE nno = #{nno}
 </select>
+<!-- 여러개의 사진을 가져오기 위한 resultMap using -->
+<resultMap id="NoticeResultMap" type="board.mybatis.mvc.dto.notice.NoticeDTO">
+  <id property="nno" column="nno"/>
+  <result property="title" column="title"/>
+  <result property="content" column="content"/>
+  <result property="writer" column="writer"/>
+  <result property="createDate" column="createDate"/>
+  <result property="updateDate" column="updateDate"/>
+  <result property="viewCount" column="viewCount"/>
+  <collection property="fileName" ofType="java.lang.String" resultMap="FileNameResultMap"/>
+</resultMap>
 
 
 <!-- NoticeMapper id = "updateNotice" -->
 <update id="updateNotice" parameterType="board.mybatis.mvc.dto.notice.NoticeUpdateDTO">
-        UPDATE tbl_notice 
-        SET title = #{title}, content = #{content}, writer = #{writer}, updateDate = NOW()
+        UPDATE 
+        tbl_notice 
+        SET 
+        title = #{title}, 
+        content = #{content}, 
+        writer = #{writer}, 
+        updateDate = NOW()
         WHERE nno = #{nno}
 </update>
 
@@ -45,31 +64,41 @@ useGeneratedKeys="true" keyProperty="nno">
 
 <!-- NoticeMapper id = "listNotice" -->
 <select id="listNotice" parameterType="board.mybatis.mvc.dto.notice.NoticeListDTO">
-        SELECT * FROM 
-        tbl_notice tn
-        WHERE tn.bno > 0
+        SELECT 
+        n.nno,
+        n.title,
+        n.content,
+        n.writer,
+        n.createDate,
+        n.updateDate,
+        n.viewCount,
+        CONCAT(ni.uuid, '_' ,ni.fileName) AS fileName
+        FROM tbl_notice n 
+        LEFT OUTER JOIN tbl_notice_image ni ON ni.nno = n.nno 
+        AND ni.ord = 0
+        WHERE n.nno > 0
         <if test="keyword != null and types != null">
         <trim prefix="and (" prefixOverrides="or" suffix=")">
         <foreach collection="types" item="searchType" separator=" OR ">
                 <if test='searchType == "t"'>
-                title like concat('%', #{keyword}, '%')
+                n.title like concat('%', #{keyword}, '%')
                 </if>
                 <if test='searchType == "c"'>
-                content like concat('%', #{keyword}, '%')
+                n.content like concat('%', #{keyword}, '%')
                 </if>
                 <if test='searchType == "w"'>
-                writer like concat('%', #{keyword}, '%')
+                n.writer like concat('%', #{keyword}, '%')
                 </if>
         </foreach>
         </trim>
         </if>
         <if test="startDate != null">
-                AND registDate >= #{startDate}
+                AND n.createDate >= #{startDate}
         </if>
         <if test="endDate != null">
-                AND registDate &lt;= #{endDate}
+                AND n.createDate &lt;= #{endDate}
         </if>
-        ORDER BY tn.nno DESC 
+        ORDER BY n.nno DESC 
         LIMIT #{skip}, #{size}
 </select>
 
@@ -78,29 +107,32 @@ useGeneratedKeys="true" keyProperty="nno">
 <select id="total" resultType="int">
         SELECT COUNT(*)
         FROM (
-        SELECT * FROM
-        tbl_notice
-        WHERE nno > 0
+        SELECT
+	n.nno
+        FROM 
+        tbl_notice n 
+        LEFT OUTER JOIN tbl_notice_image ni ON ni.nno = n.nno
+        WHERE n.nno > 0
         <if test="keyword != null and types != null">
         <trim prefix="and (" prefixOverrides="or" suffix=")">
         <foreach collection="types" item="searchType" separator=" OR ">
                 <if test='searchType == "t"'>
-                title like concat('%', #{keyword}, '%')
+                n.title like concat('%', #{keyword}, '%')
                 </if>
                 <if test='searchType == "c"'>
-                content like concat('%', #{keyword}, '%')
+                n.content like concat('%', #{keyword}, '%')
                 </if>
                 <if test='searchType == "w"'>
-                writer like concat('%', #{keyword}, '%')
+                n.writer like concat('%', #{keyword}, '%')
                 </if>
         </foreach>
         </trim>
         </if>
         <if test="startDate != null">
-                AND registDate >= #{startDate}
+                AND n.createDate >= #{startDate}
         </if>
         <if test="endDate != null">
-                AND registDate &lt;= #{endDate}
+                AND n.createDate &lt;= #{endDate}
         </if>
         LIMIT #{countEnd}
         ) tbl_notice
@@ -110,15 +142,18 @@ useGeneratedKeys="true" keyProperty="nno">
 <!-- NoticeMapper id = "findNoticeNumber" -->
 <select id="findNoticeNumber" parameterType="long">
         SELECT COUNT(*)
-        FROM tbl_notice 
+        FROM 
+        tbl_notice 
         WHERE nno = #{nno}
 </select>
 
 
 <!-- NoticeMapper id = "countViewNotice" -->
 <update id="countViewNotice" parameterType="long">
-        UPDATE tbl_notice
-        SET viewCount = viewCount + 1 
+        UPDATE 
+        tbl_notice
+        SET 
+        viewCount = viewCount + 1 
         WHERE nno = #{nno}
 </update>
 
