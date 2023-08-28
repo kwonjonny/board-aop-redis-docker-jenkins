@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- MemberMapper Xml -->
+<mapper namespace="board.mybatis.mvc.mappers.MemberMapper">
+
+<!-- MemberMapper id = "selectOne" -->
+<resultMap type="string" id="authMap">
+        <result column ="rolename"/>
+</resultMap>
+<select id="selectOne" resultMap="memberMap">
+        SELECT * FROM 
+        tbl_member tm
+        INNER JOIN tbl_member_role tmr ON tmr.email = tm.email 
+        WHERE tm.email = #{email}
+</select>
+<resultMap id="memberMap" type="board.mybatis.mvc.dto.member.MemberConvertDTO">
+        <id property ="email" column ="email"/>
+        <result property="memberName" column="memberName"/>
+        <result property="memberPw" column="memberPw"/>
+        <collection property="rolenames" resultMap="authMap"/>
+</resultMap>
+
+
+<!-- MemberMapper id = "createJoinMemberRole" -->
+<insert id="createJoinMemberRole">
+        INSERT INTO 
+        tbl_member_role 
+        (email, rolename)
+        VALUES 
+        (#{email}, #{rolename})
+</insert>
+
+
+<!-- MemberMapper id = "joinMember" -->
+<insert id="joinMember" parameterType="board.mybatis.mvc.dto.member.MemberCreateDTO">
+        INSERT INTO 
+        tbl_member 
+        (email, memberName, memberPw, memberPhone)
+        VALUES 
+        (#{email}, #{memberName}, #{memberPw}, #{memberPhone})
+</insert>
+
+
+<!-- MemberMapper id = "readMember" -->
+<select id="readMember" parameterType="java.lang.String">
+        SELECT 
+        tm.email,
+        tm.memberName,
+        tm.memberPw,
+        tm.memberPhone,
+        tm.createDate,
+        tr.rolename
+        FROM
+        tbl_member tm
+        LEFT OUTER JOIN tbl_member_role tr ON tr.email = tm.email
+</select>
+
+
+<!-- MemberMapper id = "updateMember" -->
+<update id="updateMember" parameterType="board.mybatis.mvc.dto.member.MemberUpdateDTO">
+        UPDATE 
+        tbl_member 
+        SET 
+        email = #{email},
+        memberName = #{memberName},
+        memberPhone = #{memberPhone}
+        WHERE email = #{email}
+</update>
+
+
+<!-- MemberMapper id = "deleteMember" -->
+<delete id="deleteMember" parameterType="java.lang.String">
+        DELETE
+        FROM 
+        tbl_member 
+        WHERE email = #{email}
+</delete>
+
+
+<!-- MemberMapper id = "deleteMemberRole" -->
+<delete id="deleteMemberRole" parameterType="java.lang.String">
+        DELETE 
+        FROM 
+        tbl_member_role
+        WHERE email = #{email}
+</delete>
+
+
+<!-- MemberMapper id = "listMember" -->
+<select id="listMember" parameterType="board.mybatis.mvc.dto.member.MemberListDTO">
+        SELECT * FROM tbl_member 
+        <if test="keyword != null and types != null">
+        <trim prefix="WHERE (" prefixOverrides="or" suffix=")">
+        <foreach collection="types" item="type" separator=" OR ">
+                <if test='type == "e"'>
+                email like concat('%', #{keyword}, '%')
+                </if>
+                <if test='type == "n"'>
+                memberName like concat('%', #{keyword}, '%')
+                </if>
+                <if test='type == "p"'>
+                memberPhone like concat('%', #{keyword}, '%')
+                </if>
+        </foreach>
+        </trim>
+        </if>
+  ORDER BY createDate DESC
+  LIMIT #{skip}, #{size}
+</select>
+
+
+<!-- MemberMapper id = "total" -->
+<select id="total" resultType="int">
+        SELECT COUNT(*) 
+        FROM (
+        SELECT * FROM 
+        tbl_member 
+        <if test="keyword != null and types != null">
+        <trim prefix="WHERE (" prefixOverrides="or" suffix=")">
+        <foreach collection="types" item="type" separator=" OR ">
+                <if test='type == "e"'>
+                email like concat('%', #{keyword}, '%')
+                </if>
+                <if test='type == "n"'>
+                memberName like concat('%', #{keyword}, '%')
+                </if>
+                <if test='type == "p"'>
+                memberPhone like concat('%', #{keyword}, '%')
+                </if>
+        </foreach>
+        </trim>
+        </if>
+        LIMIT #{countEnd}
+        ) as tbl_member 
+</select>
+
+
+<!-- MemberMapper id = "findMemberEmail" -->
+<select id="findMemberEmail" parameterType="java.lang.String">
+        SELECT COUNT(*)
+        FROM
+        tbl_member 
+        WHERE email = #{email}
+</select>
+
+
+</mapper>

@@ -102,10 +102,10 @@ useGeneratedKeys="true" keyProperty="bno">
         </trim>
         </if>
         <if test="startDate != null">
-                AND createDate >= #{startDate}
+                AND tb.createDate >= #{startDate}
         </if>
         <if test="endDate != null">
-                AND createDate &lt;= #{endDate}
+                AND tb.createDate &lt;= #{endDate}
         </if>
         ORDER BY tb.bno DESC 
         LIMIT #{skip}, #{size}
@@ -144,10 +144,10 @@ useGeneratedKeys="true" keyProperty="bno">
         </trim>
         </if>
         <if test="startDate != null">
-                AND createDate >= #{startDate}
+                AND tb.createDate >= #{startDate}
         </if>
         <if test="endDate != null">
-                AND createDate &lt;= #{endDate}
+                AND tb.createDate &lt;= #{endDate}
         </if>
         LIMIT #{countEnd}
         ) tbl_board

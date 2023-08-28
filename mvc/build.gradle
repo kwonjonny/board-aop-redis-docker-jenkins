@@ -49,6 +49,18 @@ dependencies {
 
 	// Spring AOP 
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+	//security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	testImplementation 'org.springframework.security:spring-security-test'
+	implementation 'org.springframework.security:spring-security-taglibs'
+
+	//jsp
+	implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
+	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 }
 
 tasks.named('test') {
