@@ -24,9 +24,6 @@ public interface NoticeService {
     // List Notice 
     PageResponseDTO<NoticeListDTO> listNotice(PageRequestDTO pageRequestDTO);
 
-    // Find Notice Number
-    void findNoticeNumber(Long nno);
-
     // Count View Notice 
     int countViewNotice(Long nno);
 }

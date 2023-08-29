@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- LikeMapper Xml -->
+<mapper namespace="board.mybatis.mvc.mappers.LikeMapper">
+
+<!-- LikeMapepr id = "createLikeBoard" -->
+<insert id="createLikeBoard" parameterType="board.mybatis.mvc.dto.like.boardlike.LikeToggleBoardDTO"
+useGeneratedKeys="true" keyProperty="likeId">
+        INSERT INTO 
+        tbl_like_board
+        (email, bno)
+        VALUES(#{email} , #{bno})
+         <!-- last insert id 확인 -->
+        <selectKey resultType="long" keyProperty="likeId" order="AFTER">
+                SELECT LAST_INSERT_ID()
+        </selectKey>
+</insert>
+
+
+<!-- LikeMapper id = "deleteLikeBoard" -->
+<delete id="deleteLikeBoard" parameterType="board.mybatis.mvc.dto.like.boardlike.LikeToggleBoardDTO">
+        DELETE FROM 
+        tbl_like_board
+        WHERE bno = #{bno} AND email = #{email}
+</delete>
+
+
+<!-- LikeMapper id = "countLikeBoard" -->
+<select id="countLikeBoard" parameterType="long">
+        SELECT 
+        COUNT(*)
+        FROM
+        tbl_like_board
+        WHERE bno = #{bno}
+</select>
+
+
+<!-- LikeMapper id = "checkToggleLikeBoard" -->
+<select id="checkToggleLikeBoard" parameterType="board.mybatis.mvc.dto.like.boardlike.LikeToggleBoardDTO">
+        SELECT * FROM 
+        tbl_like_board
+        WHERE bno = #{bno} AND email = #{email}
+</select>
+
+
+<!-- LikeMapper id = "createLikeNotice" -->
+<insert id="createLikeNotice" parameterType="board.mybatis.mvc.dto.like.noticelike.LikeToggleNoticeDTO"
+useGeneratedKeys="true" keyProperty="likeId">
+        INSERT INTO 
+        tbl_like_notice 
+        (email, nno)
+        VALUES
+        (#{email}, #{nno})
+        <!-- last insert id 확인 -->
+        <selectKey resultType="long" keyProperty="likeId" order="AFTER">
+                SELECT LAST_INSERT_ID()
+        </selectKey>
+</insert>
+
+
+<!-- LikeMapper id = "deleteLikeNotice" -->
+<delete id="deleteLikeNotice" parameterType="board.mybatis.mvc.dto.like.noticelike.LikeToggleNoticeDTO">
+        DELETE FROM 
+        tbl_like_notice
+        WHERE nno = #{nno} AND email = #{email}
+</delete>
+
+
+<!-- LikeMapper id = "countLikeNotice" -->
+<select id="countLikeNotice" parameterType="long">
+        SELECT COUNT(*) 
+        FROM
+        tbl_like_notice
+        WHERE nno = #{nno}
+</select>
+
+
+<!-- LikeMapper id  = "checkToggleLikeNotice" -->
+<select id="checkToggleLikeNotice" parameterType="board.mybatis.mvc.dto.like.noticelike.LikeToggleNoticeDTO">
+        SELECT * FROM 
+        tbl_like_notice
+        WHERE nno = #{nno} AND email = #{email}
+</select>
+
+
+<!-- LikeMapper id = "findMemberEmail" -->
+<select id="findMemberEmail" parameterType="java.lang.String">
+        SELECT COUNT(*)
+        FROM 
+        tbl_member 
+        WHERE email = #{email}
+</select>
+
+
+<!-- LikeMapper id = "findBoardNumber" -->
+<select id="findBoardNumber" parameterType="long">
+        SELECT COUNT(*)
+        FROM
+        tbl_board
+        WHERE bno = #{bno}
+</select>
+
+
+<!-- LikeMapper id = "findNoticeNumber" -->
+<select id="findNoticeNumber" parameterType="long">
+        SELECT COUNT(*)
+        FROM 
+        tbl_notice 
+        WHERE nno = #{nno}
+</select>
+
+
+<!-- LikeMapper id = "incrementBoardLike" -->
+<update id="incrementBoardLike" parameterType="long">
+        UPDATE 
+        tbl_board 
+        SET likeCount = likeCount + 1 
+        WHERE bno = #{bno}
+</update>
+
+
+<!-- LikeMapper id = "decrementBoardLike" -->
+<update id="decrementBoardLike" parameterType="long">
+        UPDATE 
+        tbl_board 
+        SET likeCount = 
+        CASE 
+        WHEN likeCount > 0 
+        THEN likeCount - 1 
+        ELSE 0 
+        END 
+        WHERE bno = #{bno}
+</update>
+
+
+<!-- LikeMapper id = "incrementNoticeLike" -->
+<update id="incrementNoticeLike" parameterType="long">
+        UPDATE 
+        tbl_notice 
+        SET likeCount = likeCount + 1
+        WHERE nno = #{nno}
+</update>
+
+
+<!-- LikeMapper id = "decrementNoticeLike" -->
+<update id="decrementNoticeLike" parameterType="long">
+        UPDATE 
+        tbl_notice 
+        SET likeCount = 
+        CASE 
+        WHEN likeCount > 0
+        THEN likeCount - 1
+        ELSE 0 
+        END 
+        WHERE nno = #{nno}
+</update>
+
+<!-- LikeMapper id = "getCurrentBoardLikeCount" -->
+<select id="getCurrentBoardLikeCount" parameterType="long">
+        SELECT 
+        likeCount
+        FROM tbl_board 
+        WHERE bno = #{bno}
+</select>
+
+
+<!-- LikeMapper id = "getCurrentNoticeLikeCount" -->
+<select id="getCurrentNoticeLikeCount" parameterType="long">
+        SELECT 
+        likeCount 
+        FROM tbl_notice 
+        WHERE nno = #{nno}
+</select>
+
+
+</mapper>

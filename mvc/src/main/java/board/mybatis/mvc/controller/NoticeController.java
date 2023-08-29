@@ -49,7 +49,7 @@ public class NoticeController {
 
     // GET | Read Notice
     @GetMapping("read/{nno}")
-    public String getReadNotice(@PathVariable("nno") Long nno, Model model, PageRequestDTO pageRequestDTO,
+    public String getReadNotice(@PathVariable("nno") final Long nno, Model model, PageRequestDTO pageRequestDTO,
             HttpServletRequest request, HttpServletResponse response) {
         log.info("GET | Read Notice Contoller");
         if (managementCookie.createCookie(request, response, nno)) {
@@ -63,7 +63,7 @@ public class NoticeController {
 
     // GET | Update Notice
     @GetMapping("update/{nno}")
-    public String getNoticeUpdate(@PathVariable("nno") Long nno, Model model, PageRequestDTO pageRequestDTO) {
+    public String getNoticeUpdate(@PathVariable("nno") final Long nno, Model model, PageRequestDTO pageRequestDTO) {
         log.info("GET | Update Notice Controller");
         NoticeDTO list = noticeService.readNotice(nno);
         model.addAttribute("list", list);
@@ -98,8 +98,8 @@ public class NoticeController {
     }
 
     // POST | Delete Notice
-    @PostMapping("delete")
-    public String postDeleteNotice(@PathVariable("nno") Long nno, RedirectAttributes redirectAttributes) {
+    @PostMapping("delete/{nno}")
+    public String postDeleteNotice(@PathVariable("nno") final Long nno, RedirectAttributes redirectAttributes) {
         log.info("POST | Delete Notice Controller");
         Long deleteNno = noticeService.deleteNotice(nno);
         redirectAttributes.addFlashAttribute("message", "공지사항 게시글 삭제 완료.");

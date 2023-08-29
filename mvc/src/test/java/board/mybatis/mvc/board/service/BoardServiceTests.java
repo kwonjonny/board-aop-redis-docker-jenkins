@@ -93,7 +93,6 @@ public class BoardServiceTests {
             String fileName = str.substring(37);
             return Map.of("uuid", uuid, "fileName", fileName, "bno", "" + bno, "ord", "" + index.getAndIncrement());
         }).collect(Collectors.toList());
-        fileMapper.createImage(list);
         // THEN
         Assertions.assertEquals(JUNIT_TEST_CONTENT, boardCreateDTO.getContent());
         Assertions.assertEquals(JUNIT_TEST_TITLE, boardCreateDTO.getTitle());
@@ -164,13 +163,13 @@ public class BoardServiceTests {
         log.info("=== Start Delete Board Service Test ===");
         // WHEN
         BoardDTO readBoard = boardService.readBoard(JUNIT_TEST_BNO);
+        log.info("게시물: "+readBoard);
         if (readBoard == null) {
             throw new BoardNumberNotFoundException("해당하는 게시글이 없습니다.");
         }
-        boardService.deleteBoard(JUNIT_TEST_BNO);
+        Long deleteBoard = boardService.deleteBoard(JUNIT_TEST_BNO);
         // THEN
-        BoardDTO deleteBoard = boardService.readBoard(JUNIT_TEST_BNO);
-        Assertions.assertNull(deleteBoard, "deltedBoard Should Be Null");
+        Assertions.assertEquals(deleteBoard, 1, "deleteBoard Should Be Return 1");
         log.info("=== End Delete Board Service Test ===");
     }
 

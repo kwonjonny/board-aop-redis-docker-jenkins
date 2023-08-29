@@ -130,16 +130,6 @@ public class NoticeServiceImpl implements NoticeService {
                 .build();
     }
 
-    // Find Notice Number ServiceImpl
-    @Override
-    @Transactional(readOnly = true)
-    public void findNoticeNumber(Long nno) {
-        log.info("Is Running Find Notice Number ServiceImpl");
-        if (noticeMapper.findNoticeNumber(nno) == null) {
-            throw new NoticeNumberNotFoundException("해당하는 공지사항 번호가 없습니다.");
-        }
-    }
-
     // Count View Notice ServiceImpl
     @Override
     @Transactional
@@ -150,5 +140,14 @@ public class NoticeServiceImpl implements NoticeService {
             throw new DataNotFoundException("해당하는 공지사항 번호가 없습니다.");
         }
         return noticeMapper.countViewNotice(nno);
+    }
+
+    // Find Notice Number ServiceImpl
+    @Transactional(readOnly = true)
+    private void findNoticeNumber(Long nno) {
+        log.info("Is Running Find Notice Number ServiceImpl");
+        if (noticeMapper.findNoticeNumber(nno) == null) {
+            throw new NoticeNumberNotFoundException("해당하는 공지사항 번호가 없습니다.");
+        }
     }
 }

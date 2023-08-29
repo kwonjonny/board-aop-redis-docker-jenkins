@@ -45,23 +45,12 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public Long joinMember(MemberCreateDTO memberCreateDTO) {
         log.info("Is Running JoinMember ServiceImpl");
-        String email = memberCreateDTO.getEmail();
-        if (memberMapper.findMemberEmail(email) == 1) {
-            throw new MemberEmailDuplicateException("이미 회원가입 된 이메일입니다.");
-        }
-        Pattern pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
-        Matcher matcher = pattern.matcher(email);
-        if (!matcher.matches()) {
-            throw new InvalidEmailException("이메일 형식이 올바르지 않습니다.");
-        }
-        if (memberCreateDTO.getEmail() == null || memberCreateDTO.getMemberName() == null
-                || memberCreateDTO.getMemberPhone() == null) {
-            throw new DataNotFoundException("이메일, 이름, 전화번호, 비밀번호는 필수사항 입니다.");
-        }
+        duplicateMemberEmail(memberCreateDTO.getEmail()); // Member Duplicate Check
+        validationUserEmail(memberCreateDTO.getEmail()); // Member Email Validation Check
         String password = memberCreateDTO.getMemberPw();
         memberCreateDTO.setMemberPw(passwordEncoder.encode(password));
         String memberRole = "USER";
-        memberMapper.createJoinMemberRole(email, memberRole);
+        memberMapper.createJoinMemberRole(memberCreateDTO.getEmail(), memberRole);
         return memberMapper.joinMember(memberCreateDTO);
     }
 
@@ -70,55 +59,35 @@ public class MemberServiceImpl implements MemberService {
     @Transactional(readOnly = true)
     public MemberConvertDTO readMember(String email) {
         log.info("Is Running Read Member ServiceImpl");
-        if (memberMapper.findMemberEmail(email) == 0) {
-            throw new MemberNotFoundException("해당하는 이메일이 없습니다.");
-        }
-        Pattern pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
-        Matcher matcher = pattern.matcher(email);
-        if (!matcher.matches()) {
-            throw new InvalidEmailException("이메일 형식이 올바르지 않습니다.");
-        }
-        if (email == null) {
-            throw new DataNotFoundException("해당하는 이메일이 없습니다.");
-        }
+        notFoundMember(email); // Member Find Email Check
+        validationUserEmail(email); // Member Email Validation Check
         return memberMapper.readMember(email);
     }
 
-    // Update MemberServiceImpl
+    // Update Member ServiceImpl
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Long updateMember(MemberUpdateDTO memberUpdateDTO) {
         log.info("Is Running Update Member ServiceImpl");
-        if (memberMapper.findMemberEmail(memberUpdateDTO.getEmail()) == 0) {
-            throw new MemberNotFoundException("해당하는 이메일이 없습니다.");
-        }
-        Pattern pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
-        Matcher matcher = pattern.matcher(memberUpdateDTO.getEmail());
-        if (!matcher.matches()) {
-            throw new InvalidEmailException("이메일 형식이 올바르지 않습니다.");
-        }
+        notFoundMember(memberUpdateDTO.getEmail()); // Member Find Email Check
+        validationUserEmail(memberUpdateDTO.getEmail()); // Member Email Validation Check
         return memberMapper.updateMember(memberUpdateDTO);
     }
 
-    // Delete MemberServiceImpl
+    // Delete Member ServiceImpl
     @Override
     @Transactional
     public Long deleteMember(String email) {
         log.info("Is Running Delete Member ServiceImpl");
-        if (memberMapper.findMemberEmail(email) == 0) {
-            throw new MemberNotFoundException("해당하는 이메일이 없습니다.");
-        }
-        Pattern pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
-        Matcher matcher = pattern.matcher(email);
-        if (!matcher.matches()) {
-            throw new InvalidEmailException("이메일 형식이 올바르지 않습니다.");
-        }
+        notFoundMember(email); // Member Find Email Check
+        validationUserEmail(email); // Member Email Validation Check
         memberMapper.deleteMemberRole(email);
         return memberMapper.deleteMember(email);
     }
 
+    // List Member ServceImpl
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public PageResponseDTO<MemberListDTO> listMember(PageRequestDTO pageRequestDTO) {
         log.info("Is Running List Member ServiceImpl");
         if (pageRequestDTO == null) {
@@ -131,5 +100,34 @@ public class MemberServiceImpl implements MemberService {
                 .total(total)
                 .pageRequestDTO(pageRequestDTO)
                 .build();
+    }
+
+    // Find Member Email ServiceImpl
+    @Transactional(readOnly = true)
+    private void duplicateMemberEmail(String email) {
+        log.info("Is Running Find Member Email ServiceImpl");
+        if (memberMapper.findMemberEmail(email) == 1) {
+            throw new MemberEmailDuplicateException("이미 회원가입이 완료된 이메일입니다");
+        }
+    }
+
+    // Not Found Member ServiceImpl
+    @Transactional(readOnly = true)
+    private void notFoundMember(String email) {
+        log.info("Is Running Not Found Member Email ServiceImpl");
+        if (memberMapper.findMemberEmail(email) == 0 || memberMapper.findMemberEmail(email) == null) {
+            throw new MemberNotFoundException("해당하는 이메일의 회원이 없습니다.");
+        }
+    }
+
+    // Validation Use Email ServiceImpl
+    @Transactional(readOnly = true)
+    private void validationUserEmail(String email) {
+        log.info("Is Running Validation User Email");
+        Pattern pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
+        Matcher matcher = pattern.matcher(email);
+        if (!matcher.matches()) {
+            throw new InvalidEmailException("이메일 형식이 올바르지않습니다.");
+        }
     }
 }

@@ -136,16 +136,6 @@ public class BoardServiceImpl implements BoardService {
                 .build();
     }
 
-    // Find Board Number ServiceImpl
-    @Override
-    @Transactional(readOnly = true)
-    public void findBoardNumber(Long bno) {
-        log.info("Is Running Find Board Number ServiceImpl");
-        if (boardMapper.findBoardNumber(bno) == null) {
-            throw new BoardNumberNotFoundException("해당하는 게시글이 없습니다.");
-        }
-    }
-
     // Board View Count
     @Override
     @Transactional
@@ -156,5 +146,14 @@ public class BoardServiceImpl implements BoardService {
             throw new DataNotFoundException("해당하는 게시글 번호가 없습니다.");
         }
         return boardMapper.countViewBoard(bno);
+    }
+
+    // Find Board Number ServiceImpl
+    @Transactional(readOnly = true)
+    private void findBoardNumber(Long bno) {
+        log.info("Is Running Find Board Number ServiceImpl");
+        if (boardMapper.findBoardNumber(bno) == null || boardMapper.findBoardNumber(bno) == 0) {
+            throw new BoardNumberNotFoundException("해당하는 게시글이 없습니다.");
+        }
     }
 }

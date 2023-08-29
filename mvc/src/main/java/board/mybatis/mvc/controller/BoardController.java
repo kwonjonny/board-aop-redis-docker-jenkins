@@ -49,7 +49,7 @@ public class BoardController {
 
     // GET | Read Board
     @GetMapping("read/{bno}")
-    public String getReadBoard(@PathVariable("bno") Long bno, Model model, PageRequestDTO pageRequestDTO,
+    public String getReadBoard(@PathVariable("bno") final Long bno, Model model, PageRequestDTO pageRequestDTO,
             HttpServletRequest request, HttpServletResponse response) {
         log.info("GET | Read Board Controller");
         if (managementCookie.createCookie(request, response, bno)) {
@@ -63,7 +63,7 @@ public class BoardController {
 
     // GET | Update Board
     @GetMapping("update/{bno}")
-    public String getUpdateBoard(@PathVariable("bno") long bno, Model model, PageRequestDTO pageRequestDTO) {
+    public String getUpdateBoard(@PathVariable("bno") final long bno, Model model, PageRequestDTO pageRequestDTO) {
         log.info("GET | Update Board Controller");
         BoardDTO list = boardService.readBoard(bno);
         model.addAttribute("list", list);
@@ -99,7 +99,7 @@ public class BoardController {
 
     // POST | Delete Board
     @PostMapping("delete/{bno}")
-    public String postDelteBoard(@PathVariable("bno") Long bno, RedirectAttributes redirectAttributes) {
+    public String postDelteBoard(@PathVariable("bno") final Long bno, RedirectAttributes redirectAttributes) {
         log.info("POST | Delete Board Controller");
         Long deleteBno = boardService.deleteBoard(bno);
         redirectAttributes.addFlashAttribute("message", "게시물 삭제 완료.");

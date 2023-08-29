@@ -39,6 +39,7 @@ public class MemberMapperTests {
 
     // 테스트 시작시 메모리 선 참조
     private static final String JUNIT_TEST_EMAIL = "thistrik@naver.com";
+    private static final String JUNIT_TEST_EMAIL_VERSION_2 = "wndyd0110@naver.com";
     private static final String JUNIT_TEST_MEMBER_PASSWROD = "1111";
     private static final String JUNIT_TEST_MEMBER_NAME = "권성준";
     private static final String JUNIT_TEST_MEMBER_ROLE = "ADMIN";
@@ -52,7 +53,7 @@ public class MemberMapperTests {
     @BeforeEach
     public void setUp() {
         memberCreateDTO = MemberCreateDTO.builder()
-                .email(JUNIT_TEST_EMAIL)
+                .email(JUNIT_TEST_EMAIL_VERSION_2)
                 .memberPw(passwordEncoder.encode(JUNIT_TEST_MEMBER_PASSWROD))
                 .memberName(JUNIT_TEST_MEMBER_NAME)
                 .memberPhone(JUNIT_TEST_MEMBER_PHONE)
@@ -85,13 +86,13 @@ public class MemberMapperTests {
                 || memberCreateDTO.getMemberPhone() == null || memberCreateDTO.getMemberPw() == null) {
             throw new DataNotFoundException("회원 가입 시 이메일, 이름, 전화번호, 비밀번호는 필수입니다.");
         }
-        if (memberMapper.findMemberEmail(JUNIT_TEST_EMAIL) == 1) {
+        if (memberMapper.findMemberEmail(JUNIT_TEST_EMAIL_VERSION_2) == 1) {
             throw new MemberEmailDuplicateException("이미 회원가입 되어 있는 이메일입니다.");
         }
         memberMapper.joinMember(memberCreateDTO);
-        memberMapper.createJoinMemberRole(JUNIT_TEST_EMAIL, JUNIT_TEST_MEMBER_ROLE);
+        memberMapper.createJoinMemberRole(JUNIT_TEST_EMAIL_VERSION_2, JUNIT_TEST_MEMBER_ROLE);
         // THEN
-        Assertions.assertEquals(memberCreateDTO.getEmail(), JUNIT_TEST_EMAIL);
+        Assertions.assertEquals(memberCreateDTO.getEmail(), JUNIT_TEST_EMAIL_VERSION_2);
         Assertions.assertEquals(memberCreateDTO.getMemberName(), JUNIT_TEST_MEMBER_NAME);
         Assertions.assertEquals(memberCreateDTO.getMemberPhone(), JUNIT_TEST_MEMBER_PHONE);
         log.info("=== End Create Member Mapper Test ===");

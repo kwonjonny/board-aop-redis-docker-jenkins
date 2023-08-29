@@ -24,9 +24,6 @@ public interface BoardService {
     // List Board Service 
     PageResponseDTO<BoardListDTO> listBoard(PageRequestDTO pageRequestDTO);
 
-    // Find Board Number Service 
-    void findBoardNumber(Long bno);
-
     // Board View Count 
     int countviewBoard(Long bno);
 }
