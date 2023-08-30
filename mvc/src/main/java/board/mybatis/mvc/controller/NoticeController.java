@@ -93,7 +93,7 @@ public class NoticeController {
     public String postUpdateNotice(@Valid NoticeUpdateDTO noticeUpdateDTO, RedirectAttributes redirectAttributes) {
         log.info("POST | Update Notice Controller");
         Long nno = noticeService.updateNotice(noticeUpdateDTO);
-        redirectAttributes.addFlashAttribute("mesage", "공지사항 게시글 업데이트 완료");
+        redirectAttributes.addFlashAttribute("message", "공지사항 게시글 업데이트 완료");
         return "redirect:/notice/read/" + noticeUpdateDTO.getNno();
     }
 

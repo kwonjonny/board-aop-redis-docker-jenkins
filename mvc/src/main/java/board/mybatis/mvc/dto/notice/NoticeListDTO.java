@@ -37,5 +37,7 @@ public class NoticeListDTO {
     @NotBlank(message = "updateDate Should Be Not Blank")
     private LocalDate updateDate;
 
+    private int viewCount;
+
     private String fileName;
 }

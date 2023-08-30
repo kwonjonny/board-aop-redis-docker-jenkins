@@ -20,7 +20,6 @@ import lombok.ToString;
 @AllArgsConstructor
 public class BoardListDTO {
     // tbl_board
-
     @NotBlank(message = "bno Should Be Not Blank")
     private Long bno;
 
