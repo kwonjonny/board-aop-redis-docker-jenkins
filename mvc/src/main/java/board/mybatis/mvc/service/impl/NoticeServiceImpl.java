@@ -132,7 +132,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     // Count View Notice ServiceImpl
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public int countViewNotice(Long nno) {
         log.info("Is Running Notice View Count");
         findNoticeNumber(nno); // Check Notice Number
