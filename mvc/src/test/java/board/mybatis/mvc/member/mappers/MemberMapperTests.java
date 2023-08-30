@@ -20,7 +20,6 @@ import board.mybatis.mvc.dto.member.MemberUpdateDTO;
 import board.mybatis.mvc.exception.DataNotFoundException;
 import board.mybatis.mvc.exception.InvalidEmailException;
 import board.mybatis.mvc.exception.MemberEmailDuplicateException;
-import board.mybatis.mvc.exception.MemberNotFoundException;
 import board.mybatis.mvc.mappers.MemberMapper;
 import board.mybatis.mvc.util.PageRequestDTO;
 import lombok.extern.log4j.Log4j2;

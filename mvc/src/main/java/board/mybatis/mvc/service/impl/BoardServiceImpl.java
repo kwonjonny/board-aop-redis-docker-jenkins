@@ -138,7 +138,7 @@ public class BoardServiceImpl implements BoardService {
 
     // Board View Count
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public int countviewBoard(Long bno) {
         log.info("Is Running Board View Count ServiceImpl");
         findBoardNumber(bno); // Check Board Number
