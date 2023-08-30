@@ -66,11 +66,13 @@ public class MemberServiceImpl implements MemberService {
 
     // Update Member ServiceImpl
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public Long updateMember(MemberUpdateDTO memberUpdateDTO) {
         log.info("Is Running Update Member ServiceImpl");
         notFoundMember(memberUpdateDTO.getEmail()); // Member Find Email Check
         validationUserEmail(memberUpdateDTO.getEmail()); // Member Email Validation Check
+        String passwrod = memberUpdateDTO.getMemberPw();
+        memberUpdateDTO.setMemberPw(passwordEncoder.encode(passwrod));
         return memberMapper.updateMember(memberUpdateDTO);
     }
 

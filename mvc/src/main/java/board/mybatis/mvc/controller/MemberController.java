@@ -92,7 +92,7 @@ public class MemberController {
     public String postDeleteMember(@PathVariable("email") final String email, RedirectAttributes redirectAttributes) {
         log.info("POST | Delete Member Controller");
         Long deleteMember = memberService.deleteMember(email);
-        redirectAttributes.addFlashAttribute("mesage", "회원 탈퇴 완료.");
+        redirectAttributes.addFlashAttribute("message", "회원 탈퇴 완료.");
         return "redirect:/member/index";
     }
 }
