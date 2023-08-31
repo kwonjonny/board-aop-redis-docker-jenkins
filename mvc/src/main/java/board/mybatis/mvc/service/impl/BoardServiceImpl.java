@@ -31,7 +31,9 @@ public class BoardServiceImpl implements BoardService {
     private final BoardMapper boardMapper;
     private final FileMapper fileMapper;
 
-    // Autowired 명시적 표시
+    /*
+     * Autowired 명시적 표시 
+     */
     @Autowired
     public BoardServiceImpl(BoardMapper boardMapper, FileMapper fileMapper) {
         log.info("Inject BoardMapper");
@@ -70,7 +72,6 @@ public class BoardServiceImpl implements BoardService {
 
     /*
      * 게시물 조회 서비스 
-     * 부가기능: 파일 업로드 
      * 트랜잭션 readOnly
      */
     @Override
@@ -80,7 +81,7 @@ public class BoardServiceImpl implements BoardService {
         if (bno == null) {
             throw new DataNotFoundException("해당하는 게시물 번호가 없습니다.");
         }
-        findBoardNumber(bno); // Board Number Check
+        validateBoardNumber(bno); // Board Number Check
         return boardMapper.readBoard(bno);
     }
 
@@ -96,7 +97,7 @@ public class BoardServiceImpl implements BoardService {
                 || boardUpdateDTO.getContent() == null) {
             throw new DataNotFoundException("제목, 내용, 작성자는 필수입니다.");
         }
-        findBoardNumber(boardUpdateDTO.getBno()); // Check Board Number
+        validateBoardNumber(boardUpdateDTO.getBno()); // Check Board Number
 
         Long count = boardMapper.updateBoard(boardUpdateDTO);
         AtomicInteger index = new AtomicInteger(0);
@@ -126,7 +127,7 @@ public class BoardServiceImpl implements BoardService {
         if (bno == null) {
             throw new DataNotFoundException("해당하는 게시물 번호가 없습니다.");
         }
-        findBoardNumber(bno); // Board Number Check
+        validateBoardNumber(bno); // Board Number Check
         fileMapper.deleteImage(bno);
         return boardMapper.deleteBoard(bno);
     }
@@ -158,7 +159,7 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     public int countviewBoard(Long bno) {
         log.info("Is Running Board View Count ServiceImpl");
-        findBoardNumber(bno); // Check Board Number
+        validateBoardNumber(bno); // Check Board Number
         if (bno == null) {
             throw new DataNotFoundException("해당하는 게시글 번호가 없습니다.");
         }
@@ -170,7 +171,7 @@ public class BoardServiceImpl implements BoardService {
      * 트랜잭션 readOnly
      */
     @Transactional(readOnly = true)
-    private void findBoardNumber(Long bno) {
+    private void validateBoardNumber(Long bno) {
         log.info("Is Running Find Board Number ServiceImpl");
         if (boardMapper.findBoardNumber(bno) == null || boardMapper.findBoardNumber(bno) == 0) {
             throw new BoardNumberNotFoundException("해당하는 게시글이 없습니다.");

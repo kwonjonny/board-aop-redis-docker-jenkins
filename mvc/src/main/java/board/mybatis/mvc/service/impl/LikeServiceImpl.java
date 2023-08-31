@@ -25,7 +25,9 @@ public class LikeServiceImpl implements LikeService {
     // 의존성 주입
     private final LikeMapper likeMapper;
 
-    // Autowired 명시적 표시
+    /*
+     * Autowired 명시적 표시 
+     */
     @Autowired
     public LikeServiceImpl(LikeMapper likeMapper) {
         log.info("Inject LikeService");
@@ -41,8 +43,8 @@ public class LikeServiceImpl implements LikeService {
     @Transactional
     public Long toggleLikeBoard(Long bno, String email) {
         log.info("Is Running Toggle Like Board ServiceImpl");
-        checkBoardNumber(bno); // Check Board Number
-        checkMemberEmail(email); // Check Member Email
+        validateBoardNumber(bno); // Check Board Number
+        validateMemberEmail(email); // Check Member Email
         invalidMemberEmail(email); // invalidMember Email
         LikeToggleBoardDTO likeToggleBoardDTO = LikeToggleBoardDTO.builder()
                 .bno(bno)
@@ -66,7 +68,7 @@ public class LikeServiceImpl implements LikeService {
     @Transactional(readOnly = true)
     public Long countLikeBoard(Long bno) {
         log.info("Is Running Count Like Board ServiceImpl");
-        checkBoardNumber(bno); // Check Board Number
+        validateBoardNumber(bno); // Check Board Number
         return likeMapper.countLikeBoard(bno);
     }
 
@@ -90,8 +92,8 @@ public class LikeServiceImpl implements LikeService {
     @Transactional
     public Long toggleLikeNotice(Long nno, String email) {
         log.info("Is Running Toggle Like Notice ServiceImpl");
-        checkNoticeNumber(nno); // Check Notice Number
-        checkMemberEmail(email); // Check Member Email
+        validateNoticeNumber(nno); // Check Notice Number
+        validateMemberEmail(email); // Check Member Email
         invalidMemberEmail(email); // Invalid Member Email
         LikeToggleNoticeDTO likeToggleNoticeDTO = LikeToggleNoticeDTO.builder()
                 .nno(nno)
@@ -114,7 +116,7 @@ public class LikeServiceImpl implements LikeService {
     @Override
     @Transactional(readOnly = true)
     public Long countLikeNotice(Long nno) {
-        checkNoticeNumber(nno); // Check Notice Number
+        validateNoticeNumber(nno); // Check Notice Number
         log.info("Is Running Count Like Notice ServiceImpl");
         return likeMapper.countLikeNotice(nno);
     }
@@ -135,32 +137,41 @@ public class LikeServiceImpl implements LikeService {
      * 트랜잭션 readOnly 
      */
     @Transactional(readOnly = true)
-    private void checkBoardNumber(Long bno) {
+    private void validateBoardNumber(Long bno) {
         log.info("Is Running Check Board Number ServiceImpl");
         if (likeMapper.findBoardNumber(bno) == null || likeMapper.findBoardNumber(bno) == 0) {
             throw new BoardNumberNotFoundException("해당하는 게시물 번호가 없습니다.");
         }
     }
 
-    // Check Notice Number
+    /*
+     * 공지사항 번호 검증 
+     * 트랜잭션 readOnly
+     */
     @Transactional(readOnly = true)
-    private void checkNoticeNumber(Long nno) {
+    private void validateNoticeNumber(Long nno) {
         log.info("Is RUnning Check Notice Number ServiceImpl");
         if (likeMapper.findNoticeNumber(nno) == null || likeMapper.findNoticeNumber(nno) == 0) {
             throw new NoticeNumberNotFoundException("해당하는 공지사항 번호가 없습니다.");
         }
     }
 
-    // Check Member Email
+    /*
+     * 회원 이메일 검증 
+     * 트랜잭션 readOnly
+     */
     @Transactional(readOnly = true)
-    private void checkMemberEmail(String email) {
+    private void validateMemberEmail(String email) {
         log.info("Is Running Check Member Email ServiceImpl");
         if (likeMapper.findMemberEmail(email) == 0 || likeMapper.findMemberEmail(email) == null) {
             throw new MemberNotFoundException("요청하신 이메일은 회원가입 되지 않은 회원입니다.");
         }
     }
 
-    // Check Invalid Email
+    /*
+     * 회원 이메일 형식 검증 
+     * 트랜잭션 readOnly
+     */
     @Transactional(readOnly = true)
     private void invalidMemberEmail(String email) {
         log.info("Is Running Invalid Member Email ServiceImpl");

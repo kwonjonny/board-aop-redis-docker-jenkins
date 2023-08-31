@@ -31,7 +31,9 @@ public class NoticeServiceImpl implements NoticeService {
     private final NoticeMapper noticeMapper;
     private final FileMapper fileMapper;
 
-    // Autowired 명시적 표시
+    /*
+     * Autowired 명시적 표시 
+     */
     @Autowired
     public NoticeServiceImpl(NoticeMapper noticeMapper, FileMapper fileMapper) {
         log.info("Inect NoticeMapper");
@@ -40,8 +42,8 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     /*
-     * 공지사항 생성 서비스 
-     * 부가 기능: 파일 업로드 
+     * 공지사항 생성 서비스
+     * 부가 기능: 파일 업로드
      */
     @Override
     @Transactional
@@ -69,20 +71,20 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     /*
-     * 공지사항 조회 서비스 
+     * 공지사항 조회 서비스
      * 트랜잭션 readOnly
      */
     @Override
     @Transactional(readOnly = true)
     public NoticeDTO readNotice(Long nno) {
         log.info("Is Running Read Notice ServiceImpl");
-        findNoticeNumber(nno); // Notice Number Check
+        validateNoticeNumber(nno); // Notice Number Check
         return noticeMapper.readNotice(nno);
     }
 
     /*
-     * 공지사항 업데이트 서비스 
-     * 부가기능: 파일 업로드  
+     * 공지사항 업데이트 서비스
+     * 부가기능: 파일 업로드
      */
     @Override
     @Transactional
@@ -92,7 +94,7 @@ public class NoticeServiceImpl implements NoticeService {
                 || noticeUpdateDTO.getWriter() == null || noticeUpdateDTO.getTitle() == null) {
             throw new DataNotFoundException("공지사항 게시글, 작성자, 내용은 필수입니다,");
         }
-        findNoticeNumber(noticeUpdateDTO.getNno()); // Notice Number Check
+        validateNoticeNumber(noticeUpdateDTO.getNno()); // Notice Number Check
 
         Long count = noticeMapper.updateNotice(noticeUpdateDTO);
         AtomicInteger index = new AtomicInteger(0);
@@ -113,19 +115,19 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     /*
-     * 공지사항 삭제 서비스 
+     * 공지사항 삭제 서비스
      */
     @Override
     @Transactional
     public Long deleteNotice(Long nno) {
         log.info("Is Running Delete Notice ServiceImpl");
-        findNoticeNumber(nno); // Notice Number Check
+        validateNoticeNumber(nno); // Notice Number Check
         fileMapper.deleteNoticeImage(nno);
         return noticeMapper.deleteNotice(nno);
     }
 
     /*
-     * 공지사항 리스트 서비스 
+     * 공지사항 리스트 서비스
      * 트랜잭션 readOnly
      */
     @Override
@@ -145,13 +147,13 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     /*
-     * 공지사항 조회수 증가 서비스 
+     * 공지사항 조회수 증가 서비스
      */
     @Override
     @Transactional
     public int countViewNotice(Long nno) {
         log.info("Is Running Notice View Count");
-        findNoticeNumber(nno); // Check Notice Number
+        validateNoticeNumber(nno); // Check Notice Number
         if (nno == null) {
             throw new DataNotFoundException("해당하는 공지사항 번호가 없습니다.");
         }
@@ -159,13 +161,13 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     /*
-     * 공지사항 번호 검증 서비스 
-     * 트랜잭션 readOnly 
+     * 공지사항 번호 검증 서비스
+     * 트랜잭션 readOnly
      */
     @Transactional(readOnly = true)
-    private void findNoticeNumber(Long nno) {
+    private void validateNoticeNumber(Long nno) {
         log.info("Is Running Find Notice Number ServiceImpl");
-        if (noticeMapper.findNoticeNumber(nno) == null) {
+        if (noticeMapper.findNoticeNumber(nno) == null || noticeMapper.findNoticeNumber(nno) == 0) {
             throw new NoticeNumberNotFoundException("해당하는 공지사항 번호가 없습니다.");
         }
     }

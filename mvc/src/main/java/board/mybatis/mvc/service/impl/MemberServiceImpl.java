@@ -32,7 +32,9 @@ public class MemberServiceImpl implements MemberService {
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
 
-    // Autowired 명시적 표시
+    /*
+     * Autowired 명시적 표시 
+     */
     @Autowired
     public MemberServiceImpl(MemberMapper memberMapper, PasswordEncoder passwordEncoder) {
         log.info("Inject MemberMapper");
