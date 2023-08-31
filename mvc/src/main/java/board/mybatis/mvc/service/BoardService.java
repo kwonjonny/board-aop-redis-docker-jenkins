@@ -9,21 +9,33 @@ import board.mybatis.mvc.util.PageResponseDTO;
 
 // Board Service Interface 
 public interface BoardService {
-    // Create Board Service 
+    /*
+     * 게시물 생성 
+     */
     Long createBoard(BoardCreateDTO boardCreateDTO);
 
-    // Read Board Service 
+    /*
+     * 게시물 조회 
+     */
     BoardDTO readBoard(Long bno);
 
-    // Update Board Service 
+    /*
+     * 게시물 업데이트 
+     */
     Long updateBoard(BoardUpdateDTO boardUpdateDTO);
 
-    // Delete Board Service 
+    /*
+     * 게시물 삭제 
+     */ 
     Long deleteBoard(Long bno);
 
-    // List Board Service 
+    /*
+     * 게시물 리스트 
+     */
     PageResponseDTO<BoardListDTO> listBoard(PageRequestDTO pageRequestDTO);
 
-    // Board View Count 
+    /*
+     * 게시물 조회수 증가 
+     */
     int countviewBoard(Long bno);
 }

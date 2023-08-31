@@ -32,7 +32,11 @@ public class LikeServiceImpl implements LikeService {
         this.likeMapper = likeMapper;
     }
 
-    // Toggle Like Board ServiceImpl
+    /*
+     * 게시물에 대한 좋아요 토글 기능 서비스 
+     * 회원의 좋아요가 있을 시 삭제 및 좋아요 수 감소 
+     * 회원의 좋아요가 없을 시 생성 및 좋아요 수 증가 
+     */
     @Override
     @Transactional
     public Long toggleLikeBoard(Long bno, String email) {
@@ -54,7 +58,10 @@ public class LikeServiceImpl implements LikeService {
         }
     }
 
-    // Count Like Board ServiceImpl
+    /*
+     * 게시물에 대한 좋아요 카운트 서비스 
+     * 트랜잭션 readOnly
+     */
     @Override
     @Transactional(readOnly = true)
     public Long countLikeBoard(Long bno) {
@@ -63,7 +70,10 @@ public class LikeServiceImpl implements LikeService {
         return likeMapper.countLikeBoard(bno);
     }
 
-    // Check Toggle Like Board
+    /*
+     * 게시물의 회원 좋아요 상태 체크 서비스 
+     * 트랜잭션 readOnly 
+     */
     @Override
     @Transactional(readOnly = true)
     public LikeToggleBoardDTO checkToggleLikeBoard(Long bno, String email) {
@@ -71,7 +81,11 @@ public class LikeServiceImpl implements LikeService {
         return likeMapper.checkToggleLikeBoard(email, bno);
     }
 
-    // Toggle Like Notice ServiceImpl
+     /*
+     * 공지사항에 대한 좋아요 토글 기능 서비스 
+     * 회원의 좋아요가 있을 시 삭제 및 좋아요 수 감소 
+     * 회원의 좋아요가 없을 시 생성 및 좋아요 수 증가 
+     */
     @Override
     @Transactional
     public Long toggleLikeNotice(Long nno, String email) {
@@ -93,7 +107,10 @@ public class LikeServiceImpl implements LikeService {
         }
     }
 
-    // Check Like Notice ServiceImpl
+   /*
+     * 공자사항에 대한 좋아요 카운트 서비스 
+     * 트랜잭션 readOnly
+     */
     @Override
     @Transactional(readOnly = true)
     public Long countLikeNotice(Long nno) {
@@ -102,7 +119,10 @@ public class LikeServiceImpl implements LikeService {
         return likeMapper.countLikeNotice(nno);
     }
 
-    // Check Toggle Like Notice
+    /*
+     * 공지사항의 회원 좋아요 상태 체크 서비스 
+     * 트랜잭션 readOnly 
+     */
     @Override
     @Transactional(readOnly = true)
     public LikeToggleNoticeDTO checkToggleLikeNotice(Long nno, String emaiil) {
@@ -110,7 +130,10 @@ public class LikeServiceImpl implements LikeService {
         return likeMapper.checkToggleLikeNotice(emaiil, nno);
     }
 
-    // Check Board Number
+    /*
+     * 게시물 번호 검증 
+     * 트랜잭션 readOnly 
+     */
     @Transactional(readOnly = true)
     private void checkBoardNumber(Long bno) {
         log.info("Is Running Check Board Number ServiceImpl");

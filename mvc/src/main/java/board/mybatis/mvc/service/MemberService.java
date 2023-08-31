@@ -9,18 +9,28 @@ import board.mybatis.mvc.util.PageResponseDTO;
 
 // Member Service Interface
 public interface MemberService {
-    // Create Member 
+    /*
+     * 회원 가입 
+     */
     Long joinMember(MemberCreateDTO memberCreateDTO);
 
-    // Read Member 
+    /*
+     * 회원 조회 
+     */
     MemberConvertDTO readMember(String email);
 
-    // Update Member 
+    /*
+     * 회원 업데이트 
+     */
     Long updateMember(MemberUpdateDTO memberUpdateDTO);
 
-    // Delete Member 
+    /*
+     * 회원 탈퇴 
+     */
     Long deleteMember(String email);
 
-    // List Member 
+    /*
+     * 회원 리스트 
+     */
     PageResponseDTO<MemberListDTO> listMember(PageRequestDTO pageRequestDTO);
 }

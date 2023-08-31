@@ -11,7 +11,9 @@ public class ManagementCookie {
 
     private static final String COOKIE_NAME = "read_board_";
 
-    // Board 조회수를 위한 쿠키 생성
+    /*
+     * 조회수를 위한 쿠키 생성 
+     */
     public boolean createCookie(HttpServletRequest request, HttpServletResponse response, Long bno) {
         String cookieName = COOKIE_NAME + bno;
 
@@ -24,11 +26,14 @@ public class ManagementCookie {
                 }
             }
         }
-        // 쿠키 생성
+        /*
+         * 쿠키 생성 
+         * 24 시간 동안 쿠키 유지 후 
+         * 쿠키가 없을 시 조회수 증가 하도록 true 반환 
+         */
         Cookie cookie = new Cookie(cookieName, "true");
-        cookie.setMaxAge(60 * 60 * 24); // 쿠키를 24시간 동안 유지
+        cookie.setMaxAge(60 * 60 * 24);
         response.addCookie(cookie);
-        // 쿠키가 없으므로 조회수를 증가시키도록 true를 반환합니다
         return true;
     }
 }

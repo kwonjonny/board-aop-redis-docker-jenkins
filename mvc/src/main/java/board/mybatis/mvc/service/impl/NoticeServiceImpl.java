@@ -39,7 +39,10 @@ public class NoticeServiceImpl implements NoticeService {
         this.fileMapper = fileMapper;
     }
 
-    // Create Notice ServiceImpl
+    /*
+     * 공지사항 생성 서비스 
+     * 부가 기능: 파일 업로드 
+     */
     @Override
     @Transactional
     public Long createNotice(NoticeCreateDTO noticeCreateDTO) {
@@ -65,7 +68,10 @@ public class NoticeServiceImpl implements NoticeService {
         return noticeCreateDTO.getNno();
     }
 
-    // Read Notice ServiceImpl
+    /*
+     * 공지사항 조회 서비스 
+     * 트랜잭션 readOnly
+     */
     @Override
     @Transactional(readOnly = true)
     public NoticeDTO readNotice(Long nno) {
@@ -74,7 +80,10 @@ public class NoticeServiceImpl implements NoticeService {
         return noticeMapper.readNotice(nno);
     }
 
-    // Update Notice ServiceImpl
+    /*
+     * 공지사항 업데이트 서비스 
+     * 부가기능: 파일 업로드  
+     */
     @Override
     @Transactional
     public Long updateNotice(NoticeUpdateDTO noticeUpdateDTO) {
@@ -103,7 +112,9 @@ public class NoticeServiceImpl implements NoticeService {
         return noticeUpdateDTO.getNno();
     }
 
-    // Delete Notice ServiceImpl
+    /*
+     * 공지사항 삭제 서비스 
+     */
     @Override
     @Transactional
     public Long deleteNotice(Long nno) {
@@ -113,7 +124,10 @@ public class NoticeServiceImpl implements NoticeService {
         return noticeMapper.deleteNotice(nno);
     }
 
-    // List Notice ServiceImpl
+    /*
+     * 공지사항 리스트 서비스 
+     * 트랜잭션 readOnly
+     */
     @Override
     @Transactional(readOnly = true)
     public PageResponseDTO<NoticeListDTO> listNotice(PageRequestDTO pageRequestDTO) {
@@ -130,7 +144,9 @@ public class NoticeServiceImpl implements NoticeService {
                 .build();
     }
 
-    // Count View Notice ServiceImpl
+    /*
+     * 공지사항 조회수 증가 서비스 
+     */
     @Override
     @Transactional
     public int countViewNotice(Long nno) {
@@ -142,7 +158,10 @@ public class NoticeServiceImpl implements NoticeService {
         return noticeMapper.countViewNotice(nno);
     }
 
-    // Find Notice Number ServiceImpl
+    /*
+     * 공지사항 번호 검증 서비스 
+     * 트랜잭션 readOnly 
+     */
     @Transactional(readOnly = true)
     private void findNoticeNumber(Long nno) {
         log.info("Is Running Find Notice Number ServiceImpl");

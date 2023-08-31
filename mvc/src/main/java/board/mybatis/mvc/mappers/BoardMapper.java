@@ -13,27 +13,43 @@ import board.mybatis.mvc.util.PageRequestDTO;
 // Board Mapper Interface
 @Mapper
 public interface BoardMapper {
-    // Create Board 
+    /*
+     * 게시물 생성
+     */
     Long createBoard(BoardCreateDTO boardCreateDTO);
 
-    // Read Board 
+    /*
+     * 게시물 조회
+     */
     BoardDTO readBoard(Long bno);
 
-    // Update Board 
+    /*
+     * 게시물 업데이트
+     */
     Long updateBoard(BoardUpdateDTO boardUpdateDTO);
 
-    // Delete Board 
+    /*
+     * 게시물 삭제
+     */
     Long deleteBoard(Long bno);
 
-    // List Board 
+    /*
+     * 게시물 리스트
+     */
     List<BoardListDTO> listBoard(PageRequestDTO pageRequestDTO);
 
-    // Total Board 
+    /*
+     * 게시물 총 개수
+     */
     int total(PageRequestDTO pageRequestDTO);
 
-    // Find Board Number 
+    /*
+     * 게시물 번호 검증
+     */
     Long findBoardNumber(Long bno);
 
-    // Board View Count 
+    /*
+     * 게시물 조회수 증가
+     */
     int countViewBoard(Long bno);
 }

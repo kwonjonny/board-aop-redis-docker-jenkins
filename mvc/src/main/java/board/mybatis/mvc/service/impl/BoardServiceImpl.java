@@ -39,7 +39,10 @@ public class BoardServiceImpl implements BoardService {
         this.fileMapper = fileMapper;
     }
 
-    // Create Board Serviceimpl
+    /*
+     * 게시물 생성 서비스 
+     * 부가기능: 파일 업로드 
+     */
     @Override
     @Transactional
     public Long createBoard(BoardCreateDTO boardCreateDTO) {
@@ -65,7 +68,11 @@ public class BoardServiceImpl implements BoardService {
         return boardCreateDTO.getBno();
     }
 
-    // Read Board Serviceimpl
+    /*
+     * 게시물 조회 서비스 
+     * 부가기능: 파일 업로드 
+     * 트랜잭션 readOnly
+     */
     @Override
     @Transactional(readOnly = true)
     public BoardDTO readBoard(Long bno) {
@@ -77,7 +84,10 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.readBoard(bno);
     }
 
-    // Update Board ServiceImpl
+    /*
+     * 게시물 업데이트 서비스 
+     * 부가기능: 파일 업로드 
+     */
     @Override
     @Transactional
     public Long updateBoard(BoardUpdateDTO boardUpdateDTO) {
@@ -106,7 +116,9 @@ public class BoardServiceImpl implements BoardService {
         return boardUpdateDTO.getBno();
     }
 
-    // Delete Board ServiceImpl
+    /*
+     * 게시물 삭제 서비스 
+     */
     @Override
     @Transactional
     public Long deleteBoard(Long bno) {
@@ -119,9 +131,12 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.deleteBoard(bno);
     }
 
-    // List Board ServiceImpl
+    /*
+     * 게시물 리스트 서비스
+     * 트랜잭션 readOnly
+     */
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public PageResponseDTO<BoardListDTO> listBoard(PageRequestDTO pageRequestDTO) {
         log.info("Is Running List Board ServiceImpl");
         List<BoardListDTO> list = boardMapper.listBoard(pageRequestDTO);
@@ -136,7 +151,9 @@ public class BoardServiceImpl implements BoardService {
                 .build();
     }
 
-    // Board View Count
+    /*
+     * 게시물 조회수 증가 서비스 
+     */
     @Override
     @Transactional
     public int countviewBoard(Long bno) {
@@ -148,7 +165,10 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.countViewBoard(bno);
     }
 
-    // Find Board Number ServiceImpl
+    /*
+     * 게시물 번호 검증 서비스 
+     * 트랜잭션 readOnly
+     */
     @Transactional(readOnly = true)
     private void findBoardNumber(Long bno) {
         log.info("Is Running Find Board Number ServiceImpl");

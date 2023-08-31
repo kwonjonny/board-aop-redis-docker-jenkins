@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface TimeCheck {
     
-    // Get Time 
+    /*
+     * 마이바티스 시간 체크 
+     */
     String getTime();
 }

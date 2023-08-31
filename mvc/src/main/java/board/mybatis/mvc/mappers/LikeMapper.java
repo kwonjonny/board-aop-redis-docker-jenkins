@@ -9,54 +9,88 @@ import board.mybatis.mvc.dto.like.noticelike.LikeToggleNoticeDTO;
 // Like Mapper Interface 
 @Mapper
 public interface LikeMapper {
-    // Create Like Board
+    /*
+     * 게시물의 좋아요 생성 
+     */
     Long createLikeBoard(LikeToggleBoardDTO likeToggleBoardDTO);
 
-    // Delete Like Board
+    /*
+     * 게시물의 좋아요 삭제 
+     */
     Long deleteLikeBoard(LikeToggleBoardDTO likeToggleBoardDTO);
 
-    // Count Like Board
+   /*
+    * 게시물의 좋아요 카운트 
+    */
     Long countLikeBoard(Long bno);
 
-    // Toggle Check Like Board
+   /*
+    * 게시물의 회원 좋아요 상태 체크 
+    */
     LikeToggleBoardDTO checkToggleLikeBoard(@Param("email") String email, @Param("bno") Long bno);
 
-    // Create Like Notice
+    /*
+     * 공지사항 좋아요 생성 
+     */
     Long createLikeNotice(LikeToggleNoticeDTO likeToggleNoticeDTO);
 
-    // Delete Like Notice
+    /*
+     * 공지사항 좋아요 삭제 
+     */
     Long deleteLikeNotice(LikeToggleNoticeDTO likeToggleNoticeDTO);
 
-    // Count Like Notice
+   /*
+    * 공지사항 좋아요 카운트 
+    */
     Long countLikeNotice(Long nno);
 
-    // Toggle Check Like Notice
+   /*
+    * 공지사항의 회원 좋아요 상태 체크 
+    */
     LikeToggleNoticeDTO checkToggleLikeNotice(@Param("email") String email, @Param("nno") Long nno);
 
-    // Find Member Email
+    /*
+     * 회원 이메일 검증 
+     */
     Long findMemberEmail(String email);
 
-    // Find Board Number
+    /*
+     * 게시물 번호 검증 
+     */
     Long findBoardNumber(Long bno);
 
-    // Find Notice Number 
+   /*
+    * 공지사항 번호 검증 
+    */
     Long findNoticeNumber(Long nno);
 
-    // Increment Board Like 
+   /*
+    * 게시물 반정규화 컬럼 좋아요 개수 증가 
+    */
     Long incrementBoardLike(Long bno);
 
-    // Decrement Board Like 
+   /*
+    * 게시물 반정규화 컬럼 좋아요 개수 감소 
+    */
     Long decrementBoardLike(Long bno);
 
-    // 게시판 반 정규화 좋아요 수 확인 
+   /*
+    * 게시물의 현재 좋아요 개수 반정규화 컬럼 확인 
+    */
     Long getCurrentBoardLikeCount(Long bno);
 
-    // Increment Notice Like 
+   /*
+    * 공지사항 반정규화 컬럼 좋아요 개수 증가 
+    */
     Long incrementNoticeLike(Long nno);
 
-    // Decrement Notice Like 
+    /*
+     * 공지사항 반정규화 컬럼 좋아요 개수 감소 
+     */
     Long decrementNoticeLike(Long nno);
 
-    // 공지사항 반 정규화 좋아요 수 확인 
+    /*
+     * 공지사항 현재 좋아요 개수 반정규화 컬럼 확인 
+     */
     Long getCurrentNoticeLikeCount(Long nno);
 }

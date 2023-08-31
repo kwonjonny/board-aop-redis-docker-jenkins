@@ -9,21 +9,33 @@ import board.mybatis.mvc.util.PageResponseDTO;
 
 // Notice Service Interface
 public interface NoticeService {
-    // Create Notice 
+    /*
+     * 공지사항 생성 
+     */
     Long createNotice(NoticeCreateDTO noticeCreateDTO);
 
-    // Read Notice 
+    /*
+     * 공지사항 조회 
+     */
     NoticeDTO readNotice(Long nno);
 
-    // Update Notice
+    /*
+     * 공지사항 업데이트 
+     */
     Long updateNotice(NoticeUpdateDTO noticeUpdateDTO);
 
-    // Delete Notice 
+    /*
+     * 공지사항 삭제 
+     */
     Long deleteNotice(Long nno);
 
-    // List Notice 
+    /*
+     * 공지사항 리스트 
+     */
     PageResponseDTO<NoticeListDTO> listNotice(PageRequestDTO pageRequestDTO);
 
-    // Count View Notice 
+    /*
+     * 공지사항 조회수 증가 
+     */
     int countViewNotice(Long nno);
 }

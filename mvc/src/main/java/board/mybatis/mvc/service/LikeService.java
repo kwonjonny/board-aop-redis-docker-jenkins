@@ -5,21 +5,33 @@ import board.mybatis.mvc.dto.like.noticelike.LikeToggleNoticeDTO;
 
 // Like Service Interface
 public interface LikeService {
-    // Toggle Like Board
+    /*
+     * 게시물 토글 좋아요 
+     */
     Long toggleLikeBoard(Long bno, String email);
 
-    // Count Like Board
+    /*
+     * 게시물 좋아요 카운트 
+     */
     Long countLikeBoard(Long bno);
 
-    // Check Toggle Like Board
+    /*
+     * 게시물 좋아요 회원 상태 검증 
+     */
     LikeToggleBoardDTO checkToggleLikeBoard(Long bno, String email);
 
-    // Toggle Like Notice
+    /*
+     * 공지사항 토글 좋아요 
+     */
     Long toggleLikeNotice(Long nno, String email);
 
-    // Count Like Notice
+    /*
+     * 공지사항 좋아요 카운트 
+     */
     Long countLikeNotice(Long nno);
 
-    // Check Toggle Like Notice
+    /*
+     * 공지사항 좋아요 회원 상태 검증 
+     */
     LikeToggleNoticeDTO checkToggleLikeNotice(Long nno, String email);
 }

@@ -40,7 +40,11 @@ public class MemberServiceImpl implements MemberService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // Join Member ServiceImpl
+    /*
+     * 회원 가입 서비스 
+     * Spring Security 의 PasswordEncoder
+     * 패스워드 인코딩 
+     */
     @Override
     @Transactional
     public Long joinMember(MemberCreateDTO memberCreateDTO) {
@@ -51,14 +55,16 @@ public class MemberServiceImpl implements MemberService {
         }
         duplicateMemberEmail(memberCreateDTO.getEmail()); // Member Duplicate Check
         validationUserEmail(memberCreateDTO.getEmail()); // Member Email Validation Check
-        String password = memberCreateDTO.getMemberPw();
-        memberCreateDTO.setMemberPw(passwordEncoder.encode(password));
+        memberCreateDTO.setMemberPw(passwordEncoder.encode(memberCreateDTO.getMemberPw()));
         String memberRole = "USER";
         memberMapper.createJoinMemberRole(memberCreateDTO.getEmail(), memberRole);
         return memberMapper.joinMember(memberCreateDTO);
     }
 
-    // Read Member ServiceImpl
+    /*
+     * 회원 조회 서비스 
+     * 트랜잭션 readOnly
+     */
     @Override
     @Transactional(readOnly = true)
     public MemberConvertDTO readMember(String email) {
@@ -68,7 +74,11 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.readMember(email);
     }
 
-    // Update Member ServiceImpl
+    /*
+     * 회원 업데이트 서비스 
+     * Spring Security 의 PasswordEncoder
+     * 패스워드 인코딩 
+     */
     @Override
     @Transactional
     public Long updateMember(MemberUpdateDTO memberUpdateDTO) {
@@ -79,12 +89,13 @@ public class MemberServiceImpl implements MemberService {
         }
         notFoundMember(memberUpdateDTO.getEmail()); // Member Find Email Check
         validationUserEmail(memberUpdateDTO.getEmail()); // Member Email Validation Check
-        String password = memberUpdateDTO.getMemberPw();
-        memberUpdateDTO.setMemberPw(passwordEncoder.encode(password));
+        memberUpdateDTO.setMemberPw(passwordEncoder.encode(memberUpdateDTO.getMemberPw()));
         return memberMapper.updateMember(memberUpdateDTO);
     }
 
-    // Delete Member ServiceImpl
+    /*
+     * 회원 탈퇴 서비스 
+     */
     @Override
     @Transactional
     public Long deleteMember(String email) {
@@ -95,9 +106,12 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.deleteMember(email);
     }
 
-    // List Member ServceImpl
+    /*
+     * 회원 리스트 서비스 
+     * 트랜잭션 readOnly
+     */
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public PageResponseDTO<MemberListDTO> listMember(PageRequestDTO pageRequestDTO) {
         log.info("Is Running List Member ServiceImpl");
         if (pageRequestDTO == null) {
@@ -112,7 +126,10 @@ public class MemberServiceImpl implements MemberService {
                 .build();
     }
 
-    // Find Member Email ServiceImpl
+    /*
+     * 회원 이메일 중복 체크 
+     * 트랜잭션 readOnly
+     */
     @Transactional(readOnly = true)
     private void duplicateMemberEmail(String email) {
         log.info("Is Running Find Member Email ServiceImpl");
@@ -121,7 +138,10 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
-    // Not Found Member ServiceImpl
+    /*
+     * 회원 상태 조회 검증 
+     * 트랜잭션 readOnly 
+     */
     @Transactional(readOnly = true)
     private void notFoundMember(String email) {
         log.info("Is Running Not Found Member Email ServiceImpl");
@@ -130,7 +150,10 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
-    // Validation Use Email ServiceImpl
+    /*
+     * 회원 이메일 형식 검증 
+     * 트랜잭션 readOnly 
+     */
     @Transactional(readOnly = true)
     private void validationUserEmail(String email) {
         log.info("Is Running Validation User Email");
