@@ -157,4 +157,5 @@ useGeneratedKeys="true" keyProperty="nno">
         WHERE nno = #{nno}
 </update>
 
+
 </mapper>

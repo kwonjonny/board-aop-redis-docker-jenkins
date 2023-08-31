@@ -113,6 +113,7 @@ public class LikeServiceImpl implements LikeService {
     // Check Board Number
     @Transactional(readOnly = true)
     private void checkBoardNumber(Long bno) {
+        log.info("Is Running Check Board Number ServiceImpl");
         if (likeMapper.findBoardNumber(bno) == null || likeMapper.findBoardNumber(bno) == 0) {
             throw new BoardNumberNotFoundException("해당하는 게시물 번호가 없습니다.");
         }
@@ -121,6 +122,7 @@ public class LikeServiceImpl implements LikeService {
     // Check Notice Number
     @Transactional(readOnly = true)
     private void checkNoticeNumber(Long nno) {
+        log.info("Is RUnning Check Notice Number ServiceImpl");
         if (likeMapper.findNoticeNumber(nno) == null || likeMapper.findNoticeNumber(nno) == 0) {
             throw new NoticeNumberNotFoundException("해당하는 공지사항 번호가 없습니다.");
         }
@@ -129,14 +131,16 @@ public class LikeServiceImpl implements LikeService {
     // Check Member Email
     @Transactional(readOnly = true)
     private void checkMemberEmail(String email) {
+        log.info("Is Running Check Member Email ServiceImpl");
         if (likeMapper.findMemberEmail(email) == 0 || likeMapper.findMemberEmail(email) == null) {
             throw new MemberNotFoundException("요청하신 이메일은 회원가입 되지 않은 회원입니다.");
         }
     }
 
     // Check Invalid Email
-    @Transactional
+    @Transactional(readOnly = true)
     private void invalidMemberEmail(String email) {
+        log.info("Is Running Invalid Member Email ServiceImpl");
         Pattern pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
         Matcher matcher = pattern.matcher(email);
         if (!matcher.matches()) {

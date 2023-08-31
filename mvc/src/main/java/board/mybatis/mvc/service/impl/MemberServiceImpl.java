@@ -45,6 +45,10 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public Long joinMember(MemberCreateDTO memberCreateDTO) {
         log.info("Is Running JoinMember ServiceImpl");
+        if (memberCreateDTO.getEmail() == null || memberCreateDTO.getMemberName() == null
+                || memberCreateDTO.getMemberPhone() == null || memberCreateDTO.getMemberPw() == null) {
+            throw new DataNotFoundException("이메일, 이름, 전화번호, 패스워드는 필수사항입니다.");
+        }
         duplicateMemberEmail(memberCreateDTO.getEmail()); // Member Duplicate Check
         validationUserEmail(memberCreateDTO.getEmail()); // Member Email Validation Check
         String password = memberCreateDTO.getMemberPw();
@@ -69,10 +73,14 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public Long updateMember(MemberUpdateDTO memberUpdateDTO) {
         log.info("Is Running Update Member ServiceImpl");
+        if (memberUpdateDTO.getEmail() == null || memberUpdateDTO.getMemberName() == null
+                || memberUpdateDTO.getMemberPhone() == null || memberUpdateDTO.getMemberPw() == null) {
+            throw new DataNotFoundException("이메일, 이름, 전화번호, 패스워드는 필수사항입니다.");
+        }
         notFoundMember(memberUpdateDTO.getEmail()); // Member Find Email Check
         validationUserEmail(memberUpdateDTO.getEmail()); // Member Email Validation Check
-        String passwrod = memberUpdateDTO.getMemberPw();
-        memberUpdateDTO.setMemberPw(passwordEncoder.encode(passwrod));
+        String password = memberUpdateDTO.getMemberPw();
+        memberUpdateDTO.setMemberPw(passwordEncoder.encode(password));
         return memberMapper.updateMember(memberUpdateDTO);
     }
 

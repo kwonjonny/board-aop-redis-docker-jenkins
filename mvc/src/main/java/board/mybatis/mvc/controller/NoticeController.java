@@ -83,7 +83,7 @@ public class NoticeController {
     @PostMapping("create")
     public String postCreateNotice(@Valid NoticeCreateDTO noticeCreateDTO, RedirectAttributes redirectAttributes) {
         log.info("POST | Create Notice Controller");
-        Long nno = noticeService.createNotice(noticeCreateDTO);
+        Long createNotice = noticeService.createNotice(noticeCreateDTO);
         redirectAttributes.addFlashAttribute("message", "공지사항 게시글 생성 완료.");
         return "redirect:/notice/list";
     }
@@ -92,7 +92,7 @@ public class NoticeController {
     @PostMapping("update")
     public String postUpdateNotice(@Valid NoticeUpdateDTO noticeUpdateDTO, RedirectAttributes redirectAttributes) {
         log.info("POST | Update Notice Controller");
-        Long nno = noticeService.updateNotice(noticeUpdateDTO);
+        Long updateNotice = noticeService.updateNotice(noticeUpdateDTO);
         redirectAttributes.addFlashAttribute("message", "공지사항 게시글 업데이트 완료");
         return "redirect:/notice/read/" + noticeUpdateDTO.getNno();
     }
@@ -101,7 +101,7 @@ public class NoticeController {
     @PostMapping("delete/{nno}")
     public String postDeleteNotice(@PathVariable("nno") final Long nno, RedirectAttributes redirectAttributes) {
         log.info("POST | Delete Notice Controller");
-        Long deleteNno = noticeService.deleteNotice(nno);
+        Long deleteNotice = noticeService.deleteNotice(nno);
         redirectAttributes.addFlashAttribute("message", "공지사항 게시글 삭제 완료.");
         return "redirect:/notice/list";
     }

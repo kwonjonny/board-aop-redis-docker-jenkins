@@ -163,6 +163,7 @@ useGeneratedKeys="true" keyProperty="bno">
         WHERE bno = #{bno}
 </select>
 
+
 <!-- BoardMapper id = "boardViewCount" -->
 <update id="countViewBoard" parameterType="long">
         UPDATE 
@@ -171,5 +172,6 @@ useGeneratedKeys="true" keyProperty="bno">
         viewCount = viewCount + 1 
         WHERE bno = #{bno}
 </update>
+
 
 </mapper>

@@ -83,7 +83,7 @@ public class BoardController {
     @PostMapping("create")
     public String postCreateBoard(@Valid BoardCreateDTO boardCreateDTO, RedirectAttributes redirectAttributes) {
         log.info("POST | Create Board Controller");
-        Long bno = boardService.createBoard(boardCreateDTO);
+        Long createBoard = boardService.createBoard(boardCreateDTO);
         redirectAttributes.addFlashAttribute("message", "게시물 생성 완료.");
         return "redirect:/board/list";
     }
@@ -92,7 +92,7 @@ public class BoardController {
     @PostMapping("update")
     public String postUpdateBoard(@Valid BoardUpdateDTO boardUpdateDTO, RedirectAttributes redirectAttributes) {
         log.info("POST | Update Board Contoller");
-        Long bno = boardService.updateBoard(boardUpdateDTO);
+        Long updateBoard = boardService.updateBoard(boardUpdateDTO);
         redirectAttributes.addFlashAttribute("message", "게시물 업데이트 완료.");
         return "redirect:/board/read/" + boardUpdateDTO.getBno();
     }
@@ -101,7 +101,7 @@ public class BoardController {
     @PostMapping("delete/{bno}")
     public String postDelteBoard(@PathVariable("bno") final Long bno, RedirectAttributes redirectAttributes) {
         log.info("POST | Delete Board Controller");
-        Long deleteBno = boardService.deleteBoard(bno);
+        Long deleteBoard = boardService.deleteBoard(bno);
         redirectAttributes.addFlashAttribute("message", "게시물 삭제 완료.");
         return "redirect:/board/list";
     }

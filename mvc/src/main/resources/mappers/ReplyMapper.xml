@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- ReplyMapper Xml -->
+<mapper namespace="board.mybatis.mvc.mappers.ReplyMapper">
+
+<!-- ReplyMapper id = "createBoardReply" -->
+<insert id="createBoardReply"  parameterType="board.mybatis.mvc.dto.reply.board.ReplyBoardCreateDTO"
+useGeneratedKeys="true" keyProperty="rno">
+        INSERT INTO 
+        tbl_reply_board 
+        (bno, reply, replyer)
+        VALUES
+        (#{bno}, #{reply}, #{replyer})
+        <!-- last insert id 확인 -->
+        <selectKey resultType="long" keyProperty="rno" order="AFTER">
+                SELECT LAST_INSERT_ID()
+        </selectKey>
+</insert>
+
+
+<!-- ReplyMapper id = "createReplyBoardChild" -->
+<insert id="createBoardReplyChild" parameterType="board.mybatis.mvc.dto.reply.board.ReplyBoardCreateDTO"
+useGeneratedKeys="true" keyProperty="rno">
+        INSERT INTO 
+        tbl_reply_board
+        (gno, bno, reply, replyer)
+        VALUES
+        (#{gno}, #{bno}, #{reply}, #{replyer})
+        <!-- last insert id 확인 -->
+        <selectKey resultType="long" keyProperty="rno" order="AFTER">
+                SELECT LAST_INSERT_ID()
+        </selectKey>
+</insert>
+
+
+<!-- ReplyMapper id = "updateBoardReplyGno" -->
+<update id="updateBoardReplyGno" parameterType="long">
+        UPDATE 
+        tbl_reply_board
+        SET gno = #{gno}
+        WHERE rno = #{rno}
+</update>
+
+
+<!-- ReplyMapper id = "updateBoardReply" -->
+<update id="updateBoardReply" parameterType="board.mybatis.mvc.dto.reply.board.ReplyBoardUpdateDTO">
+        UPDATE 
+        tbl_reply_board
+        SET reply = #{reply}, replyer = #{replyer}, updateDate = NOW()
+        WHERE rno = #{rno} AND isDeleted = 0
+</update>
+
+
+<!-- ReplyMapper id = "deleteBoardReply" -->
+<update id="deleteBoardReply" parameterType="long">
+        UPDATE 
+        tbl_reply_board
+        SET reply = '삭제된 댓글입니다.', replyer = '삭제된 게시자 입니다.', isDeleted = 1
+        WHERE rno = #{rno} AND isDeleted = 0
+</update>
+
+
+<!-- ReplyMapper id = "readBoardReply" -->
+<select id="readBoardReply" parameterType="long">
+        SELECT 
+        bno,
+        gno,
+        rno,
+        reply,
+        replyer,
+        createDate,
+        updateDate
+        FROM 
+        tbl_reply_board
+        WHERE rno = #{rno}
+</select>
+
+
+<!-- ReplyMapper id = "listBoardReply" -->
+<select id="listBoardReply" parameterType="board.mybatis.mvc.dto.reply.board.ReplyBoardListDTO" resultType="board.mybatis.mvc.dto.reply.board.ReplyBoardListDTO">
+        SELECT IF(rno = gno, 0,1) 
+        AS STEP,
+        bno,
+        rno,
+        gno,
+        reply,
+        replyer,
+        createDate,
+        updateDate
+        FROM tbl_reply_board
+        WHERE bno = #{bno} 
+        AND isDeleted = 0
+        ORDER BY
+        gno ASC,
+        rno ASC 
+        LIMIT #{pr.skip}, #{pr.size}
+</select>
+
+
+<!-- ReplyMapper id = "totalBoardReply" -->
+<select id="totalBoardReply" parameterType="long" resultType="int">
+        SELECT
+        COUNT(*)
+        FROM 
+        (
+        SELECT * FROM 
+        tbl_reply_board
+        WHERE bno = #{bno}
+        LIMIT #{countEnd}
+        ) tbl_reply_board
+</select>
+
+
+ <!-- ReplyMapper id = "incrementBoardReplyCount" -->
+<update id="incrementBoardReplyCount" parameterType="long">
+        UPDATE 
+        tbl_board 
+        SET 
+        replyCount = replyCount + 1 
+        WHERE bno = #{bno}
+</update>
+
+
+<!-- ReplyMapper id = "decrementBoardReplyCount" -->
+<update id="decrementBoardReplyCount" parameterType="long">
+        UPDATE 
+        tbl_board 
+        SET 
+        replyCount = 
+        CASE 
+        WHEN replyCount > 0 
+        THEN replyCount - 1 
+        ELSE 0 
+        END 
+        WHERE bno = #{bno}
+</update>
+
+
+<!-- ReplyMapper id = "findBoardBno" -->
+<select id="findBoardBno" parameterType="long">
+        SELECT 
+        COUNT(*)
+        FROM 
+        tbl_board 
+        WHERE bno = #{bno}
+</select>
+
+
+<!-- ReplyMapper id = "findBoardRno" -->
+<select id="findBoardRno" parameterType="long">
+        SELECT 
+        COUNT(*)
+        FROM 
+        tbl_reply_board
+        WHERE 
+        rno = #{rno}
+</select>
+
+
+<!-- ReplyMapper id = "createNoticeReply" -->
+<insert id="createNoticeReply" parameterType="board.mybatis.mvc.dto.reply.notice.ReplyNoticeCreateDTO">
+        INSERT INTO 
+        tbl_reply_notice 
+        (nno, reply, replyer)
+        VALUES
+        (#{nno}, #{reply}, #{replyer})
+        <!-- last insert id 확인 -->
+        <selectKey resultType="long" keyProperty="rno" order="AFTER">
+                SELECT LAST_INSERT_ID()
+        </selectKey>
+</insert>
+
+
+<!-- ReplyMapper id = "createNoticeReplyChild" -->
+<insert id="createNoticeReplyChild" parameterType="board.mybatis.mvc.dto.reply.notice.ReplyNoticeCreateDTO">
+        INSERT INTO 
+        tbl_reply_notice
+        (gno, nno, reply, replyer)
+        VALUES
+        (#{gno}, #{nno}, #{reply}, #{replyer})
+        <!-- last insert id 확인 -->
+        <selectKey resultType="long" keyProperty="rno" order="AFTER">
+                SELECT LAST_INSERT_ID()
+        </selectKey>
+</insert>
+
+
+<!-- ReplyMapper id = "updateNoticeReplyGno" -->
+<update id="updateNoticeReplyGno" parameterType="long">
+        UPDATE 
+        tbl_reply_notice
+        SET gno = #{gno}
+        WHERE rno = #{rno}
+</update>
+
+
+<!-- ReplyMapper id = "updateNoticeReply"  -->
+<update id="updateNoticeReply" parameterType="board.mybatis.mvc.dto.reply.notice.ReplyNoticeUpdateDTO">
+        UPDATE 
+        tbl_reply_notice
+        SET reply = #{reply}, replyer = #{replyer}, updateDate = NOW()
+        WHERE rno = #{rno} AND isDeleted = 0
+</update>
+
+
+<!-- ReplyMapper id = "deleteNoticeReply" -->
+<update id="deleteNoticeReply" parameterType="long">
+        UPDATE 
+        tbl_reply_notice
+        SET reply = '삭제된 댓글입니다.', replyer = '삭제된 게시자 입니다.', isDeleted = 1
+        WHERE rno = #{rno} AND isDeleted = 0
+</update>
+
+
+<!-- ReplyMapper id = "readNoticeReply" -->
+<select id="readNoticeReply" parameterType="long">
+        SELECT 
+        rno,
+        gno,
+        rno,
+        reply,
+        replyer,
+        createDate,
+        updateDate
+        FROM
+        tbl_reply_notice
+        WHERE rno = #{rno}
+</select>
+
+
+<!-- ReplyMapper id = "listNoticeReply" -->
+<select id="listNoticeReply" parameterType="board.mybatis.mvc.dto.reply.notice.ReplyNoticeListDTO" resultType="board.mybatis.mvc.dto.reply.notice.ReplyNoticeListDTO">
+        SELECT IF(rno = gno, 0,1) 
+        AS STEP,
+        nno,
+        rno,
+        gno,
+        reply,
+        replyer,
+        createDate,
+        updateDate
+        FROM 
+        tbl_reply_notice
+        WHERE nno = #{nno}
+        ORDER BY
+        gno ASC,
+        rno ASC 
+        LIMIT #{pr.skip}, #{pr.size}
+</select>
+
+
+<!-- ReplyMapper id = "totalNoticeReply" -->
+<select id="totalNoticeReply" parameterType="long" resultType="int">
+        SELECT
+        COUNT(*)
+        FROM 
+        (
+        SELECT * FROM 
+        tbl_reply_notice
+        WHERE nno = #{nno}
+        LIMIT #{countEnd}
+        ) tbl_reply_notice
+</select>
+
+
+<!-- ReplyMapper id = "incrementNoticeReplyCount" -->
+<update id="incrementNoticeReplyCount" parameterType="long">
+        UPDATE 
+        tbl_notice 
+        SET 
+        replyCount = replyCount + 1 
+        WHERE nno = #{nno}
+</update>
+
+
+<!-- ReplyMapper id = "decrementNoticeReplyCount" -->
+<update id="decrementNoticeReplyCount" parameterType="long">
+        UPDATE 
+        tbl_notice 
+        SET 
+        replyCount = 
+        CASE 
+        WHEN replyCount > 0 
+        THEN replyCount - 1 
+        ELSE 0 
+        END 
+        WHERE nno = #{nno}
+</update>
+
+
+<!-- ReplyMapper id = "findNoticeNno" -->
+<select id="findNoticeNno" parameterType="long">
+        SELECT 
+        COUNT(*)
+        FROM 
+        tbl_notice 
+        WHERE nno = #{nno}
+</select>
+
+
+<!-- ReplyMapper id = "findNoticeRno" -->
+<select id="findNoticeRno" parameterType="long">
+        SELECT 
+        COUNT(*)
+        FROM 
+        tbl_reply_notice
+        WHERE 
+        rno = #{rno}
+</select>
+
+
+ </mapper>
