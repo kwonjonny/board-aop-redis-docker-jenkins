@@ -57,13 +57,13 @@ public class ReplyServiceImpl implements ReplyService {
         validateBoardNumber(replyBoardCreateDTO.getBno()); // Check Board Number
         if (replyBoardCreateDTO.getGno() == null || replyBoardCreateDTO.getGno() == 0) {
             Long createBoardReply = replyMapper.createBoardReply(replyBoardCreateDTO);
-            log.info("댓글 생성");
+
             validateBoardReplyNumber(replyBoardCreateDTO.getRno()); // Check Board Reply Number
             replyMapper.updateBoardReplyGno(replyBoardCreateDTO.getRno(), replyBoardCreateDTO.getRno());
             return replyMapper.incrementBoardReplyCount(replyBoardCreateDTO.getBno());
         } else {
             Long createBoardReplyChild = replyMapper.createBoardReplyChild(replyBoardCreateDTO);
-            log.info("대댓글 생성");
+
             validateBoardReplyNumber(replyBoardCreateDTO.getRno()); // Check Board Reply Number 
             return replyMapper.incrementBoardReplyCount(replyBoardCreateDTO.getBno());
         }

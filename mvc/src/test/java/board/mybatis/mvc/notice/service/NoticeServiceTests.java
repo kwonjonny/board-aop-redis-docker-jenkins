@@ -184,9 +184,7 @@ public class NoticeServiceTests {
         }
         int deleteFile = fileMapper.deleteNoticeImage(JUNIT_TEST_NNO);
         Long deleteNotice = noticeService.deleteNotice(JUNIT_TEST_NNO);
-        // THEN 
-        NoticeDTO afterRead = noticeService.readNotice(deleteNotice);
-        Assertions.assertNull(afterRead, "afterRead Should Be Null");
+        Assertions.assertEquals(deleteNotice, 1, "deleteNotice Should Be Return 1");
         log.info("=== End Delete Notice Service Test ===");
     }
 

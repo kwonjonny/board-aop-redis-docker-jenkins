@@ -21,7 +21,7 @@ import lombok.extern.log4j.Log4j2;
 // Like Controller Class
 @Log4j2
 @RestController
-@RequestMapping("/reply/")
+@RequestMapping("/like/")
 public class LikeController {
 
     // 의존성 주입

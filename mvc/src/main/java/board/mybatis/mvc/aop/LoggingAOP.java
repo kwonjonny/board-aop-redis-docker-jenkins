@@ -22,7 +22,7 @@ public class LoggingAOP {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    // 포인트컷 설정 - board.file.service 패키지의 모든 메소드를 대상으로 함.
+    // 포인트컷 설정 - board.myabatis.mvc.service 패키지의 모든 메소드를 대상으로 함.
     @Pointcut("execution(* board.mybatis.mvc.service..*.*(..))")
     public void applicationPackagePointcut() {
     }
@@ -67,7 +67,6 @@ public class LoggingAOP {
         String uri = request.getRequestURI();
         String headers = getHeadersAsString(request);
         String parameters = request.getQueryString() != null ? request.getQueryString() : "No parameters";
-
         // 포맷에 맞게 로그 메시지 생성.
         return String.format(
                 "\n Request Details:\n Remote IP: %s\n Headers: %s\n Method: %s\n URI: %s\n Parameters: %s",
@@ -78,13 +77,11 @@ public class LoggingAOP {
     private String getHeadersAsString(HttpServletRequest request) {
         StringBuilder headers = new StringBuilder();
         Enumeration<String> headerNames = request.getHeaderNames();
-
         // 모든 헤더 정보를 가져와 문자열로 변환.
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
             headers.append(headerName).append(": ").append(request.getHeader(headerName)).append("\n");
         }
-
         return headers.toString();
     }
 
@@ -92,12 +89,10 @@ public class LoggingAOP {
     private String buildArgumentList(JoinPoint joinPoint) {
         StringBuilder argumentList = new StringBuilder();
         Object[] args = joinPoint.getArgs();
-
         // 메소드의 모든 인자값을 가져와 문자열로 변환.
         for (Object arg : args) {
             argumentList.append(arg.toString()).append("\n");
         }
-
         return argumentList.toString();
     }
 }

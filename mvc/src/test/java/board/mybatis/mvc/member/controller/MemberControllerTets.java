@@ -173,7 +173,7 @@ public class MemberControllerTets {
                 .memberName(JUNIT_TEST_MEMBER_NAME)
                 .memberPw(JUNIT_TEST_MEMBER_NAME)
                 .build();
-        // 테세트 중에 호출 될 때 mock MemberService 설정
+        // 테스트 중에 호출 될 때 mock MemberService 설정
         given(memberService.joinMember(memberCreateDTO)).willReturn(JUNIT_CONTROLLER_RETURN_NUMBER);
         // WHEN & THEN
         mockMvc.perform(post("/member/create")

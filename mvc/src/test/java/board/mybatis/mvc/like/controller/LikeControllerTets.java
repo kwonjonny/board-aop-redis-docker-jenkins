@@ -83,7 +83,7 @@ public class LikeControllerTets {
         when(likeService.countLikeNotice(JUNIT_TEST_NNO)).thenReturn(JUNIT_TEST_RETURN_COUNT);
         // Request
         MockHttpServletResponse response = mockMvc.perform(
-                post("/reply/toggle/notice/" + JUNIT_TEST_NNO)
+                post("/like/toggle/notice/" + JUNIT_TEST_NNO)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse();
@@ -104,7 +104,7 @@ public class LikeControllerTets {
         when(likeService.countLikeNotice(JUNIT_TEST_NNO)).thenReturn(JUNIT_TEST_RETURN_COUNT);
         // Request
         MockHttpServletResponse response = mockMvc.perform(
-                get("/reply/count/notice/" + JUNIT_TEST_NNO)
+                get("/like/count/notice/" + JUNIT_TEST_NNO)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn()
@@ -132,7 +132,7 @@ public class LikeControllerTets {
                 .thenReturn(likeToggleNoticeDTO);
         // Request
         MockHttpServletResponse response = mockMvc.perform(
-                get("/reply/check/notice/" + JUNIT_TEST_NNO))
+                get("/like/check/notice/" + JUNIT_TEST_NNO))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.result")
                         .value(true))
@@ -158,7 +158,7 @@ public class LikeControllerTets {
         when(likeService.countLikeBoard(JUNIT_TEST_BNO)).thenReturn(JUNIT_TEST_RETURN_COUNT);
         // Request
         MockHttpServletResponse response = mockMvc.perform(
-                post("/reply/toggle/board/" + JUNIT_TEST_BNO)
+                post("/like/toggle/board/" + JUNIT_TEST_BNO)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse();
@@ -179,7 +179,7 @@ public class LikeControllerTets {
         when(likeService.countLikeBoard(JUNIT_TEST_BNO)).thenReturn(JUNIT_TEST_RETURN_COUNT);
         // Request
         MockHttpServletResponse response = mockMvc.perform(
-                get("/reply/count/board/" + JUNIT_TEST_BNO)
+                get("/like/count/board/" + JUNIT_TEST_BNO)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse();
@@ -206,7 +206,7 @@ public class LikeControllerTets {
                 .thenReturn(likeToggleBoardDTO);
         // Request
         MockHttpServletResponse response = mockMvc.perform(
-                get("/reply/check/board/" + JUNIT_TEST_BNO)
+                get("/like/check/board/" + JUNIT_TEST_BNO)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.result")
