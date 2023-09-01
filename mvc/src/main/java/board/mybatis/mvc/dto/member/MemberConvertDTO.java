@@ -37,5 +37,5 @@ public class MemberConvertDTO {
     private LocalDate createDate;
 
     @NotNull(message = "rolename Should Be Not Null")
-    private List<String> rolename;
+    private List<String> rolenames;
 }

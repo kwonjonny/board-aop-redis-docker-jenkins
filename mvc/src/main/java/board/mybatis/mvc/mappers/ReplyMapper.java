@@ -80,6 +80,11 @@ public interface ReplyMapper {
     Long findBoardBno(Long bno);
 
     /*
+     * 게시판 댓글 수 카운트 
+     */
+    Long countBoardReply(Long bno);
+
+    /*
      * 공지사항 댓글 생성
      */
     Long createNoticeReply(ReplyNoticeCreateDTO replyNoticeCreateDTO);
@@ -138,4 +143,9 @@ public interface ReplyMapper {
      * 게시판 번호 검증
      */
     Long findNoticeNno(Long nno);
+
+    /*
+     * 공지사항 댓글 수 카운트 
+     */
+    Long countNoticeReply(Long nno);
 }

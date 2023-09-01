@@ -138,7 +138,7 @@ public class LikeServiceImpl implements LikeService {
      */
     @Transactional(readOnly = true)
     private void validateBoardNumber(Long bno) {
-        log.info("Is Running Check Board Number ServiceImpl");
+        log.info("Is Validate Board Number ServiceImpl");
         if (likeMapper.findBoardNumber(bno) == null || likeMapper.findBoardNumber(bno) == 0) {
             throw new BoardNumberNotFoundException("해당하는 게시물 번호가 없습니다.");
         }
@@ -150,7 +150,7 @@ public class LikeServiceImpl implements LikeService {
      */
     @Transactional(readOnly = true)
     private void validateNoticeNumber(Long nno) {
-        log.info("Is RUnning Check Notice Number ServiceImpl");
+        log.info("Is Validate Notice Number ServiceImpl");
         if (likeMapper.findNoticeNumber(nno) == null || likeMapper.findNoticeNumber(nno) == 0) {
             throw new NoticeNumberNotFoundException("해당하는 공지사항 번호가 없습니다.");
         }
@@ -162,7 +162,7 @@ public class LikeServiceImpl implements LikeService {
      */
     @Transactional(readOnly = true)
     private void validateMemberEmail(String email) {
-        log.info("Is Running Check Member Email ServiceImpl");
+        log.info("Is Running Validate Member Email ServiceImpl");
         if (likeMapper.findMemberEmail(email) == 0 || likeMapper.findMemberEmail(email) == null) {
             throw new MemberNotFoundException("요청하신 이메일은 회원가입 되지 않은 회원입니다.");
         }

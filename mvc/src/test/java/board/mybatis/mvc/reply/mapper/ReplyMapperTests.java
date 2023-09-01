@@ -290,6 +290,25 @@ public class ReplyMapperTests {
                 log.info("=== End Total Notice Reply Mapper Test ===");
         }
 
+        // Count Notice Reply Test
+        @Test
+        @Transactional
+        @DisplayName("Mapper: 공지사항 댓글 수 카운트")
+        public void countNoticeReplyTest() {
+                // GIVEN
+                log.info("=== Start Count Notice Reply Mapper Test ===");
+                // WHEN
+                ReplyNoticeDTO beforeReply = replyMapper.readNoticeReply(JUNIT_TEST_NNO);
+                if (replyMapper.findNoticeNno(JUNIT_TEST_NNO) == null) {
+                        throw new NoticeNumberNotFoundException("해당하는 공지사항의 번호가 없습니다.");
+                }
+                Long count = replyMapper.countNoticeReply(JUNIT_TEST_NNO);
+                // THEN
+                log.info("count: " + count);
+                Assertions.assertNotNull(count, "count Should Be Not Null");
+                log.info("=== End Count Notice Reply Mapper Test ===");
+        }
+
         // Create Board Reply Test
         @Test
         @Transactional
@@ -457,5 +476,24 @@ public class ReplyMapperTests {
                 int total = replyMapper.totalBoardReply(JUNIT_TEST_BNO);
                 log.info("total: " + total);
                 log.info("=== End Total Board Reply Mapper Test ===");
+        }
+
+        // Count Board Reply Test
+        @Test
+        @Transactional
+        @DisplayName("Mapper: 게시판 댓글 수 카운트")
+        public void countBoardReplyTest() {
+                // GIVEN
+                log.info("=== Start Count Board Reply Mapper Test ===");
+                // WHEN
+                ReplyBoardDTO beforeReply = replyMapper.readBoardReply(JUNIT_TEST_BNO);
+                if (replyMapper.findBoardBno(JUNIT_TEST_BNO) == null) {
+                        throw new BoardNumberNotFoundException("해당하는 게시물의 번호가 없습니다.");
+                }
+                Long count = replyMapper.countBoardReply(JUNIT_TEST_BNO);
+                // THEN
+                log.info("count: " + count);
+                Assertions.assertNotNull(count, "count Should Be Not Null");
+                log.info("=== End Count Board Reply Mapper Test ===");
         }
 }

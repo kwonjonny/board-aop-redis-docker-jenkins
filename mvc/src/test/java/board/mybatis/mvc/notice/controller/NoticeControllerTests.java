@@ -116,9 +116,9 @@ public class NoticeControllerTests {
                 .willReturn(true);
         // THEN
         // GET | 요청을 수행 후 응답 검증
-        mockMvc.perform(get("/notice/read/{nno}", JUNIT_TEST_NNO))
+        mockMvc.perform(get("/spring/notice/read/{nno}", JUNIT_TEST_NNO))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/notice/read"))
+                .andExpect(view().name("spring/notice/read"))
                 .andExpect(model().attributeExists("list"));
         log.info("=== End GET Read Notice Controller Test ===");
     }
@@ -142,9 +142,9 @@ public class NoticeControllerTests {
         // 테스트 중 호출될 때 mock NoticeService가 반환될 내용을 지정
         given(noticeService.readNotice(JUNIT_TEST_NNO)).willReturn(list);
 
-        mockMvc.perform(get("/notice/update/{nno}", JUNIT_TEST_NNO))
+        mockMvc.perform(get("/spring/notice/update/{nno}", JUNIT_TEST_NNO))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/notice/update"))
+                .andExpect(view().name("spring/notice/update"))
                 .andExpect(model().attributeExists("list"));
         log.info("=== End GET Update Notice Controller Test ===");
     }
@@ -184,9 +184,9 @@ public class NoticeControllerTests {
         // mock NoticeService 설정
         given(noticeService.listNotice(pageRequestDTO)).willReturn(mockListResponse);
         // WHEN & THEN
-        mockMvc.perform(get("/notice/list"))
+        mockMvc.perform(get("/spring/notice/list"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/notice/list"))
+                .andExpect(view().name("spring/notice/list"))
                 .andExpect(model().attribute("list", instanceOf(PageResponseDTO.class)))
                 .andExpect(model().attribute("list", hasProperty("list", hasSize(2))))
                 .andExpect(model().attribute("list", hasProperty("list", hasItem(
@@ -211,9 +211,9 @@ public class NoticeControllerTests {
         // 테스트 중에 호출될 때 mock NoticeService가 반환할 내용을 지정
         given(noticeService.deleteNotice(JUNIT_TEST_NNO)).willReturn(JUNIT_TEST_NNO);
         // WHEN & THEN
-        mockMvc.perform(post("/notice/delete/" + JUNIT_TEST_NNO))
+        mockMvc.perform(post("/spring/notice/delete/" + JUNIT_TEST_NNO))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/notice/list"))
+                .andExpect(redirectedUrl("/spring/notice/list"))
                 .andExpect(flash().attributeExists("message"));
         log.info("=== End POST Delete Notice Controller Test ===");
     }
@@ -229,18 +229,18 @@ public class NoticeControllerTests {
                 .title(JUNIT_TEST_TITLE)
                 .writer(JUNIT_TEST_WRITER)
                 .content(JUNIT_TEST_CONTENT)
-                .fileNames(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
+                .fileName(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
                 .build();
         // 테스트 중에 호출될 때 mock NoticeService가 반환할 내용을 지정
         given(noticeService.createNotice(any(NoticeCreateDTO.class))).willReturn(JUNIT_TEST_NNO);
         // WHEN & THEN
-        mockMvc.perform(post("/notice/create")
+        mockMvc.perform(post("/spring/notice/create")
                 .param("content", JUNIT_TEST_CONTENT)
                 .param("writer", JUNIT_TEST_WRITER)
                 .param("title", JUNIT_TEST_TITLE)
-                .param("fileNames", uuid + "_" + JUNIT_TEST_FILE_NAME))
+                .param("fileName", uuid + "_" + JUNIT_TEST_FILE_NAME))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/notice/list"))
+                .andExpect(redirectedUrl("/spring/notice/list"))
                 .andExpect(flash().attributeExists("message"));
         log.info("=== End POST Create Notice Controller Test ===");
     }
@@ -258,19 +258,19 @@ public class NoticeControllerTests {
                 .content(JUNIT_TEST_CONTENT)
                 .writer(JUNIT_TEST_WRITER)
                 .updateDate(JUNIT_TEST_NOW)
-                .fileNames(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
+                .fileName(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
                 .build();
         // 테스트 중에 호출될 때 mock NoticeService가 반환할 내용을 지정
         given(noticeService.updateNotice(any(NoticeUpdateDTO.class))).willReturn(JUNIT_TEST_NNO);
         // WHEN & THEN
-        mockMvc.perform(post("/notice/update")
+        mockMvc.perform(post("/spring/notice/update")
                 .param("nno", String.valueOf(JUNIT_TEST_NNO))
                 .param("title", JUNIT_TEST_TITLE)
                 .param("content", JUNIT_TEST_CONTENT)
                 .param("writer", JUNIT_TEST_WRITER)
-                .param("fileNames", uuid + "_" + JUNIT_TEST_FILE_NAME))
+                .param("fileName", uuid + "_" + JUNIT_TEST_FILE_NAME))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/notice/read/" + JUNIT_TEST_NNO))
+                .andExpect(redirectedUrl("/spring/notice/read/" + JUNIT_TEST_NNO))
                 .andExpect(flash().attributeExists("message"));
         log.info("=== End POST Update Notice Controller Test ===");
     }

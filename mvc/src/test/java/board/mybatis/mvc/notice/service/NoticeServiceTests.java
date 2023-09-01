@@ -67,7 +67,7 @@ public class NoticeServiceTests {
                 .title(JUNIT_TEST_TITLE)
                 .content(JUNIT_TEST_CONTENT)
                 .writer(JUNIT_TEST_WRITER)
-                .fileNames(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
+                .fileName(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
                 .build();
 
         noticeUpdateDTO = NoticeUpdateDTO.builder()
@@ -75,7 +75,7 @@ public class NoticeServiceTests {
                 .title(JUNIT_TEST_TITLE)
                 .content(JUNIT_TEST_CONTENT)
                 .writer(JUNIT_TEST_WRITER)
-                .fileNames(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
+                .fileName(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
                 .build();
     }
 
@@ -92,7 +92,7 @@ public class NoticeServiceTests {
                 || noticeCreateDTO.getTitle() == null) {
             throw new DataNotFoundException("공지사항 작성자, 내용, 제목은 필수입니다.");
         }
-        List<String> fileNames = noticeCreateDTO.getFileNames();
+        List<String> fileNames = noticeCreateDTO.getFileName();
         AtomicInteger index = new AtomicInteger(0);
         List<Map<String, String>> list = fileNames.stream().map(str -> {
             Long nno = noticeCreateDTO.getNno();
@@ -149,7 +149,7 @@ public class NoticeServiceTests {
             throw new DataNotFoundException("해당하는 공지사항 번호, 작성자, 내용, 제목 이 없습니다.");
         }
         fileMapper.deleteNoticeImage(JUNIT_TEST_NNO);
-        List<String> fileNames = noticeUpdateDTO.getFileNames();
+        List<String> fileNames = noticeUpdateDTO.getFileName();
         AtomicInteger index = new AtomicInteger(0);
         List<Map<String, String>> list = fileNames.stream().map(str -> {
             Long nno = noticeUpdateDTO.getNno();

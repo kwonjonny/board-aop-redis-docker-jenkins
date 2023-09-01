@@ -320,4 +320,26 @@ public class ReplyServiceTests {
                 Assertions.assertNotNull(list, "list Should Be Not Null");
                 log.info("=== Start List Notice Reply Service Test ===");
         }
+
+        // Count Board Reply Service Test 
+        @Test
+        @Transactional
+        @DisplayName("Service: 게시물 댓글 카운트 테스트")
+        public void countBoardReplyTest() {
+                log.info("=== Start Counct Board Reply Service Test ===");
+                Long count = replyService.countBoardReply(JUNIT_TEST_BNO);
+                Assertions.assertNotNull(count, "count Should Be Not Null");
+                log.info("=== End Count Board Reply Service Test ===");
+        }
+
+        // Count Notice Reply Service Test 
+        @Test
+        @Transactional
+        @DisplayName("Service: 공지사항 댓글 카운트 테스트")
+        public void countNoticeReplyTest() {
+                log.info("=== Start Count Notice Reply Service Test ===");
+                Long count = replyService.countNoticeReply(JUNIT_TEST_NNO);
+                Assertions.assertNotNull(count, "count Should Be Not Null");
+                log.info("=== End Count Notice Reply Service Test ===");
+        }
 }

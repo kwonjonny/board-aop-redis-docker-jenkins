@@ -71,6 +71,14 @@ public class ReplyController {
         return new ResponseEntity<>(Map.of("result", result), HttpStatus.OK);
     }
 
+    // GET | Count Board Reply
+    @GetMapping("board/count/{bno}")
+    public ResponseEntity<Map<String, Object>> countBoardReply(@PathVariable("bno") final Long bno) {
+        log.info("Reply Board Count RestController");
+        Long result = replyService.countBoardReply(bno);
+        return new ResponseEntity<>(Map.of("result", result), HttpStatus.OK);
+    }
+
     // GET | List NoticeReply
     @GetMapping("notice/list/{nno}")
     public ResponseEntity<Map<String, Object>> listNoticeReply(PageRequestDTO pageRequestDTO,
@@ -101,6 +109,14 @@ public class ReplyController {
     public ResponseEntity<Map<String, Object>> deleteNoticeReply(@PathVariable("rno") final Long rno) {
         log.info("Reply Notice Delete RestController");
         Long result = replyService.deleteNoticeReply(rno);
+        return new ResponseEntity<>(Map.of("result", result), HttpStatus.OK);
+    }
+
+    // GET | Count Notice Reply
+    @GetMapping("notice/count/{nno}")
+    public ResponseEntity<Map<String, Object>> countNoticeReply(@PathVariable("nno") final Long nno) {
+        log.info("Reply Notice Count RestsController");
+        Long result = replyService.countNoticeReply(nno);
         return new ResponseEntity<>(Map.of("result", result), HttpStatus.OK);
     }
 }

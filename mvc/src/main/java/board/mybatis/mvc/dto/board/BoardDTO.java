@@ -1,6 +1,7 @@
 package board.mybatis.mvc.dto.board;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
@@ -21,7 +22,6 @@ import lombok.ToString;
 @AllArgsConstructor
 public class BoardDTO {
     // tbl_board
-
     @NotBlank(message = "bno Should Be Not Blank")
     private Long bno;
 
@@ -42,5 +42,10 @@ public class BoardDTO {
 
     private int viewCount;
 
-    private List<String> fileName;
+    private int replyCount;
+
+    private int likeCount;
+
+    @Builder.Default
+    private List<String> fileName = new ArrayList<>();
 }

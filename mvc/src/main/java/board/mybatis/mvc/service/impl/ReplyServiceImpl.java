@@ -33,7 +33,7 @@ public class ReplyServiceImpl implements ReplyService {
     private final ReplyMapper replyMapper;
 
     /*
-     * Autowired 명시적 표시 
+     * Autowired 명시적 표시
      */
     @Autowired
     public ReplyServiceImpl(ReplyMapper replyMapper) {
@@ -42,9 +42,9 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     /*
-     * 게시판 댓글 생성 서비스 
-     * Gno == null || Gno == 0 이면 댓글 생성 아닐 시 대댓글 생성 
-     * 후 댓글 수 증가 
+     * 게시글 댓글 생성 서비스
+     * Gno == null || Gno == 0 이면 댓글 생성 아닐 시 대댓글 생성
+     * 후 댓글 수 증가
      */
     @Override
     @Transactional
@@ -64,14 +64,14 @@ public class ReplyServiceImpl implements ReplyService {
         } else {
             Long createBoardReplyChild = replyMapper.createBoardReplyChild(replyBoardCreateDTO);
 
-            validateBoardReplyNumber(replyBoardCreateDTO.getRno()); // Check Board Reply Number 
+            validateBoardReplyNumber(replyBoardCreateDTO.getRno()); // Check Board Reply Number
             return replyMapper.incrementBoardReplyCount(replyBoardCreateDTO.getBno());
         }
     }
 
     /*
-     * 게시판 댓글 삭제 서비스
-     * 및 댓글 수 감소 
+     * 게시글 댓글 삭제 서비스
+     * 및 댓글 수 감소
      */
     @Override
     @Transactional
@@ -84,7 +84,7 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     /*
-     * 게시판 댓글 업데이트 서비스
+     * 게시글 댓글 업데이트 서비스
      */
     @Override
     @Transactional
@@ -98,8 +98,8 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     /*
-     * 게시판 댓글 조회 서비스
-     * 트랜잭션 readOnly 
+     * 게시글 댓글 조회 서비스
+     * 트랜잭션 readOnly
      */
     @Override
     @Transactional(readOnly = true)
@@ -110,8 +110,8 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     /*
-     * 게시판 댓글 리스트 서비스
-     * 트랜잭션 readOnly 
+     * 게시글 댓글 리스트 서비스
+     * 트랜잭션 readOnly
      */
     @Override
     @Transactional(readOnly = true)
@@ -140,9 +140,21 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     /*
-     * 공지사항 댓글 생성 서비스 
-     * Gno == null || Gno == 0 이면 댓글 생성 아닐 시 대댓글 생성 
-     * 후 댓글 수 증가 
+     * 게시글 댓글 수 카운트 서비스
+     * 트랜잭션 readOnly
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Long countBoardReply(Long bno) {
+        log.info("Is Running Count Board Reply ServiceImpl");
+        validateBoardNumber(bno); // Check Board Number
+        return replyMapper.countBoardReply(bno);
+    }
+
+    /*
+     * 공지사항 댓글 생성 서비스
+     * Gno == null || Gno == 0 이면 댓글 생성 아닐 시 대댓글 생성
+     * 후 댓글 수 증가
      */
     @Override
     @Transactional
@@ -169,7 +181,7 @@ public class ReplyServiceImpl implements ReplyService {
 
     /*
      * 공지사항 댓글 삭제 서비스
-     * 및 댓글 수 감소 
+     * 및 댓글 수 감소
      */
     @Override
     @Transactional
@@ -209,7 +221,7 @@ public class ReplyServiceImpl implements ReplyService {
 
     /*
      * 공지사항 댓글 리스트 서비스
-     * 트랜잭션 readOnly 
+     * 트랜잭션 readOnly
      */
     @Override
     @Transactional(readOnly = true)
@@ -240,44 +252,60 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     /*
-     * 공지사항 번호 검증 서비스 
+     * 공지사항 댓글 수 카운트 서비스
+     * 트랜잭션 readOnly
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Long countNoticeReply(Long nno) {
+        log.info("Is Running Count Notice Reply ServiceImpl");
+        validateNoticeNumber(nno); // Check Notice Number
+        return replyMapper.countNoticeReply(nno);
+    }
+
+    /*
+     * 공지사항 번호 검증 서비스
+     * 트랜잭션 readOnly
      */
     @Transactional(readOnly = true)
     private void validateNoticeNumber(Long nno) {
-        log.info("Is Running Find Notice Number ServiceImpl");
+        log.info("Is Running Validate Notice Number ServiceImpl");
         if (replyMapper.findNoticeNno(nno) == null || replyMapper.findNoticeNno(nno) == 0) {
             throw new NoticeNumberNotFoundException("해당하는 공지사항 번호가 없습니다.");
         }
     }
 
     /*
-     * 게시판 번호 검증 서비스 
+     * 게시판 번호 검증 서비스
+     * 트랜잭션 readOnly
      */
     @Transactional(readOnly = true)
     private void validateBoardNumber(Long bno) {
-        log.info("Is Running Find Board Number ServiceImpl");
+        log.info("Is Running Validate Board Number ServiceImpl");
         if (replyMapper.findBoardBno(bno) == null || replyMapper.findBoardBno(bno) == 0) {
             throw new BoardNumberNotFoundException("해당하는 게시물 번호가 없습니다.");
         }
     }
 
     /*
-     * 공지사항 댓글 번호 검증 서비스 
+     * 공지사항 댓글 번호 검증 서비스
+     * 트랜잭션 readOnly
      */
     @Transactional(readOnly = true)
     private void validateNoticeReplyNumber(Long rno) {
-        log.info("Is Running Find Notice Reply Number ServiceImpl");
+        log.info("Is Running Validate Notice Reply Number ServiceImpl");
         if (replyMapper.findNoticeRno(rno) == null || replyMapper.findNoticeRno(rno) == 0) {
             throw new ReplyNumberNotFoundException("해당하는 공지사항 댓글 번호가 없습니다.");
         }
     }
 
     /*
-     * 게시판 댓글 번호 검증 서비스 
+     * 게시판 댓글 번호 검증 서비스
+     * 트랜잭션 readOnly
      */
     @Transactional(readOnly = true)
     private void validateBoardReplyNumber(Long rno) {
-        log.info("Is Running Find Board Reply Number ServiceImpl");
+        log.info("Is Running Validate Board Reply Number ServiceImpl");
         if (replyMapper.findBoardRno(rno) == null || replyMapper.findBoardRno(rno) == 0) {
             throw new ReplyNumberNotFoundException("해당하는 게시글 댓글 번호가 없습니다.");
         }

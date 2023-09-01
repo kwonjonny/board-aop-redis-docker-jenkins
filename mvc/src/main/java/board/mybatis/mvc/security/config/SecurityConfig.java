@@ -52,7 +52,7 @@ public class SecurityConfig {
 
         // 커스텀 로그인 페이지 경로 지정
         http.formLogin(config -> {
-            config.loginPage("/index");
+            config.loginPage("/spring/index");
             config.successHandler(customOAuthSuccessHandler());
         });
 
@@ -74,16 +74,16 @@ public class SecurityConfig {
 
         // social 로그인 signin페이지에 설정 (카카오)
         http.oauth2Login(config -> {
-            config.loginPage("/index");
+            config.loginPage("/spring/index");
             config.successHandler(customOAuthSuccessHandler());
 
         });
 
         // logout
         http.logout(config -> {
-            config.logoutUrl("/member/logout")
+            config.logoutUrl("/spring/member/logout")
                     .invalidateHttpSession(true)
-                    .logoutSuccessUrl("/index");
+                    .logoutSuccessUrl("/spring/index");
         });
 
         return http.build();

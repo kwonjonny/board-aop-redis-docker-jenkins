@@ -112,9 +112,9 @@ public class BoardControllerTests {
                                 .willReturn(true);
                 // THEN
                 // GET | 요청 수행 후 응답 검증
-                mockMvc.perform(get("/board/read/{bno}", JUNIT_TEST_BNO))
+                mockMvc.perform(get("/spring/board/read/{bno}", JUNIT_TEST_BNO))
                                 .andExpect(status().isOk())
-                                .andExpect(view().name("/board/read"))
+                                .andExpect(view().name("spring/board/read"))
                                 .andExpect(model().attributeExists("list"));
                 log.info("=== End GET Read Board Controller Test ===");
         }
@@ -139,9 +139,9 @@ public class BoardControllerTests {
                 given(boardService.readBoard(JUNIT_TEST_BNO)).willReturn(list);
                 // THEN
                 // GET | 요청 수행 후 응답 검증
-                mockMvc.perform(get("/board/update/{bno}", JUNIT_TEST_BNO))
+                mockMvc.perform(get("/spring/board/update/{bno}", JUNIT_TEST_BNO))
                                 .andExpect(status().isOk())
-                                .andExpect(view().name("/board/update"))
+                                .andExpect(view().name("spring/board/update"))
                                 .andExpect(model().attributeExists("list"));
                 log.info("=== End GET Update Board Controller Test ===");
         }
@@ -179,11 +179,11 @@ public class BoardControllerTests {
                 // 테스트 중에 호출될 때 mock BoardService가 반환할 내용을 지정
                 given(boardService.listBoard(pageRequestDTO)).willReturn(mockListResponse);
                 // WHEN & THEN
-                mockMvc.perform(get("/board/list"))
+                mockMvc.perform(get("/spring/board/list"))
                                 .andExpect(status().isOk())
-                                .andExpect(view().name("/board/list"))
+                                .andExpect(view().name("spring/board/list"))
                                 .andExpect(model().attribute("list", instanceOf(PageResponseDTO.class)))
-                                .andExpect(model().attribute("list", hasProperty("list", hasSize(2))))
+                                .andExpect(model().attribute("list", hasProperty("list", hasSize(12))))
                                 .andExpect(model().attribute("list", hasProperty("list", hasItem(
                                                 allOf(
                                                                 hasProperty("title", is(listGetReady.getTitle())),
@@ -208,9 +208,9 @@ public class BoardControllerTests {
                 // 테스트 중에 호출될 때 mock BoardService가 반환할 내용을 지정
                 given(boardService.deleteBoard(JUNIT_TEST_BNO)).willReturn(JUNIT_TEST_BNO);
                 // WHEN & THEN
-                mockMvc.perform(post("/board/delete/" + JUNIT_TEST_BNO))
+                mockMvc.perform(post("/spring/board/delete/" + JUNIT_TEST_BNO))
                                 .andExpect(status().is3xxRedirection())
-                                .andExpect(redirectedUrl("/board/list"))
+                                .andExpect(redirectedUrl("/spring/board/list"))
                                 .andExpect(flash().attributeExists("message"));
                 log.info("=== End POST Delete Board Controller Test ===");
         }
@@ -226,18 +226,18 @@ public class BoardControllerTests {
                                 .title(JUNIT_TEST_TITLE)
                                 .content(JUNIT_TEST_CONTENT)
                                 .writer(JUNIT_TEST_WRITER)
-                                .fileNames(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
+                                .fileName(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
                                 .build();
                 // 테스트 중에 호출될 때 mock BoardService가 반환할 내용을 지정
                 given(boardService.createBoard(any(BoardCreateDTO.class))).willReturn(JUNIT_TEST_BNO);
                 // WHEN & THEN
-                mockMvc.perform(post("/board/create")
+                mockMvc.perform(post("/spring/board/create")
                                 .param("title", JUNIT_TEST_TITLE)
                                 .param("content", JUNIT_TEST_CONTENT)
                                 .param("writer", JUNIT_TEST_WRITER)
                                 .param("fileNames", uuid + "_" + JUNIT_TEST_FILE_NAME))
                                 .andExpect(status().is3xxRedirection())
-                                .andExpect(redirectedUrl("/board/list"))
+                                .andExpect(redirectedUrl("/spring/board/list"))
                                 .andExpect(flash().attributeExists("message"));
                 log.info("=== End POST Create Board Controller Test ===");
         }
@@ -255,19 +255,19 @@ public class BoardControllerTests {
                                 .content(JUNIT_TEST_CONTENT)
                                 .writer(JUNIT_TEST_WRITER)
                                 .updateDate(JUNIT_TEST_NOW)
-                                .fileNames(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
+                                .fileName(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
                                 .build();
                 // 테스트 중에 호출될 때 mock BoardService 반환할 내용을 지정
                 given(boardService.updateBoard(any(BoardUpdateDTO.class))).willReturn(JUNIT_TEST_BNO);
                 // WHEN & THEN
-                mockMvc.perform(post("/board/update")
+                mockMvc.perform(post("/spring/board/update")
                                 .param("bno", String.valueOf(JUNIT_TEST_BNO))
                                 .param("title", JUNIT_TEST_TITLE)
                                 .param("content", JUNIT_TEST_CONTENT)
                                 .param("writer", JUNIT_TEST_WRITER)
                                 .param("fileNames", uuid + "_" + JUNIT_TEST_FILE_NAME))
                                 .andExpect(status().is3xxRedirection())
-                                .andExpect(redirectedUrl("/board/read/" + JUNIT_TEST_BNO))
+                                .andExpect(redirectedUrl("/spring/board/read/" + JUNIT_TEST_BNO))
                                 .andExpect(flash().attributeExists("message"));
                 log.info("=== End POST Update Board Controller Test ===");
         }

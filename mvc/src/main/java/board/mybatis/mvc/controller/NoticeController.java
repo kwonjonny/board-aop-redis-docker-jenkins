@@ -25,7 +25,7 @@ import lombok.extern.log4j.Log4j2;
 // Notice Controller Class
 @Log4j2
 @Controller
-@RequestMapping("/notice/")
+@RequestMapping("spring/notice/")
 public class NoticeController {
 
     // 의존성주입
@@ -44,7 +44,7 @@ public class NoticeController {
     @GetMapping("create")
     public String getCreateNotice() {
         log.info("GET | Create Notice Controller");
-        return "/notice/create";
+        return "spring/notice/create";
     }
 
     // GET | Read Notice
@@ -58,7 +58,7 @@ public class NoticeController {
         }
         NoticeDTO list = noticeService.readNotice(nno);
         model.addAttribute("list", list);
-        return "/notice/read";
+        return "spring/notice/read";
     }
 
     // GET | Update Notice
@@ -67,7 +67,7 @@ public class NoticeController {
         log.info("GET | Update Notice Controller");
         NoticeDTO list = noticeService.readNotice(nno);
         model.addAttribute("list", list);
-        return "/notice/update";
+        return "spring/notice/update";
     }
 
     // GET | List Notice
@@ -76,7 +76,7 @@ public class NoticeController {
         log.info("GET | List Notice Controller");
         PageResponseDTO<NoticeListDTO> list = noticeService.listNotice(pageRequestDTO);
         model.addAttribute("list", list);
-        return "/notice/list";
+        return "spring/notice/list";
     }
 
     // POST | Create Notice
@@ -85,7 +85,7 @@ public class NoticeController {
         log.info("POST | Create Notice Controller");
         Long createNotice = noticeService.createNotice(noticeCreateDTO);
         redirectAttributes.addFlashAttribute("message", "공지사항 게시글 생성 완료.");
-        return "redirect:/notice/list";
+        return "redirect:/spring/notice/list";
     }
 
     // POST | Update Notice
@@ -94,7 +94,7 @@ public class NoticeController {
         log.info("POST | Update Notice Controller");
         Long updateNotice = noticeService.updateNotice(noticeUpdateDTO);
         redirectAttributes.addFlashAttribute("message", "공지사항 게시글 업데이트 완료");
-        return "redirect:/notice/read/" + noticeUpdateDTO.getNno();
+        return "redirect:/spring/notice/read/" + noticeUpdateDTO.getNno();
     }
 
     // POST | Delete Notice
@@ -103,6 +103,6 @@ public class NoticeController {
         log.info("POST | Delete Notice Controller");
         Long deleteNotice = noticeService.deleteNotice(nno);
         redirectAttributes.addFlashAttribute("message", "공지사항 게시글 삭제 완료.");
-        return "redirect:/notice/list";
+        return "redirect:/spring/notice/list";
     }
 }

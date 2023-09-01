@@ -60,7 +60,7 @@ public class BoardServiceTests {
                 .content(JUNIT_TEST_CONTENT)
                 .title(JUNIT_TEST_TITLE)
                 .writer(JUNIT_TEST_WRITER)
-                .fileNames(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
+                .fileName(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
                 .build();
 
         boardUpdateDTO = BoardUpdateDTO.builder()
@@ -68,7 +68,7 @@ public class BoardServiceTests {
                 .content(JUNIT_TEST_CONTENT)
                 .title(JUNIT_TEST_TITLE)
                 .writer(JUNIT_TEST_WRITER)
-                .fileNames(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
+                .fileName(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
                 .build();
     }
 
@@ -85,7 +85,7 @@ public class BoardServiceTests {
                 || boardCreateDTO.getWriter() == null) {
             throw new DataNotFoundException("작성자, 제목, 내용은 필수 사항입니다.");
         }
-        List<String> fileNames = boardCreateDTO.getFileNames();
+        List<String> fileNames = boardCreateDTO.getFileName();
         AtomicInteger index = new AtomicInteger(0);
         List<Map<String, String>> list = fileNames.stream().map(str -> {
             Long bno = boardCreateDTO.getBno();
@@ -137,7 +137,7 @@ public class BoardServiceTests {
             throw new DataNotFoundException("작성자, 제목 내용은 필수 사항입니다.");
         }
         fileMapper.deleteImage(boardUpdateDTO.getBno());
-        List<String> fileNames = boardCreateDTO.getFileNames();
+        List<String> fileNames = boardCreateDTO.getFileName();
         AtomicInteger index = new AtomicInteger(0);
         List<Map<String, String>> list = fileNames.stream().map(str -> {
             Long bno = boardUpdateDTO.getBno();

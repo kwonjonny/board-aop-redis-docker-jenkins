@@ -40,5 +40,5 @@ public class NoticeUpdateDTO {
     private LocalDate updateDate;
 
     @Builder.Default
-    private List<String> fileNames = new ArrayList<>();
+    private List<String> fileName = new ArrayList<>();
 }

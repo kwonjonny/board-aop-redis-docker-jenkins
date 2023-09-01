@@ -39,5 +39,9 @@ public class NoticeListDTO {
 
     private int viewCount;
 
+    private int replyCount;
+
+    private int likeCount;
+
     private String fileName;
 }

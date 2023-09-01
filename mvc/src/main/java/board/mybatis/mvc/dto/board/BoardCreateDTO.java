@@ -32,5 +32,5 @@ public class BoardCreateDTO {
     private String title;
 
     @Builder.Default
-    private List<String> fileNames = new ArrayList<>();
+    private List<String> fileName = new ArrayList<>();
 }

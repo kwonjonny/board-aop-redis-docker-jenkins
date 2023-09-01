@@ -37,7 +37,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         MemberDTO memberDTO = new MemberDTO(username,
                 readDTO.getMemberPw(),
                 readDTO.getMemberName(),
-                readDTO.getRolename());
+                readDTO.getRolenames());
         return memberDTO;
     }
 }

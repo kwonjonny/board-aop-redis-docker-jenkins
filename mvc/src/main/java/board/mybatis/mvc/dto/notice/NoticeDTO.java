@@ -42,6 +42,10 @@ public class NoticeDTO {
 
     private int viewCount;
 
+    private int replyCount;
+
+    private int likeCount;
+
     @Builder.Default
     private List<String> fileName = new ArrayList<>();
 }

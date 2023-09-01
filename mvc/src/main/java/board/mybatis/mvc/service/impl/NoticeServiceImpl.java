@@ -55,10 +55,10 @@ public class NoticeServiceImpl implements NoticeService {
         }
         Long count = noticeMapper.createNotice(noticeCreateDTO);
         AtomicInteger index = new AtomicInteger(0);
-        List<String> fileNames = noticeCreateDTO.getFileNames();
+        List<String> fileNames = noticeCreateDTO.getFileName();
         Long nno = noticeCreateDTO.getNno();
 
-        if (!noticeCreateDTO.getFileNames().isEmpty() && noticeCreateDTO.getFileNames() != null) {
+        if (!noticeCreateDTO.getFileName().isEmpty() && noticeCreateDTO.getFileName() != null) {
             List<Map<String, String>> list = fileNames.stream().map(str -> {
                 String[] splitData = str.split("_"); // "_" 를 기준으로 분리
                 String uuid = splitData[0];
@@ -98,11 +98,11 @@ public class NoticeServiceImpl implements NoticeService {
 
         Long count = noticeMapper.updateNotice(noticeUpdateDTO);
         AtomicInteger index = new AtomicInteger(0);
-        List<String> fileNames = noticeUpdateDTO.getFileNames();
+        List<String> fileNames = noticeUpdateDTO.getFileName();
         Long nno = noticeUpdateDTO.getNno();
 
         fileMapper.deleteNoticeImage(nno);
-        if (!noticeUpdateDTO.getFileNames().isEmpty() && noticeUpdateDTO.getFileNames() != null) {
+        if (!noticeUpdateDTO.getFileName().isEmpty() && noticeUpdateDTO.getFileName() != null) {
             List<Map<String, String>> list = fileNames.stream().map(str -> {
                 String[] splitData = str.split("_"); // "_" 를 기준으로 분리
                 String uuid = splitData[0];
@@ -166,7 +166,7 @@ public class NoticeServiceImpl implements NoticeService {
      */
     @Transactional(readOnly = true)
     private void validateNoticeNumber(Long nno) {
-        log.info("Is Running Find Notice Number ServiceImpl");
+        log.info("Is Running Validate Notice Number ServiceImpl");
         if (noticeMapper.findNoticeNumber(nno) == null || noticeMapper.findNoticeNumber(nno) == 0) {
             throw new NoticeNumberNotFoundException("해당하는 공지사항 번호가 없습니다.");
         }

@@ -21,23 +21,8 @@ useGeneratedKeys="true" keyProperty="bno">
 
 <resultMap id="FileNameResultMap" type="java.lang.String">
   <id property="fileName" column="fileName"/>
+  <result property="fileName" column="fileName"/>
 </resultMap>
-<!-- BoardMapper id = "readBoard" -->
-<select id="readBoard" parameterType="long">
-        SELECT 
-        tb.bno,
-        tb.content,
-        tb.writer, 
-        tb.title, 
-        tb.createDate,
-        tb.updateDate,
-        tb.viewCount,
-        CONCAT(ti.uuid, '_', ti.fileName) AS fileName
-        FROM
-        tbl_board tb 
-        LEFT OUTER JOIN tbl_board_image ti ON ti.bno = tb.bno
-        WHERE tb.bno = #{bno}
-</select>
 <!-- 여러개의 사진을 가져오기 위한 resultMap using -->
 <resultMap id="BoardResultMap" type="board.mybatis.mvc.dto.board.BoardDTO">
   <id property="bno" column="bno"/>
@@ -47,8 +32,26 @@ useGeneratedKeys="true" keyProperty="bno">
   <result property="createDate" column="createDate"/>
   <result property="updateDate" column="updateDate"/>
   <result property="viewCount" column="viewCount"/>
-  <collection property="fileName" ofType="java.lang.String" resultMap="FileNameResultMap"/>
+  <collection property="fileName" column="fileName" ofType="java.lang.String" resultMap="FileNameResultMap"/>
 </resultMap>
+<!-- BoardMapper id = "readBoard" -->
+<select id="readBoard" parameterType="long" resultMap="BoardResultMap">
+        SELECT 
+        tb.bno,
+        tb.title, 
+        tb.content,
+        tb.writer, 
+        tb.createDate,
+        tb.updateDate,
+        tb.viewCount,
+        tb.replyCount,
+        tb.likeCount,
+        CONCAT(tm.uuid, '_', tm.fileName) AS fileName
+        FROM
+        tbl_board tb 
+        LEFT OUTER JOIN tbl_board_image tm ON tm.bno = tb.bno
+        WHERE tb.bno = #{bno}
+</select>
 
 
 <!-- BoardMapper id = "updateBoard" -->
@@ -73,7 +76,29 @@ useGeneratedKeys="true" keyProperty="bno">
 
 <!-- BoardMapper id = "listboard" -->
 <select id="listBoard" parameterType="board.mybatis.mvc.dto.board.BoardListDTO">
+       (
+        SELECT 
+        n.nno,
+        NULL AS bno,
+        n.title,
+        n.content,
+        n.writer,
+        n.createDate,
+        n.updateDate,
+        n.viewCount,
+        n.replyCount,
+        n.likeCount,
+        CONCAT(ni.uuid, '_', ni.fileName) AS fileName
+        FROM tbl_notice n
+        LEFT OUTER JOIN tbl_notice_image ni ON n.nno = ni.nno
+        AND ni.ord = 0
+        ORDER BY n.nno DESC 
+        LIMIT #{skip} , #{size}
+        )
+        UNION ALL 
+        (
         SELECT
+         NULL AS nno,
         tb.bno,
         tb.title,
         tb.content,
@@ -81,6 +106,8 @@ useGeneratedKeys="true" keyProperty="bno">
         tb.createDate,
         tb.updateDate,
         tb.viewCount,
+        tb.replyCount,
+        tb.likeCount,
         CONCAT(ti.uuid, '_', ti.fileName) AS fileName 
         FROM tbl_board tb
         LEFT OUTER JOIN tbl_board_image ti ON ti.bno = tb.bno
@@ -108,7 +135,8 @@ useGeneratedKeys="true" keyProperty="bno">
                 AND tb.createDate &lt;= #{endDate}
         </if>
         ORDER BY tb.bno DESC 
-        LIMIT #{skip}, #{size}
+        LIMIT #{skip}, #{size} 
+        )
 </select>
 
 
@@ -123,7 +151,9 @@ useGeneratedKeys="true" keyProperty="bno">
         tb.title,
         tb.createDate,
         tb.updateDate,
-        tb.viewCount
+        tb.viewCount,
+        tb.replyCount,
+        tb.likeCount
         FROM
         tbl_board tb
         LEFT OUTER JOIN tbl_board_image ti ON ti.bno = tb.bno

@@ -1,6 +1,7 @@
 package board.mybatis.mvc.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,8 @@ import lombok.extern.log4j.Log4j2;
 // Member Controller Class
 @Log4j2
 @Controller
-@RequestMapping("/member/")
+@RequestMapping("spring/member/")
+@PreAuthorize("permitAll")
 public class MemberController {
 
     // 의존성 주입
@@ -39,7 +41,7 @@ public class MemberController {
     @GetMapping("create")
     public String getCreateMember() {
         log.info("GET | Create Member Controller");
-        return "/member/create";
+        return "spring/member/create";
     }
 
     // GET : Read Member
@@ -48,7 +50,7 @@ public class MemberController {
         log.info("GET | Read Member Controller");
         MemberConvertDTO list = memberService.readMember(email);
         model.addAttribute("list", list);
-        return "/member/read";
+        return "spring/member/read";
     }
 
     // GET : Update Member
@@ -57,7 +59,7 @@ public class MemberController {
         log.info("GET | Update Member Controller");
         MemberConvertDTO list = memberService.readMember(email);
         model.addAttribute("list", list);
-        return "/member/update";
+        return "spring/member/update";
     }
 
     // GET | List Member
@@ -66,7 +68,7 @@ public class MemberController {
         log.info("GET | List Member Controller");
         PageResponseDTO<MemberListDTO> list = memberService.listMember(pageRequestDTO);
         model.addAttribute("list", list);
-        return "/member/list";
+        return "spring/member/list";
     }
 
     // POST | Create Member
@@ -75,7 +77,7 @@ public class MemberController {
         log.info("POST | Create Member Controller");
         Long createMember = memberService.joinMember(memberCreateDTO);
         redirectAttributes.addFlashAttribute("message", "회원 가입 완료.");
-        return "redirect:/member/index";
+        return "redirect:/spring/index";
     }
 
     // POST | Update Member
@@ -84,7 +86,7 @@ public class MemberController {
         log.info("POST | Update Member Controller");
         Long updateMember = memberService.updateMember(memberUpdateDTO);
         redirectAttributes.addFlashAttribute("message", "회원 업데이트 완료.");
-        return "redirect:/member/read/" + memberUpdateDTO.getEmail();
+        return "redirect:/spring/member/read/" + memberUpdateDTO.getEmail();
     }
 
     // POST | Delete Member 
@@ -93,6 +95,6 @@ public class MemberController {
         log.info("POST | Delete Member Controller");
         Long deleteMember = memberService.deleteMember(email);
         redirectAttributes.addFlashAttribute("message", "회원 탈퇴 완료.");
-        return "redirect:/member/index";
+        return "redirect:/spring/index";
     }
 }

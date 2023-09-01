@@ -55,11 +55,11 @@ public class BoardServiceImpl implements BoardService {
         }
         Long count = boardMapper.createBoard(boardCreateDTO);
         AtomicInteger index = new AtomicInteger(0);
-        List<String> fileNames = boardCreateDTO.getFileNames();
+        List<String> fileNames = boardCreateDTO.getFileName();
         Long bno = boardCreateDTO.getBno();
 
-        if (!boardCreateDTO.getFileNames().isEmpty() && boardCreateDTO.getFileNames() != null) {
-            List<Map<String, String>> list = fileNames.stream().map(str -> {
+        if (!boardCreateDTO.getFileName().isEmpty() && boardCreateDTO.getFileName() != null) {
+           List<Map<String, String>> list = fileNames.stream().map(str -> {
                 String[] splitData = str.split("_"); // "_"를 기준으로 문자열을 분리
                 String uuid = splitData[0];
                 String fileName = splitData[1];
@@ -101,11 +101,11 @@ public class BoardServiceImpl implements BoardService {
 
         Long count = boardMapper.updateBoard(boardUpdateDTO);
         AtomicInteger index = new AtomicInteger(0);
-        List<String> fileNames = boardUpdateDTO.getFileNames();
+        List<String> fileNames = boardUpdateDTO.getFileName();
         Long bno = boardUpdateDTO.getBno();
 
         fileMapper.deleteImage(bno);
-        if (!boardUpdateDTO.getFileNames().isEmpty() && boardUpdateDTO.getFileNames() != null) {
+        if (!boardUpdateDTO.getFileName().isEmpty() && boardUpdateDTO.getFileName() != null) {
             List<Map<String, String>> list = fileNames.stream().map(str -> {
                 String[] splitData = str.split("_"); // "_"를 기준으로 문자열을 분리
                 String uuid = splitData[0];
@@ -172,7 +172,7 @@ public class BoardServiceImpl implements BoardService {
      */
     @Transactional(readOnly = true)
     private void validateBoardNumber(Long bno) {
-        log.info("Is Running Find Board Number ServiceImpl");
+        log.info("Is Running Validate Board Number ServiceImpl");
         if (boardMapper.findBoardNumber(bno) == null || boardMapper.findBoardNumber(bno) == 0) {
             throw new BoardNumberNotFoundException("해당하는 게시글이 없습니다.");
         }

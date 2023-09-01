@@ -23,10 +23,22 @@ useGeneratedKeys="true" keyProperty="nno">
   <id property="fileName" column="fileName"/>
 </resultMap>
 <!-- NoticeMapper id = "readNotice" -->
-<select id="readNotice" parameterType="long">
-        SELECT * FROM 
-        tbl_notice
-        WHERE nno = #{nno}
+<select id="readNotice" parameterType="long" resultMap="NoticeResultMap">
+       SELECT 
+       n.nno,
+       n.title,
+       n.writer,
+       n.content,
+       n.createDate,
+       n.updateDate,
+       n.viewCount,
+       n.replyCount,
+       n.likeCount,
+       CONCAT(ni.uuid, '_', ni.fileName) AS fileName 
+       FROM 
+       tbl_notice n
+       LEFT OUTER JOIN tbl_notice_image ni ON ni.nno = n.nno 
+       WHERE n.nno = #{nno}
 </select>
 <!-- 여러개의 사진을 가져오기 위한 resultMap using -->
 <resultMap id="NoticeResultMap" type="board.mybatis.mvc.dto.notice.NoticeDTO">
@@ -37,6 +49,8 @@ useGeneratedKeys="true" keyProperty="nno">
   <result property="createDate" column="createDate"/>
   <result property="updateDate" column="updateDate"/>
   <result property="viewCount" column="viewCount"/>
+  <result property="likeCount" column="likeCount"/>
+  <result property="replyCount" column="replyCount"/>
   <collection property="fileName" ofType="java.lang.String" resultMap="FileNameResultMap"/>
 </resultMap>
 

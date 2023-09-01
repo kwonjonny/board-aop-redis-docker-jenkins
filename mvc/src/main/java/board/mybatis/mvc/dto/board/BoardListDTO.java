@@ -38,7 +38,13 @@ public class BoardListDTO {
     @NotBlank(message = "updateDate Should Be Not Blank")
     private LocalDate updateDate;
 
+    private Long nno;
+
     private int viewCount;
+
+    private int replyCount;
+
+    private int likeCount;
 
     private String fileName;
 }

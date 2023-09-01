@@ -32,5 +32,5 @@ public class NoticeCreateDTO {
     private String content;
 
     @Builder.Default
-    private List<String> fileNames = new ArrayList<>();
+    private List<String> fileName = new ArrayList<>();
 }

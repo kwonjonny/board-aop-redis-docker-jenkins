@@ -1,6 +1,7 @@
 package board.mybatis.mvc.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,8 @@ import lombok.extern.log4j.Log4j2;
 // Board Controller Class
 @Log4j2
 @Controller
-@RequestMapping("/board/")
+@RequestMapping("spring/board/")
+@PreAuthorize("permitAll")
 public class BoardController {
 
     // 의존성 주입
@@ -44,7 +46,7 @@ public class BoardController {
     @GetMapping("create")
     public String getCreateBoard() {
         log.info("GET | Create Board Controller");
-        return "/board/create";
+        return "spring/board/create";
     }
 
     // GET | Read Board
@@ -58,7 +60,7 @@ public class BoardController {
         }
         BoardDTO list = boardService.readBoard(bno);
         model.addAttribute("list", list);
-        return "/board/read";
+        return "spring/board/read";
     }
 
     // GET | Update Board
@@ -67,7 +69,7 @@ public class BoardController {
         log.info("GET | Update Board Controller");
         BoardDTO list = boardService.readBoard(bno);
         model.addAttribute("list", list);
-        return "/board/update";
+        return "spring/board/update";
     }
 
     // GET | List Board
@@ -76,16 +78,17 @@ public class BoardController {
         log.info("GET | List Board Controller");
         PageResponseDTO<BoardListDTO> list = boardService.listBoard(pageRequestDTO);
         model.addAttribute("list", list);
-        return "/board/list";
+        return "spring/board/list";
     }
 
     // POST | Create Board
     @PostMapping("create")
     public String postCreateBoard(@Valid BoardCreateDTO boardCreateDTO, RedirectAttributes redirectAttributes) {
         log.info("POST | Create Board Controller");
+        log.info("boardCreateDTO: " + boardCreateDTO);
         Long createBoard = boardService.createBoard(boardCreateDTO);
         redirectAttributes.addFlashAttribute("message", "게시물 생성 완료.");
-        return "redirect:/board/list";
+        return "redirect:/spring/board/list";
     }
 
     // POST | Update Board
@@ -94,7 +97,7 @@ public class BoardController {
         log.info("POST | Update Board Contoller");
         Long updateBoard = boardService.updateBoard(boardUpdateDTO);
         redirectAttributes.addFlashAttribute("message", "게시물 업데이트 완료.");
-        return "redirect:/board/read/" + boardUpdateDTO.getBno();
+        return "redirect:/spring/board/read/" + boardUpdateDTO.getBno();
     }
 
     // POST | Delete Board
@@ -103,6 +106,6 @@ public class BoardController {
         log.info("POST | Delete Board Controller");
         Long deleteBoard = boardService.deleteBoard(bno);
         redirectAttributes.addFlashAttribute("message", "게시물 삭제 완료.");
-        return "redirect:/board/list";
+        return "redirect:/spring/board/list";
     }
 }

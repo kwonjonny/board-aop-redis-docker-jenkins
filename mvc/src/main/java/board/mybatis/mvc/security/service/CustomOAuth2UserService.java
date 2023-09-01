@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -26,6 +27,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     // 의존성 주입
     private final MemberMapper memberMapper;
+
+    private final PasswordEncoder passwordEncoder;
 
     // Oauth2User LoadByUserRequest
     @Override
@@ -55,7 +58,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             MemberCreateDTO socialMember = MemberCreateDTO.builder()
                     .email(email)
                     .memberName("카카오 사용자")
-                    .memberPw("1111")
+                    .memberPw(passwordEncoder.encode("1111"))
                     .memberPhone("010-1111-1111")
                     .build();
             String memberRole = "USER";
@@ -69,7 +72,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     memberReadDTO.getEmail(),
                     memberReadDTO.getMemberPw(),
                     memberReadDTO.getMemberName(),
-                    memberReadDTO.getRolename());
+                    memberReadDTO.getRolenames());
             return memberDTO;
         }
     }

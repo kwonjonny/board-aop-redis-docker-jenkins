@@ -160,6 +160,17 @@ useGeneratedKeys="true" keyProperty="rno">
 </select>
 
 
+
+<!-- ReplyMapper id = "countBoardReply" -->
+<select id="countBoardReply" parameterType="long">
+        SELECT
+        COUNT(*)
+        FROM 
+        tbl_reply_board
+        WHERE bno = #{bno}
+</select>
+
+
 <!-- ReplyMapper id = "createNoticeReply" -->
 <insert id="createNoticeReply" parameterType="board.mybatis.mvc.dto.reply.notice.ReplyNoticeCreateDTO">
         INSERT INTO 
@@ -309,6 +320,16 @@ useGeneratedKeys="true" keyProperty="rno">
         tbl_reply_notice
         WHERE 
         rno = #{rno}
+</select>
+
+
+<!-- ReplyMapper id = "countNoticeReply" -->
+<select id="countNoticeReply" parameterType="long">
+        SELECT
+        COUNT(*)
+        FROM 
+        tbl_reply_notice
+        WHERE nno = #{nno}
 </select>
 
 

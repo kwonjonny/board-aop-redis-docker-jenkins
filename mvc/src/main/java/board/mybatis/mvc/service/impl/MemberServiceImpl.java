@@ -134,7 +134,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Transactional(readOnly = true)
     private void duplicateMemberEmail(String email) {
-        log.info("Is Running Find Member Email ServiceImpl");
+        log.info("Is Running Duplicate Member Email ServiceImpl");
         if (memberMapper.findMemberEmail(email) == 1) {
             throw new MemberEmailDuplicateException("이미 회원가입이 완료된 이메일입니다");
         }

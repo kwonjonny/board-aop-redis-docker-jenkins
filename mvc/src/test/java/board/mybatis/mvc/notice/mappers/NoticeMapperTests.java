@@ -59,7 +59,7 @@ public class NoticeMapperTests {
                 .title(JUNIT_TEST_TITLE)
                 .content(JUNIT_TEST_CONTENT)
                 .writer(JUNIT_TEST_WRITER)
-                .fileNames(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
+                .fileName(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
                 .build();
 
         noticeUpdateDTO = NoticeUpdateDTO.builder()
@@ -67,7 +67,7 @@ public class NoticeMapperTests {
                 .title(JUNIT_TEST_TITLE)
                 .content(JUNIT_TEST_CONTENT)
                 .writer(JUNIT_TEST_WRITER)
-                .fileNames(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
+                .fileName(Arrays.asList(uuid + "_" + JUNIT_TEST_FILE_NAME))
                 .build();
     }
 
@@ -85,7 +85,7 @@ public class NoticeMapperTests {
                 || noticeCreateDTO.getWriter() == null) {
             throw new DataNotFoundException("공지사항 게시글, 제목, 작성자는 필수입니다.");
         }
-        List<String> fileNames = noticeCreateDTO.getFileNames();
+        List<String> fileNames = noticeCreateDTO.getFileName();
         AtomicInteger index = new AtomicInteger(0);
         List<Map<String, String>> list = fileNames.stream().map(str -> {
             Long nno = noticeCreateDTO.getNno();
@@ -93,7 +93,7 @@ public class NoticeMapperTests {
             String fileName = str.substring(37);
             return Map.of("uuid", uuid, "fileName", fileName, "nno", "" + nno, "ord", "" + index.getAndIncrement());
         }).collect(Collectors.toList());
-
+        
         // THEN
         fileMapper.createNoticeImage(list);
         Assertions.assertEquals(JUNIT_TEST_CONTENT, noticeCreateDTO.getContent());
@@ -141,7 +141,7 @@ public class NoticeMapperTests {
             throw new DataNotFoundException("해당하는 공지사항 번호, 작성자, 게시글 이 없습니다.");
         }
         fileMapper.deleteNoticeImage(JUNIT_TEST_NNO);
-        List<String> fileNames = noticeUpdateDTO.getFileNames();
+        List<String> fileNames = noticeUpdateDTO.getFileName();
         AtomicInteger index = new AtomicInteger(0);
         List<Map<String, String>> list = fileNames.stream().map(str -> {
             Long nno = noticeUpdateDTO.getNno();

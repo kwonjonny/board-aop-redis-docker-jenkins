@@ -14,29 +14,34 @@ import board.mybatis.mvc.util.PageResponseDTO;
 // ReplyService Interface
 public interface ReplyService {
     /*
-     * 게시판 댓글 생성 
+     * 게시글 댓글 생성 
      */
     Long createBoardReply(ReplyBoardCreateDTO replyBoardCreateDTO);
 
     /*
-     * 게시판 댓글 삭제 
+     * 게시글 댓글 삭제 
      */
     Long deleteBoardReply(Long rno);
 
     /*
-     * 게시판 댓글 업데이트 
+     * 게시글 댓글 업데이트 
      */
     Long updateBoardReply(ReplyBoardUpdateDTO replyBoardUpdateDTO);
 
     /*
-     * 게시판 댓글 조회 
+     * 게시글 댓글 조회 
      */
     ReplyBoardDTO readBoardReply(Long rno);
 
     /*
-     * 게시판 댓글 리스트 
+     * 게시글 댓글 리스트 
      */
     PageResponseDTO<ReplyBoardListDTO> listBoardReply(PageRequestDTO pageRequestDTO, Long bno);
+
+    /*
+     * 게시글 댓글 수 카운트
+     */
+    Long countBoardReply(Long bno);
 
     /*
      * 공지사항 댓글 생성 
@@ -62,4 +67,9 @@ public interface ReplyService {
      * 공지사항 댓글 리스트
      */
     PageResponseDTO<ReplyNoticeListDTO> listNoticeReply(PageRequestDTO pageRequestDTO, Long nno);
+
+    /*
+     * 공지사항 댓글 수 카운트 
+     */
+    Long countNoticeReply(Long nno);
 }
