@@ -34,7 +34,7 @@ public class LikeController {
         this.likeService = likeService;
     }
 
-    // Toggle Like Board
+    // POST | Toggle Like Board
     @PostMapping("toggle/board/{bno}")
     public ResponseEntity<Map<String, Object>> toggleLikeBoard(@PathVariable("bno") final Long bno,
             Authentication authentication) {
@@ -46,7 +46,7 @@ public class LikeController {
         return new ResponseEntity<>(Map.of("result", result, "likeCount", likeCount), HttpStatus.OK);
     }
 
-    // Count Like Board
+    // GET | Count Like Board
     @GetMapping("count/board/{bno}")
     public ResponseEntity<Map<String, Object>> countLikeBoard(@PathVariable("bno") final Long bno) {
         log.info("Count Like Board RestController");
@@ -54,7 +54,7 @@ public class LikeController {
         return new ResponseEntity<>(Map.of("result", result), HttpStatus.OK);
     }
 
-    // Check Like Board For Member
+    // GET | Check Like Board For Member
     @GetMapping("check/board/{bno}")
     public ResponseEntity<Map<String, Object>> checkLikeBoardMember(@PathVariable("bno") final Long bno,
             Authentication authentication) {
@@ -65,7 +65,7 @@ public class LikeController {
         return new ResponseEntity<>(Map.of("result", result != null), HttpStatus.OK);
     }
 
-    // Toggle Like Notice
+    // POST | Toggle Like Notice
     @PostMapping("toggle/notice/{nno}")
     public ResponseEntity<Map<String, Object>> toggleLikeNotice(@PathVariable("nno") final Long nno,
             Authentication authentication) {
@@ -77,7 +77,7 @@ public class LikeController {
         return new ResponseEntity<>(Map.of("result", result, "likeCount", likeCount), HttpStatus.OK);
     }
 
-    // Count Like Notice
+    // GET | Count Like Notice
     @GetMapping("count/notice/{nno}")
     public ResponseEntity<Map<String, Object>> countLikeNotice(@PathVariable("nno") final Long nno) {
         log.info("Count Like Notice RestController");
@@ -85,7 +85,7 @@ public class LikeController {
         return new ResponseEntity<>(Map.of("result", result), HttpStatus.OK);
     }
 
-    // Check Like Notice For Member
+    // GET | Check Like Notice For Member
     @GetMapping("check/notice/{nno}")
     public ResponseEntity<Map<String, Object>> checkLikeNoticeMember(@PathVariable("nno") final Long nno,
             Authentication authentication) {
