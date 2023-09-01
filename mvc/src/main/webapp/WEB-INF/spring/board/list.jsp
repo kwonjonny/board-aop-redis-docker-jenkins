@@ -71,7 +71,8 @@
                                             <td>
                                                 <c:choose>
                                                     <c:when test="${isNoticeRow}">
-                                                        <a href="/spring/notice/read/${board.nno}?${pageRequestDTO.link}" style="font-size: large;">공지사항</a>
+                                                        <a href="/spring/notice/read/${board.nno}?${pageRequestDTO.link}"
+                                                            style="font-size: large;">공지사항</a>
                                                     </c:when>
                                                     <c:otherwise>
                                                         <a

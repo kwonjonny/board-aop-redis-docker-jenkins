@@ -63,7 +63,9 @@
                                     <c:forEach items="${list.list}" var="notice" varStatus="status">
                                         <c:set var="isNoticeRow" value="${board.nno != null}" />
                                         <tr class="${isNoticeRow ? 'notice-row' : ''}">
-                                            <td><a href="/spring/notice/read/${notice.nno}?${pageRequestDTO.link}">${notice.nno}</a></td>
+                                            <td><a
+                                                    href="/spring/notice/read/${notice.nno}?${pageRequestDTO.link}">${notice.nno}</a>
+                                            </td>
                                             <td>${notice.title}</td>
                                             <td>
                                                 <span class="badge bg-primary"
