@@ -103,14 +103,14 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script>
-	<sec: authorize access="hasAnyRole('ROLE_ADMIN')">
-// '삭제' 버튼 클릭 시 모달 띄우기
+	<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+	// '삭제' 버튼 클릭 시 모달 띄우기
 		document.querySelector('.btn-delete').addEventListener('click', function (event) {
 			event.preventDefault();
 		// 모달 보이기
 		$('.deleteModal').modal('show');
-});
-	</sec: authorize>
+		});
+	</sec:authorize>
 
 	// '확인' 버튼 클릭 시 폼 제출하기
 	document.querySelector('.btnDeleteModal').addEventListener('click', function () {

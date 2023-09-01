@@ -102,33 +102,33 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<script>
-<sec: authorize access="hasAnyRole('ROLE_ADMIN')">
-// '삭제' 버튼 클릭 시 모달 띄우기
-	document.querySelector('.btn-delete').addEventListener('click', function (event) {
-		event.preventDefault();
-	// 모달 보이기
-	$('.deleteModal').modal('show');
-});
-</sec: authorize>
+	<script>
+	<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+	// '삭제' 버튼 클릭 시 모달 띄우기
+		document.querySelector('.btn-delete').addEventListener('click', function (event) {
+			event.preventDefault();
+		// 모달 보이기
+		$('.deleteModal').modal('show');
+	});
+	</sec:authorize>
 
-// '확인' 버튼 클릭 시 폼 제출하기
-document.querySelector('.btnDeleteModal').addEventListener('click', function () {
-	var nno = document.querySelector('.nno').textContent;
-	var form = document.querySelector('form[action="/spring/notice/delete"]');
-	form.action = '/spring/notice/delete/' + encodeURIComponent(nno);
-	form.submit();
-});
+	// '확인' 버튼 클릭 시 폼 제출하기
+	document.querySelector('.btnDeleteModal').addEventListener('click', function () {
+		var nno = document.querySelector('.nno').textContent;
+		var form = document.querySelector('form[action="/spring/notice/delete"]');
+		form.action = '/spring/notice/delete/' + encodeURIComponent(nno);
+		form.submit();
+	});
 
-const alertModal = new bootstrap.Modal(document.querySelector(".alertModal"))
-let message = "${message}";
-if (message !== "") {
-	alertModal.show();
-}
-setTimeout(function () {
-	alertModal.hide();
-}, 1500);
-</script>
+	const alertModal = new bootstrap.Modal(document.querySelector(".alertModal"))
+	let message = "${message}";
+	if (message !== "") {
+		alertModal.show();
+	}
+	setTimeout(function () {
+		alertModal.hide();
+	}, 1500);
+	</script>
 </body>
 
 </html>
