@@ -2,14 +2,12 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="kr">
-
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FastPickup</title>
+<title>Notice Read Page</title>
 </head>
-
 <body>
 <%@ include file="../include/header.jsp" %>
 <div class="container-fluid">
@@ -39,10 +37,8 @@
 						<dd>
 							<ul class="image_list"
 								style="display: flex; gap: 10px; flex-wrap: wrap;">
-								<c:forEach items="${list.fileName}" var="fileName"
-									varStatus="status">
-									<li><img src="http://localhost/${fileName}" width="500px"
-											height="500px" style="border-radius: 5px;" /></li>
+								<c:forEach items="${list.fileName}" var="fileName" varStatus="status">
+									<li><img src="http://localhost/${fileName}" width="500px" height="500px" style="border-radius: 5px;" /></li>
 								</c:forEach>
 							</ul>
 						</dd>
@@ -130,5 +126,4 @@
 	}, 1500);
 	</script>
 </body>
-
 </html>

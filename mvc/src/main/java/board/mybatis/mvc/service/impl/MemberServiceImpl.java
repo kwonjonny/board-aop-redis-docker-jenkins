@@ -17,10 +17,13 @@ import board.mybatis.mvc.exception.DataNotFoundException;
 import board.mybatis.mvc.exception.InvalidEmailException;
 import board.mybatis.mvc.exception.MemberEmailDuplicateException;
 import board.mybatis.mvc.exception.MemberNotFoundException;
+import board.mybatis.mvc.exception.MemberPhoneIllegalArgumentException;
+import board.mybatis.mvc.exception.PasswordIllegalArgumentException;
 import board.mybatis.mvc.mappers.MemberMapper;
 import board.mybatis.mvc.service.MemberService;
 import board.mybatis.mvc.util.PageRequestDTO;
 import board.mybatis.mvc.util.PageResponseDTO;
+import board.mybatis.mvc.util.validator.MemberValidator;
 import lombok.extern.log4j.Log4j2;
 
 // Member ServiceImpl Class
@@ -33,7 +36,7 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
 
     /*
-     * Autowired 명시적 표시 
+     * Autowired 명시적 표시
      */
     @Autowired
     public MemberServiceImpl(MemberMapper memberMapper, PasswordEncoder passwordEncoder) {
@@ -43,9 +46,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /*
-     * 회원 가입 서비스 
+     * 회원 가입 서비스
      * Spring Security 의 PasswordEncoder
-     * 패스워드 인코딩 
+     * 패스워드 인코딩
      */
     @Override
     @Transactional
@@ -56,7 +59,9 @@ public class MemberServiceImpl implements MemberService {
             throw new DataNotFoundException("이메일, 이름, 전화번호, 패스워드는 필수사항입니다.");
         }
         duplicateMemberEmail(memberCreateDTO.getEmail()); // Member Duplicate Check
-        validationUserEmail(memberCreateDTO.getEmail()); // Member Email Validation Check
+        MemberValidator.validateEmail(memberCreateDTO.getEmail()); // Member Email Validation Check
+        MemberValidator.validatePassword(memberCreateDTO.getMemberPw()); // Member Password Validation Check
+        MemberValidator.validatePhoneNumber(memberCreateDTO.getMemberPhone()); // Member Phone Number Validation Check
         memberCreateDTO.setMemberPw(passwordEncoder.encode(memberCreateDTO.getMemberPw()));
         String memberRole = "USER";
         memberMapper.createJoinMemberRole(memberCreateDTO.getEmail(), memberRole);
@@ -64,7 +69,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /*
-     * 회원 조회 서비스 
+     * 회원 조회 서비스
      * 트랜잭션 readOnly
      */
     @Override
@@ -72,14 +77,14 @@ public class MemberServiceImpl implements MemberService {
     public MemberConvertDTO readMember(String email) {
         log.info("Is Running Read Member ServiceImpl");
         notFoundMember(email); // Member Find Email Check
-        validationUserEmail(email); // Member Email Validation Check
+        MemberValidator.validateEmail(email); // Member Email Validation Check
         return memberMapper.readMember(email);
     }
 
     /*
-     * 회원 업데이트 서비스 
+     * 회원 업데이트 서비스
      * Spring Security 의 PasswordEncoder
-     * 패스워드 인코딩 
+     * 패스워드 인코딩
      */
     @Override
     @Transactional
@@ -90,26 +95,28 @@ public class MemberServiceImpl implements MemberService {
             throw new DataNotFoundException("이메일, 이름, 전화번호, 패스워드는 필수사항입니다.");
         }
         notFoundMember(memberUpdateDTO.getEmail()); // Member Find Email Check
-        validationUserEmail(memberUpdateDTO.getEmail()); // Member Email Validation Check
+        MemberValidator.validateEmail(memberUpdateDTO.getEmail()); // Member Email Validation Check
+        MemberValidator.validatePassword(memberUpdateDTO.getMemberPw()); // Member Pasword Validation Check
+        MemberValidator.validatePhoneNumber(memberUpdateDTO.getMemberPhone()); // Member Phone Number Validation Check
         memberUpdateDTO.setMemberPw(passwordEncoder.encode(memberUpdateDTO.getMemberPw()));
         return memberMapper.updateMember(memberUpdateDTO);
     }
 
     /*
-     * 회원 탈퇴 서비스 
+     * 회원 탈퇴 서비스
      */
     @Override
     @Transactional
     public Long deleteMember(String email) {
         log.info("Is Running Delete Member ServiceImpl");
         notFoundMember(email); // Member Find Email Check
-        validationUserEmail(email); // Member Email Validation Check
+        MemberValidator.validateEmail(email); // Member Email Validation Check
         memberMapper.deleteMemberRole(email);
         return memberMapper.deleteMember(email);
     }
 
     /*
-     * 회원 리스트 서비스 
+     * 회원 리스트 서비스
      * 트랜잭션 readOnly
      */
     @Override
@@ -129,7 +136,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /*
-     * 회원 이메일 중복 체크 
+     * 회원 이메일 중복 체크
      * 트랜잭션 readOnly
      */
     @Transactional(readOnly = true)
@@ -141,28 +148,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /*
-     * 회원 상태 조회 검증 
-     * 트랜잭션 readOnly 
+     * 회원 가입 상태 조회 검증
+     * 트랜잭션 readOnly
      */
     @Transactional(readOnly = true)
     private void notFoundMember(String email) {
         log.info("Is Running Not Found Member Email ServiceImpl");
         if (memberMapper.findMemberEmail(email) == 0 || memberMapper.findMemberEmail(email) == null) {
             throw new MemberNotFoundException("해당하는 이메일의 회원이 없습니다.");
-        }
-    }
-
-    /*
-     * 회원 이메일 형식 검증 
-     * 트랜잭션 readOnly 
-     */
-    @Transactional(readOnly = true)
-    private void validationUserEmail(String email) {
-        log.info("Is Running Validation User Email");
-        Pattern pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
-        Matcher matcher = pattern.matcher(email);
-        if (!matcher.matches()) {
-            throw new InvalidEmailException("이메일 형식이 올바르지않습니다.");
         }
     }
 }

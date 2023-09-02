@@ -30,7 +30,6 @@ public class PageResponseDTO<E> {
         this.page = pageRequestDTO.getPage();
         this.size = pageRequestDTO.getSize();
         this.replyLast = pageRequestDTO.isReplyLast();
-
         // 페이징 계산
         // 시작 페이지 번호 계산
         this.startNum = ((int) (Math.ceil(this.page / 10.0) * 10) - 9);

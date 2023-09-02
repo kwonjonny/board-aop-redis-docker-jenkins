@@ -1,8 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="kr">
-
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,7 +13,6 @@ background-color: #EEEEEE;
 }
 </style>
 </head>
-
 <body>
 <%@ include file="../include/header.jsp" %>
 <div class="col-12">
@@ -28,17 +26,12 @@ background-color: #EEEEEE;
             <div class="input-group mb-3">
                 <select name="type" class="form-select search-condition">
                     <option value="">선택해주세요</option>
-                    <option value="t" ${pageRequestDTO.type=='t' ? 'selected="selected"' : '' }>제목
-                    </option>
-                    <option value="c" ${pageRequestDTO.type=='c' ? 'selected="selected"' : '' }>내용
-                    </option>
-                    <option value="w" ${pageRequestDTO.type=='w' ? 'selected="selected"' : '' }>작성자
-                    </option>
-                    <option value="tcw" ${pageRequestDTO.type=='tcw' ? 'selected="selected"' : '' }>
-                        통합 검색</option>
+                    <option value="t" ${pageRequestDTO.type=='t' ? 'selected="selected"' : '' }>제목</option>
+                    <option value="c" ${pageRequestDTO.type=='c' ? 'selected="selected"' : '' }>내용</option>
+                    <option value="w" ${pageRequestDTO.type=='w' ? 'selected="selected"' : '' }>작성자</option>
+                    <option value="tcw" ${pageRequestDTO.type=='tcw' ? 'selected="selected"' : '' }>통합 검색</option>
                 </select>
-                <input type="text" name="keyword" class="form-control search-input"
-                    placeholder="검색어를 입력 해주세요." value="${pageRequestDTO.keyword}">
+                <input type="text" name="keyword" class="form-control search-input" placeholder="검색어를 입력 해주세요." value="${pageRequestDTO.keyword}">
             </div>
             <div class="input-group input-date-group">
                 <!-- 기간 검색 -->
@@ -82,25 +75,13 @@ background-color: #EEEEEE;
             </td>
             <td>${board.title}</td>
             <td>
-                <span class="badge bg-info"
-                    style="font-size: 1.2rem; padding: 5px 10px;">댓글:
-                    ${board.replyCount}</span>
-                <span class="badge bg-primary"
-                    style="font-size: 1.2rem; padding: 5px 10px;">좋아요:
-                    ${board.likeCount}</span>
-                <span class="badge bg-success"
-                    style="font-size: 1.2rem; padding: 5px 10px;">조회:
-                    ${board.viewCount}</span>
+                <span class="badge bg-info" style="font-size: 1.2rem; padding: 5px 10px;">댓글:${board.replyCount}</span>
+                <span class="badge bg-primary" style="font-size: 1.2rem; padding: 5px 10px;">좋아요:${board.likeCount}</span>
+                <span class="badge bg-success" style="font-size: 1.2rem; padding: 5px 10px;">조회:${board.viewCount}</span>
             </td>
             <td>${board.createDate}</td>
-            <td>
-                <c:if test="${not empty board.fileName}">
-                    <img src="http://localhost/s_${board.fileName}">
-                </c:if>
-                <c:if test="${empty board.fileName}">
-                    <img src="http://localhost/Default.jpg" width="105px"
-                        height="105px" />
-                </c:if>
+            <td><c:if test="${not empty board.fileName}"><img src="http://localhost/s_${board.fileName}"></c:if>
+                <c:if test="${empty board.fileName}"><img src="http://localhost/Default.jpg" width="105px" height="105px"/></c:if>
             </td>
         </tr>
     </c:forEach>
@@ -111,20 +92,17 @@ background-color: #EEEEEE;
 <a href="/spring/board/create" class="btn btn-dark">게시물 생성</a>
 </div>
 </div>
-
 <!-- Paging Start -->
 <div class="btn-toolbar" role="toolbar" style="justify-content: center;">
     <ul class="btn-group me-2 paging" role="group" aria-label="First group">
         <c:if test="${list.prevBtn}">
             <li><a href="${list.startNum - 1}" class="btn btn-group btn-prev">이전</a></li>
         </c:if>
-
         <c:forEach var="i" begin="${list.startNum}" end="${list.endNum}">
             <li class="${list.page == i ? 'active' : ''}">
                 <a href="${i}" class="btn btn-group">${i}</a>
             </li>
         </c:forEach>
-
         <c:if test="${list.nextBtn}">
             <li><a href="${list.endNum + 1}" class="btn btn-group btn-next">다음</a></li>
         </c:if>
@@ -145,7 +123,6 @@ background-color: #EEEEEE;
 <!-- Modal End -->
 </div>
 <%@ include file="../include/footer.jsp" %>
-
 <!-- JavaScript Start -->
 <script>
     const paging = document.querySelector(".paging")
@@ -203,5 +180,4 @@ background-color: #EEEEEE;
     }, 1500);
 </script>
 </body>
-
 </html>

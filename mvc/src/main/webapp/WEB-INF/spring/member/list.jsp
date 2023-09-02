@@ -2,14 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="kr">
-
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FastPickup</title>
+<title>Member List Page</title>
 </head>
-
 <body>
 <%@ include file="../include/header.jsp" %>
 <div class="col-12">
@@ -65,20 +63,17 @@
       <a href="/spring/member/create" class="btn btn-dark">회원 추가</a>
     </div>
   </div>
-
   <!-- Paging Start -->
   <div class="btn-toolbar" role="toolbar" style="justify-content: center;">
     <ul class="btn-group me-2 paging" role="group" aria-label="First group">
       <c:if test="${list.prevBtn}">
         <li><a href="${list.startNum - 1}" class="btn btn-group btn-prev">이전</a></li>
       </c:if>
-
       <c:forEach var="i" begin="${list.startNum}" end="${list.endNum}">
         <li class="${list.page == i ? 'active' : ''}">
           <a href="${i}" class="btn btn-group">${i}</a>
         </li>
       </c:forEach>
-
       <c:if test="${list.nextBtn}">
         <li><a href="${list.endNum + 1}" class="btn btn-group btn-next">다음</a></li>
       </c:if>
@@ -99,7 +94,6 @@
   <!-- Modal End -->
 </div>
 <%@ include file="../include/footer.jsp" %>
-
   <!-- JavaScript Start -->
   <script>
     const paging = document.querySelector(".paging")
@@ -113,20 +107,14 @@
       //이벤트 막기
       e.preventDefault()
       e.stopPropagation()
-
       //target 찾기
       const target = e.target
-      //console.log(target.tagName)
-
       //A태그가 아니면 return
       if (target.tagName !== "A") {
         return
       }
-
       //page번호 설정
       const pageNum = target.getAttribute("href")
-      //console.log(pageNum)
-
       //input에 page변경 넘겨주기
       pageInput.value = pageNum
       //actionForm action 변경
@@ -134,13 +122,11 @@
       //submit
       actionForm.submit()
     })
-
     //검색 버튼
     btnSearch.addEventListener("click", e => {
       //이벤트 막기
       e.preventDefault()
       e.stopPropagation()
-
       //검색타입, 키워드 입력 안되었을 시 return
       if (typeObj.options[typeObj.selectedIndex].value === "") {
         alert("검색 조건을 선택해주세요")
@@ -152,13 +138,10 @@
         keywordObj.focus()
         return
       }
-
       //검색 하고나면 page는 무조건 1페이지
       pageInput.value = 1
-
       actionForm.submit()
     }, false)
-
     const alertModal = new bootstrap.Modal(document.querySelector(".alertModal"))
     let message = "${message}";
     if (message !== "") {
@@ -167,8 +150,6 @@
     setTimeout(function () {
       alertModal.hide();
     }, 1500);
-
   </script>
 </body>
-
 </html>

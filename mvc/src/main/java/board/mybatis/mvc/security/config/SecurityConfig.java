@@ -84,8 +84,7 @@ public class SecurityConfig {
             config.logoutUrl("/spring/member/logout")
                     .invalidateHttpSession(true)
                     .logoutSuccessUrl("/spring/index");
-        });
-
+                });
         return http.build();
     }
 }

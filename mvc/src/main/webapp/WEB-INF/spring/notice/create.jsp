@@ -2,14 +2,12 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="kr">
-
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FastPickup</title>
+<title>Notice Create Page</title>
 </head>
-
 <body>
 <%@ include file="../include/header.jsp" %>
 <h3>공지사항 생성</h3>
@@ -52,7 +50,6 @@
 		const uploadUL = document.querySelector(".uploadUL")
 		const uploadHidden = document.querySelector(".uploadHidden")
 		const btnAdd = document.querySelector(".btnAdd")
-
 		//파일 업로드
 		uploadInput.addEventListener("change", e => {
 			//file 없으면 리턴
@@ -88,8 +85,6 @@
 			uploadHidden.innerHTML += str
 			frm.submit()
 		}, false)
-
 	</script>
 </body>
-
 </html>

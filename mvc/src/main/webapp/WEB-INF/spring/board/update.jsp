@@ -2,14 +2,12 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="kr">
-
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FastPickup</title>
 </head>
-
 <body>
 <%@ include file="../include/header.jsp" %>
 <h3>게시물 정보 수정</h3>
@@ -21,8 +19,7 @@
 	</div>
 	<div class="bg-light rounded h-100 p-4">
 		<label for="writer" class="form-label">작성자</label>
-		<input type="text" name="writer" class="form-control" id="writer" value="${list.writer}"
-			readonly>
+		<input type="text" name="writer" class="form-control" id="writer" value="${list.writer}" readonly>
 	</div>
 	<div class="bg-light rounded h-100 p-4">
 		<label for="title" class="form-label">게시물 제목</label>
@@ -30,18 +27,15 @@
 	</div>
 	<div class="bg-light rounded h-100 p-4">
 		<label for="createDate" class="form-label">게시물 작성 날짜</label>
-		<input type="text" name="createDate" class="form-control" id="createDate"
-			value="${list.createDate}">
+		<input type="text" name="createDate" class="form-control" id="createDate" value="${list.createDate}">
 	</div>
 	<div class="bg-light rounded h-100 p-4">
 		<label for="updateDate" class="form-label">게시물 수정 날짜</label>
-		<input type="text" name="updateDate" class="form-control" id="updateDate"
-			value="${list.updateDate}">
+		<input type="text" name="updateDate" class="form-control" id="updateDate" value="${list.updateDate}">
 	</div>
 	<div class="bg-light rounded h-100 p-4">
 		<label for="content" class="form-label">게시글 내용</label>
-		<textarea id="content" name="content" class="form-control" rows="5"
-			required>${list.content}</textarea>
+		<textarea id="content" name="content" class="form-control" rows="5" required>${list.content}</textarea>
 	</div>
 	<div class="bg-light rounded h-100 p-4">
 		<label for="fileName" class="form-label">이미지</label>
@@ -57,8 +51,7 @@
 					<img src="http://localhost/s_${fileName}" />
 				</a>
 				<p>${fn:substring(product,37,fn:length(product))}</p>
-				<button class="btn btn-danger"
-					onclick="javascript:removeFile(event, '${product}')">X</button>
+				<button class="btn btn-danger" onclick="javascript:removeFile(event, '${product}')">X</button>
 			</li>
 		</c:forEach>
 	</ul>

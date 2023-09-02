@@ -2,14 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="kr">
-
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FastPickup</title>
+<title>Notice List Page</title>
 </head>
-
 <body>
 <%@ include file="../include/header.jsp" %>
 <div class="col-12">
@@ -23,17 +21,12 @@
             <div class="input-group mb-3">
                 <select name="type" class="form-select search-condition">
                     <option value="">선택해주세요</option>
-                    <option value="t" ${pageRequestDTO.type=='t' ? 'selected="selected"' : '' }>제목
-                    </option>
-                    <option value="c" ${pageRequestDTO.type=='c' ? 'selected="selected"' : '' }>내용
-                    </option>
-                    <option value="w" ${pageRequestDTO.type=='w' ? 'selected="selected"' : '' }>작성자
-                    </option>
-                    <option value="tcw" ${pageRequestDTO.type=='tcw' ? 'selected="selected"' : '' }>
-                        통합 검색</option>
+                    <option value="t" ${pageRequestDTO.type=='t' ? 'selected="selected"' : '' }>제목</option>
+                    <option value="c" ${pageRequestDTO.type=='c' ? 'selected="selected"' : '' }>내용</option>
+                    <option value="w" ${pageRequestDTO.type=='w' ? 'selected="selected"' : '' }>작성자</option>
+                    <option value="tcw" ${pageRequestDTO.type=='tcw' ? 'selected="selected"' : '' }>통합 검색</option>
                 </select>
-                <input type="text" name="keyword" class="form-control search-input"
-                    placeholder="검색어를 입력 해주세요." value="${pageRequestDTO.keyword}">
+                <input type="text" name="keyword" class="form-control search-input" placeholder="검색어를 입력 해주세요." value="${pageRequestDTO.keyword}">
             </div>
             <div class="input-group input-date-group">
                 <!-- 기간 검색 -->
@@ -63,30 +56,18 @@
                 <c:forEach items="${list.list}" var="notice" varStatus="status">
                     <c:set var="isNoticeRow" value="${board.nno != null}" />
                     <tr class="${isNoticeRow ? 'notice-row' : ''}">
-                        <td><a
-                                href="/spring/notice/read/${notice.nno}?${pageRequestDTO.link}">${notice.nno}</a>
+                        <td><a href="/spring/notice/read/${notice.nno}?${pageRequestDTO.link}">${notice.nno}</a>
                         </td>
                         <td>${notice.title}</td>
                         <td>
-                            <span class="badge bg-primary"
-                                style="font-size: 1.2rem; padding: 5px 10px;">댓글:
-                                ${notice.replyCount}</span>
-                            <span class="badge bg-success"
-                                style="font-size: 1.2rem; padding: 5px 10px;">좋아요:
-                                ${notice.likeCount}</span>
-                            <span class="badge bg-info"
-                                style="font-size: 1.2rem; padding: 5px 10px;">조회:
-                                ${notice.viewCount}</span>
+                            <span class="badge bg-primary" style="font-size: 1.2rem; padding: 5px 10px;">댓글:${notice.replyCount}</span>
+                            <span class="badge bg-success" style="font-size: 1.2rem; padding: 5px 10px;">좋아요:${notice.likeCount}</span>
+                            <span class="badge bg-info" style="font-size: 1.2rem; padding: 5px 10px;">조회:${notice.viewCount}</span>
                         </td>
                         <td>${notice.createDate}</td>
                         <td>
-                            <c:if test="${not empty notice.fileName}">
-                                <img src="http://localhost/s_${notice.fileName}">
-                            </c:if>
-                            <c:if test="${empty notice.fileName}">
-                                <img src="http://localhost/Default.jpg" width="105px"
-                                    height="105px" />
-                            </c:if>
+                        <c:if test="${not empty notice.fileName}"><img src="http://localhost/s_${notice.fileName}"></c:if>
+                        <c:if test="${empty notice.fileName}"><img src="http://localhost/Default.jpg" width="105px" height="105px"/></c:if>
                         </td>
                     </tr>
                 </c:forEach>
@@ -97,7 +78,6 @@
         <a href="/spring/notice/create" class="btn btn-dark">게시물 생성</a>
     </div>
 </div>
-
 <!-- Paging Start -->
 <div class="btn-toolbar" role="toolbar" style="justify-content: center;">
     <ul class="btn-group me-2 paging" role="group" aria-label="First group">
@@ -131,7 +111,6 @@
 <!-- Modal End -->
 </div>
 <%@ include file="../include/footer.jsp" %>
-
 <!-- JavaScript Start -->
 <script>
     const paging = document.querySelector(".paging")
@@ -189,5 +168,4 @@
     }, 1500);
 </script>
 </body>
-
 </html>
