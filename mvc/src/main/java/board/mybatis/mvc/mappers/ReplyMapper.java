@@ -80,7 +80,7 @@ public interface ReplyMapper {
     Long findBoardBno(Long bno);
 
     /*
-     * 게시판 댓글 수 카운트 
+     * 게시판 댓글 수 카운트
      */
     Long countBoardReply(Long bno);
 
@@ -100,7 +100,7 @@ public interface ReplyMapper {
     Long updateNoticeReplyGno(@Param("gno") Long gno, @Param("rno") Long rno);
 
     /*
-     * 공지사항 댓글 업데이트 
+     * 공지사항 댓글 업데이트
      */
     Long updateNoticeReply(ReplyNoticeUpdateDTO replyNoticeUpdateDTO);
 
@@ -145,7 +145,7 @@ public interface ReplyMapper {
     Long findNoticeNno(Long nno);
 
     /*
-     * 공지사항 댓글 수 카운트 
+     * 공지사항 댓글 수 카운트
      */
     Long countNoticeReply(Long nno);
 }

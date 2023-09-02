@@ -19,13 +19,13 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class CustomOAuthSuccessHandler implements AuthenticationSuccessHandler {
 
-    // Kakao Login Sucess Handler 
+    // Kakao Login Sucess Handler
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
             Authentication authentication) throws IOException, ServletException {
-                log.info("Is Running Success Handler Method");
-                log.info("authentication.getPrincipal" + authentication.getPrincipal());
-                 MemberDTO dto = (MemberDTO) authentication.getPrincipal();
+        log.info("Is Running Success Handler Method");
+        log.info("authentication.getPrincipal" + authentication.getPrincipal());
+        MemberDTO dto = (MemberDTO) authentication.getPrincipal();
         Map<String, Object> claimMap = new HashMap<>();
         claimMap.put("email", dto.getEmail());
 

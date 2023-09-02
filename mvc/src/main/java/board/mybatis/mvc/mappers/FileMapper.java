@@ -9,32 +9,32 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface FileMapper {
     /*
-     * 게시물 이미지 생성 
+     * 게시물 이미지 생성
      */
-    int createImage(List<Map<String,String>> imageList);
-    
+    int createImage(List<Map<String, String>> imageList);
+
     /*
-     * 게시물 이미지 삭제 
+     * 게시물 이미지 삭제
      */
     int deleteImage(Long bno);
 
     /*
-     * 게시물 이미지 업데이트 
+     * 게시물 이미지 업데이트
      */
-    int updateImage(List<Map<String,String>> iamgeList);
+    int updateImage(List<Map<String, String>> iamgeList);
 
     /*
-     * 공지사항 이미지 생성 
+     * 공지사항 이미지 생성
      */
-    int createNoticeImage(List<Map<String,String>> iamgeList);
+    int createNoticeImage(List<Map<String, String>> iamgeList);
 
     /*
-     * 공지사항 이미지 삭제 
+     * 공지사항 이미지 삭제
      */
     int deleteNoticeImage(Long nno);
 
     /*
-     * 공지사항 이미지 업데이트 
+     * 공지사항 이미지 업데이트
      */
-    int updateNoticeImage(List<Map<String,String>> iamgeList);
+    int updateNoticeImage(List<Map<String, String>> iamgeList);
 }

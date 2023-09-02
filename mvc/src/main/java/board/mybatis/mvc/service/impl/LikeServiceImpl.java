@@ -26,7 +26,7 @@ public class LikeServiceImpl implements LikeService {
     private final LikeMapper likeMapper;
 
     /*
-     * Autowired 명시적 표시 
+     * Autowired 명시적 표시
      */
     @Autowired
     public LikeServiceImpl(LikeMapper likeMapper) {
@@ -35,9 +35,9 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /*
-     * 게시물에 대한 좋아요 토글 기능 서비스 
-     * 회원의 좋아요가 있을 시 삭제 및 좋아요 수 감소 
-     * 회원의 좋아요가 없을 시 생성 및 좋아요 수 증가 
+     * 게시물에 대한 좋아요 토글 기능 서비스
+     * 회원의 좋아요가 있을 시 삭제 및 좋아요 수 감소
+     * 회원의 좋아요가 없을 시 생성 및 좋아요 수 증가
      */
     @Override
     @Transactional
@@ -61,7 +61,7 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /*
-     * 게시물에 대한 좋아요 카운트 서비스 
+     * 게시물에 대한 좋아요 카운트 서비스
      * 트랜잭션 readOnly
      */
     @Override
@@ -73,8 +73,8 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /*
-     * 게시물의 회원 좋아요 상태 체크 서비스 
-     * 트랜잭션 readOnly 
+     * 게시물의 회원 좋아요 상태 체크 서비스
+     * 트랜잭션 readOnly
      */
     @Override
     @Transactional(readOnly = true)
@@ -83,10 +83,10 @@ public class LikeServiceImpl implements LikeService {
         return likeMapper.checkToggleLikeBoard(email, bno);
     }
 
-     /*
-     * 공지사항에 대한 좋아요 토글 기능 서비스 
-     * 회원의 좋아요가 있을 시 삭제 및 좋아요 수 감소 
-     * 회원의 좋아요가 없을 시 생성 및 좋아요 수 증가 
+    /*
+     * 공지사항에 대한 좋아요 토글 기능 서비스
+     * 회원의 좋아요가 있을 시 삭제 및 좋아요 수 감소
+     * 회원의 좋아요가 없을 시 생성 및 좋아요 수 증가
      */
     @Override
     @Transactional
@@ -109,8 +109,8 @@ public class LikeServiceImpl implements LikeService {
         }
     }
 
-   /*
-     * 공자사항에 대한 좋아요 카운트 서비스 
+    /*
+     * 공자사항에 대한 좋아요 카운트 서비스
      * 트랜잭션 readOnly
      */
     @Override
@@ -122,8 +122,8 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /*
-     * 공지사항의 회원 좋아요 상태 체크 서비스 
-     * 트랜잭션 readOnly 
+     * 공지사항의 회원 좋아요 상태 체크 서비스
+     * 트랜잭션 readOnly
      */
     @Override
     @Transactional(readOnly = true)
@@ -133,8 +133,8 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /*
-     * 게시물 번호 검증 
-     * 트랜잭션 readOnly 
+     * 게시물 번호 검증
+     * 트랜잭션 readOnly
      */
     @Transactional(readOnly = true)
     private void validateBoardNumber(Long bno) {
@@ -145,7 +145,7 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /*
-     * 공지사항 번호 검증 
+     * 공지사항 번호 검증
      * 트랜잭션 readOnly
      */
     @Transactional(readOnly = true)
@@ -157,7 +157,7 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /*
-     * 회원 이메일 검증 
+     * 회원 이메일 검증
      * 트랜잭션 readOnly
      */
     @Transactional(readOnly = true)
@@ -169,7 +169,7 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /*
-     * 회원 이메일 형식 검증 
+     * 회원 이메일 형식 검증
      * 트랜잭션 readOnly
      */
     @Transactional(readOnly = true)

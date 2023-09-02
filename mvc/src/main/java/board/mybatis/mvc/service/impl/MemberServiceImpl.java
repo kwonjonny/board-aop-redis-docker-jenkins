@@ -160,7 +160,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional(readOnly = true)
     public Long duplicateEmail(String email) {
-      log.info("Is Running Duplicate Email ServiceImpl");
-      return memberMapper.findMemberEmail(email);
+        log.info("Is Running Duplicate Email ServiceImpl");
+        return memberMapper.findMemberEmail(email);
     }
 }

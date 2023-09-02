@@ -22,41 +22,10 @@
 <link href="/css/bootstrap.min.css" rel="stylesheet">
 <!-- Template Stylesheet -->
 <link href="/css/style.css" rel="stylesheet">
-    <style>
-        .error-image {
-            height: 30vh;
-            display: flex; 
-            align-items: center;
-            justify-content: center;
-        }
-
-        .error-image img {
-            max-height: 680px;
-            width: 1500px;
-        }
-        
-        .sigin_content {
-            margin-top: 20px;
-        }
-        .message-content {
-            max-height: 100px;  /* 원하는 최대 높이 설정 */
-            overflow-y: auto;  /* 수직 스크롤 활성화 */
-        }
-    </style>
 </head>
 <body style="background: #fff;">
     <div class="sigin_wrap">
         <div class="col-sm-5 col-xl-5 sigin_content">
-            <!-- <div class="error-image">
-                <c:choose>
-                    <c:when test="${fn:substring(status, 0, 3) eq '400'}">
-                        <img src="/imgs/깃허브404.jpg" alt="404 error" />
-                    </c:when>
-                    <c:when test="${fn:substring(status, 0, 3) eq '500'}">
-                        <img src="/imgs/깃허브505.jpg" alt="505 error" />
-                    </c:when>
-                </c:choose>
-            </div> -->
             <h1><img src="/imgs/login_logo.png" alt="logo" /></h1>
             <div class="bg-body rounded p-4">
                 <div style="text-align: center; font-size: 20px;">

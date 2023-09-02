@@ -32,7 +32,7 @@ public class NoticeServiceImpl implements NoticeService {
     private final FileMapper fileMapper;
 
     /*
-     * Autowired 명시적 표시 
+     * Autowired 명시적 표시
      */
     @Autowired
     public NoticeServiceImpl(NoticeMapper noticeMapper, FileMapper fileMapper) {

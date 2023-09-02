@@ -32,7 +32,7 @@ public class BoardServiceImpl implements BoardService {
     private final FileMapper fileMapper;
 
     /*
-     * Autowired 명시적 표시 
+     * Autowired 명시적 표시
      */
     @Autowired
     public BoardServiceImpl(BoardMapper boardMapper, FileMapper fileMapper) {
@@ -42,8 +42,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
     /*
-     * 게시물 생성 서비스 
-     * 부가기능: 파일 업로드 
+     * 게시물 생성 서비스
+     * 부가기능: 파일 업로드
      */
     @Override
     @Transactional
@@ -59,7 +59,7 @@ public class BoardServiceImpl implements BoardService {
         Long bno = boardCreateDTO.getBno();
 
         if (!boardCreateDTO.getFileName().isEmpty() && boardCreateDTO.getFileName() != null) {
-           List<Map<String, String>> list = fileNames.stream().map(str -> {
+            List<Map<String, String>> list = fileNames.stream().map(str -> {
                 String[] splitData = str.split("_"); // "_"를 기준으로 문자열을 분리
                 String uuid = splitData[0];
                 String fileName = splitData[1];
@@ -71,7 +71,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     /*
-     * 게시물 조회 서비스 
+     * 게시물 조회 서비스
      * 트랜잭션 readOnly
      */
     @Override
@@ -86,8 +86,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
     /*
-     * 게시물 업데이트 서비스 
-     * 부가기능: 파일 업로드 
+     * 게시물 업데이트 서비스
+     * 부가기능: 파일 업로드
      */
     @Override
     @Transactional
@@ -118,7 +118,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     /*
-     * 게시물 삭제 서비스 
+     * 게시물 삭제 서비스
      */
     @Override
     @Transactional
@@ -153,7 +153,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     /*
-     * 게시물 조회수 증가 서비스 
+     * 게시물 조회수 증가 서비스
      */
     @Override
     @Transactional
@@ -167,7 +167,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     /*
-     * 게시물 번호 검증 서비스 
+     * 게시물 번호 검증 서비스
      * 트랜잭션 readOnly
      */
     @Transactional(readOnly = true)

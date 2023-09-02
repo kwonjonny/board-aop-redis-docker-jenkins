@@ -14,42 +14,42 @@ import board.mybatis.mvc.util.PageRequestDTO;
 @Mapper
 public interface NoticeMapper {
     /*
-     * 공지사항 생성 
+     * 공지사항 생성
      */
     Long createNotice(NoticeCreateDTO noticeCreateDTO);
 
-   /*
-    * 공지사항 조회 
-    */
+    /*
+     * 공지사항 조회
+     */
     NoticeDTO readNotice(Long nno);
 
     /*
-     * 공지사항 업데이트 
+     * 공지사항 업데이트
      */
     Long updateNotice(NoticeUpdateDTO noticeUpdateDTO);
 
     /*
-     * 공지사항 삭제 
+     * 공지사항 삭제
      */
     Long deleteNotice(Long nno);
 
     /*
-     * 공지사항 리스트 
+     * 공지사항 리스트
      */
     List<NoticeListDTO> listNotice(PageRequestDTO pageRequestDTO);
 
     /*
-     * 공지사항 총 개수 
+     * 공지사항 총 개수
      */
     int total(PageRequestDTO pageRequestDTO);
 
     /*
-     * 공지사항 번호 검증 
+     * 공지사항 번호 검증
      */
     Long findNoticeNumber(Long nno);
 
     /*
-     * 공지사항 조회수 증가 
+     * 공지사항 조회수 증가
      */
     int countViewNotice(Long nno);
 }
