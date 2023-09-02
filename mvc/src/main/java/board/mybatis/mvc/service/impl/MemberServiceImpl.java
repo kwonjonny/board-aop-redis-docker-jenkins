@@ -1,8 +1,6 @@
 package board.mybatis.mvc.service.impl;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,11 +12,8 @@ import board.mybatis.mvc.dto.member.MemberCreateDTO;
 import board.mybatis.mvc.dto.member.MemberListDTO;
 import board.mybatis.mvc.dto.member.MemberUpdateDTO;
 import board.mybatis.mvc.exception.DataNotFoundException;
-import board.mybatis.mvc.exception.InvalidEmailException;
 import board.mybatis.mvc.exception.MemberEmailDuplicateException;
 import board.mybatis.mvc.exception.MemberNotFoundException;
-import board.mybatis.mvc.exception.MemberPhoneIllegalArgumentException;
-import board.mybatis.mvc.exception.PasswordIllegalArgumentException;
 import board.mybatis.mvc.mappers.MemberMapper;
 import board.mybatis.mvc.service.MemberService;
 import board.mybatis.mvc.util.PageRequestDTO;
@@ -157,5 +152,15 @@ public class MemberServiceImpl implements MemberService {
         if (memberMapper.findMemberEmail(email) == 0 || memberMapper.findMemberEmail(email) == null) {
             throw new MemberNotFoundException("해당하는 이메일의 회원이 없습니다.");
         }
+    }
+
+    /*
+     * 이메일 중복 체크 서비스
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Long duplicateEmail(String email) {
+      log.info("Is Running Duplicate Email ServiceImpl");
+      return memberMapper.findMemberEmail(email);
     }
 }

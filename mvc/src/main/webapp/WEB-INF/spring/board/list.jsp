@@ -52,6 +52,7 @@ background-color: #EEEEEE;
     <tr>
         <th scope="col">게시물 번호</th>
         <th scope="col">게시물 제목</th>
+        <th scope="col">작성자</th>
         <th scope="col">댓글, 좋아요, 조회수</th>
         <th scope="col">게시물 생성 날짜</th>
         <th scope="col">게시물 썸네일 이미지</th>
@@ -74,6 +75,7 @@ background-color: #EEEEEE;
                 </c:choose>
             </td>
             <td>${board.title}</td>
+            <td>${board.writer}</td>
             <td>
                 <span class="badge bg-info" style="font-size: 1.2rem; padding: 5px 10px;">댓글:${board.replyCount}</span>
                 <span class="badge bg-primary" style="font-size: 1.2rem; padding: 5px 10px;">좋아요:${board.likeCount}</span>

@@ -1,6 +1,11 @@
 package board.mybatis.mvc.controller;
 
+import java.util.Map;
+
+import org.eclipse.tags.shaded.org.apache.regexp.RE;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,7 +60,8 @@ public class MemberController {
 
     // GET : Update Member
     @GetMapping("update/{email}")
-    public String geteUpdateMember(@PathVariable("email") final String email, Model model, PageRequestDTO pageRequestDTO) {
+    public String geteUpdateMember(@PathVariable("email") final String email, Model model,
+            PageRequestDTO pageRequestDTO) {
         log.info("GET | Update Member Controller");
         MemberConvertDTO list = memberService.readMember(email);
         model.addAttribute("list", list);
@@ -89,12 +95,21 @@ public class MemberController {
         return "redirect:/spring/member/read/" + memberUpdateDTO.getEmail();
     }
 
-    // POST | Delete Member 
+    // POST | Delete Member
     @PostMapping("delete/{email}")
     public String postDeleteMember(@PathVariable("email") final String email, RedirectAttributes redirectAttributes) {
         log.info("POST | Delete Member Controller");
         Long deleteMember = memberService.deleteMember(email);
         redirectAttributes.addFlashAttribute("message", "회원 탈퇴 완료.");
         return "redirect:/spring/index";
+    }
+
+    // GET | Duplicate Member Email 
+    @GetMapping("duplicate/{email}")
+    public ResponseEntity<Map<String, Object>> checkDuplicateEmail(@PathVariable("email") final String email) {
+        log.info("Checking for duplicate email");
+        Long isDuplicate = memberService.duplicateEmail(email);
+        log.info("isDuplicate"+isDuplicate);
+        return new ResponseEntity<>(Map.of("isDuplicate", isDuplicate), HttpStatus.OK);
     }
 }

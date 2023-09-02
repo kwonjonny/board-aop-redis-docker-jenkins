@@ -2,20 +2,27 @@ package board.mybatis.mvc.exception.advicecontroller;
 
 import java.net.BindException;
 import java.nio.file.AccessDeniedException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.ModelAndView;
 
 import board.mybatis.mvc.controller.BoardController;
+import board.mybatis.mvc.controller.FileUploadController;
+import board.mybatis.mvc.controller.LikeController;
 import board.mybatis.mvc.controller.MemberController;
 import board.mybatis.mvc.controller.NoticeController;
+import board.mybatis.mvc.controller.ReplyController;
 import board.mybatis.mvc.exception.BoardNumberNotFoundException;
 import board.mybatis.mvc.exception.DataNotFoundException;
 import board.mybatis.mvc.exception.InvalidEmailException;
@@ -27,141 +34,149 @@ import board.mybatis.mvc.exception.PasswordIllegalArgumentException;
 import board.mybatis.mvc.exception.ReplyNumberNotFoundException;
 import lombok.extern.log4j.Log4j2;
 
+/*
+ * Controller, RestController 의 담당 Advice Error Controller Class 
+ * Error 발생시
+ * 상태, 메시지, 발생 시점 
+ * error.jsp 에 전달 
+ */
 @Log4j2
 @ControllerAdvice(assignableTypes = { BoardController.class, MemberController.class, NoticeController.class })
+@RestControllerAdvice(assignableTypes = { ReplyController.class, FileUploadController.class, LikeController.class })
 public class AdviceController {
 
   /*
-   * Time : Error 발생 시점
-   * AdviceErrorStatus : Status
-   * AdviceErrorMessage : Message
+   * time : Error 발생 시점
+   * status : 상태
+   * message : 메시지
    */
-  private Map<String, String> generateErrorMap(AdviceErrorEnum errorCode, Exception ex) {
-    Map<String, String> errorMap = new HashMap<>();
-    errorMap.put("time", "" + System.currentTimeMillis());
-    errorMap.put("status", String.valueOf(errorCode.getStatus().value()));
-    errorMap.put("message", errorCode.getMessage(ex));
-    return errorMap;
-  }
-
-  private ResponseEntity<Map<String, String>> generateErrorEntity(AdviceErrorEnum errorCode, Exception ex) {
-    return new ResponseEntity<>(generateErrorMap(errorCode, ex), errorCode.getStatus());
+  private ModelAndView generateErrorModelAndView(AdviceErrorEnum errorCode, Exception ex) {
+    log.error("Exception received: " + ex.toString(), ex);
+    Map<String, Object> model = new HashMap<>();
+    String readableTime = new SimpleDateFormat("yyyy/MM/dd일 HH시:mm분").format(new Date());
+    model.put("time", readableTime);
+    HttpStatus status = errorCode.getStatus();
+    model.put("status", status.value());
+    model.put("message", errorCode.getMessage(ex));
+    ModelAndView modelAndView = new ModelAndView("spring/error", model);
+    modelAndView.setStatus(status);
+    return modelAndView;
   }
 
   @ExceptionHandler(DataNotFoundException.class)
-  public ResponseEntity<Map<String, String>> handleDataNotFoundException(DataNotFoundException ex) {
+  public ModelAndView handleDataNotFoundException(DataNotFoundException ex) {
     log.info("Is Running HandleDataNotFoundException");
-    return generateErrorEntity(AdviceErrorEnum.DATA_NOT_FOUND, ex);
+    return generateErrorModelAndView(AdviceErrorEnum.DATA_NOT_FOUND, ex);
   }
 
   @ExceptionHandler(MemberEmailDuplicateException.class)
-  public ResponseEntity<Map<String, String>> handleMemberEmailDuplicateException(MemberEmailDuplicateException ex) {
+  public ModelAndView handleMemberEmailDuplicateException(MemberEmailDuplicateException ex) {
     log.info("Is Running HandleMemberEmailDuplicateException");
-    return generateErrorEntity(AdviceErrorEnum.MEMBER_EMAIL_DUPLICATE, ex);
+    return generateErrorModelAndView(AdviceErrorEnum.MEMBER_EMAIL_DUPLICATE, ex);
   }
 
   @ExceptionHandler(MemberNotFoundException.class)
-  public ResponseEntity<Map<String, String>> handleMemberNotFoundException(MemberNotFoundException ex) {
+  public ModelAndView handleMemberNotFoundException(MemberNotFoundException ex) {
     log.info("Is Running HandleMemberNotFoundException");
-    return generateErrorEntity(AdviceErrorEnum.MEMBER_NOT_FOUND, ex);
+    return generateErrorModelAndView(AdviceErrorEnum.MEMBER_NOT_FOUND, ex);
   }
 
   @ExceptionHandler(PasswordIllegalArgumentException.class)
-  public ResponseEntity<Map<String, String>> handlePasswordIllegalArgumentException(
+  public ModelAndView handlePasswordIllegalArgumentException(
       PasswordIllegalArgumentException ex) {
     log.info("Is Running HandlePasswordIllegalArgumentException");
-    return generateErrorEntity(AdviceErrorEnum.MEMBER_PASSWORD_ARGUMENT, ex);
+    return generateErrorModelAndView(AdviceErrorEnum.MEMBER_PASSWORD_ARGUMENT, ex);
   }
 
   @ExceptionHandler(MemberPhoneIllegalArgumentException.class)
-  public ResponseEntity<Map<String, String>> handleMemberPhoneIllegalArgumentException(
+  public ModelAndView handleMemberPhoneIllegalArgumentException(
       MemberPhoneIllegalArgumentException ex) {
     log.info("Is Running HandleMemberPhoneIllegalArgumentException");
-    return generateErrorEntity(AdviceErrorEnum.MEMBER_PHONE_ARGUMENT, ex);
+    return generateErrorModelAndView(AdviceErrorEnum.MEMBER_PHONE_ARGUMENT, ex);
   }
 
   @ExceptionHandler(InvalidEmailException.class)
-  public ResponseEntity<Map<String, String>> handleInvalidEmailException(InvalidEmailException ex) {
+  public ModelAndView handleInvalidEmailException(InvalidEmailException ex) {
     log.info("Is Running HandleInvalidEmailException");
-    return generateErrorEntity(AdviceErrorEnum.MEMBER_EMAIL_INVALIDATE, ex);
+    return generateErrorModelAndView(AdviceErrorEnum.MEMBER_EMAIL_INVALIDATE, ex);
   }
 
   @ExceptionHandler(BoardNumberNotFoundException.class)
-  public ResponseEntity<Map<String, String>> handleBoardNumberNotFoundException(BoardNumberNotFoundException ex) {
+  public ModelAndView handleBoardNumberNotFoundException(BoardNumberNotFoundException ex) {
     log.info("Is Running HandleBoardNumberNotFoundException");
-    return generateErrorEntity(AdviceErrorEnum.BOARD_NUMBER_NOT_FOUND, ex);
+    return generateErrorModelAndView(AdviceErrorEnum.BOARD_NUMBER_NOT_FOUND, ex);
   }
 
   @ExceptionHandler(NoticeNumberNotFoundException.class)
-  public ResponseEntity<Map<String, String>> handleNoticeNumberNotFoundException(NoticeNumberNotFoundException ex) {
+  public ModelAndView handleNoticeNumberNotFoundException(NoticeNumberNotFoundException ex) {
     log.info("Is Running HandleNoticeNumberNotFoundException");
-    return generateErrorEntity(AdviceErrorEnum.NOTICE_NUMBER_NOT_FOUND, ex);
+    return generateErrorModelAndView(AdviceErrorEnum.NOTICE_NUMBER_NOT_FOUND, ex);
   }
 
   @ExceptionHandler(ReplyNumberNotFoundException.class)
-  public ResponseEntity<Map<String, String>> handleReplyNumberNotFoundException(ReplyNumberNotFoundException ex) {
+  public ModelAndView handleReplyNumberNotFoundException(ReplyNumberNotFoundException ex) {
     log.info("Is Running HandleReplyNumberNotFoundException");
-    return generateErrorEntity(AdviceErrorEnum.REPLY_NUMBER_NOT_FOUND, ex);
+    return generateErrorModelAndView(AdviceErrorEnum.REPLY_NUMBER_NOT_FOUND, ex);
   }
 
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-  public ResponseEntity<Map<String, String>> handleMethodArgumentTypeMismatchException(
+  public ModelAndView handleMethodArgumentTypeMismatchException(
       MethodArgumentTypeMismatchException ex) {
     log.info("Is Running HandleMethodArgumentTypeMismatchException");
-    return generateErrorEntity(AdviceErrorEnum.METHOD_ARUGMNET_TYPE_MISMATCH, ex);
+    return generateErrorModelAndView(AdviceErrorEnum.METHOD_ARUGMNET_TYPE_MISMATCH, ex);
   }
 
   @ExceptionHandler(BindException.class)
-  public ResponseEntity<Map<String, String>> handleBindException(BindException ex) {
+  public ModelAndView handleBindException(BindException ex) {
     log.info("Is Running HandleBindException");
-    return generateErrorEntity(AdviceErrorEnum.BIND_EXCEPTION, ex);
+    return generateErrorModelAndView(AdviceErrorEnum.BIND_EXCEPTION, ex);
   }
 
   @ExceptionHandler(DataIntegrityViolationException.class)
-  public ResponseEntity<Map<String, String>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+  public ModelAndView handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
     log.info("Is Running HandleDataIntegrityViolationException");
-    return generateErrorEntity(AdviceErrorEnum.DATA_INTEGRITY_VIOLATION, ex);
+    return generateErrorModelAndView(AdviceErrorEnum.DATA_INTEGRITY_VIOLATION, ex);
   }
 
   @ExceptionHandler(NoSuchElementException.class)
-  public ResponseEntity<Map<String, String>> handleNoSuchElementException(NoSuchElementException ex) {
+  public ModelAndView handleNoSuchElementException(NoSuchElementException ex) {
     log.info("Is Running HandleNoSuchElementException");
-    return generateErrorEntity(AdviceErrorEnum.NO_SUCH_ELEMENT, ex);
+    return generateErrorModelAndView(AdviceErrorEnum.NO_SUCH_ELEMENT, ex);
   }
 
   @ExceptionHandler(NullPointerException.class)
-  public ResponseEntity<Map<String, String>> handleNullPointerException(NullPointerException ex) {
+  public ModelAndView handleNullPointerException(NullPointerException ex) {
     log.info("Is Running HandleNullPointerException");
-    return generateErrorEntity(AdviceErrorEnum.NULL_POINTER, ex);
+    return generateErrorModelAndView(AdviceErrorEnum.NULL_POINTER, ex);
   }
 
   @ExceptionHandler(IllegalArgumentException.class)
-  public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException ex) {
+  public ModelAndView handleIllegalArgumentException(IllegalArgumentException ex) {
     log.info("Is Running HandleIllegalArgumentException");
-    return generateErrorEntity(AdviceErrorEnum.ILLEGAL_ARGUMENT, ex);
+    return generateErrorModelAndView(AdviceErrorEnum.ILLEGAL_ARGUMENT, ex);
   }
 
   @ExceptionHandler(ArrayIndexOutOfBoundsException.class)
-  public ResponseEntity<Map<String, String>> handleArrayIndexOutOfBoundsException(ArrayIndexOutOfBoundsException ex) {
+  public ModelAndView handleArrayIndexOutOfBoundsException(ArrayIndexOutOfBoundsException ex) {
     log.info("Is Running HandleArrayIndexOutOfBoundsException");
-    return generateErrorEntity(AdviceErrorEnum.ARRAY_INDEX_OUT_OF_BOUNDS, ex);
+    return generateErrorModelAndView(AdviceErrorEnum.ARRAY_INDEX_OUT_OF_BOUNDS, ex);
   }
 
   @ExceptionHandler(NumberFormatException.class)
-  public ResponseEntity<Map<String, String>> handleNumberFormatException(NumberFormatException ex) {
+  public ModelAndView handleNumberFormatException(NumberFormatException ex) {
     log.info("Is Running HandleNumberFormatException");
-    return generateErrorEntity(AdviceErrorEnum.NUMBER_FORMAT, ex);
+    return generateErrorModelAndView(AdviceErrorEnum.NUMBER_FORMAT, ex);
   }
 
   @ExceptionHandler(HttpMessageNotReadableException.class)
-  public ResponseEntity<Map<String, String>> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+  public ModelAndView handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
     log.info("Is Running HandleHttpMessageNotReadableException");
-    return generateErrorEntity(AdviceErrorEnum.HTTP_MESSAGE_NOT_READABLE, ex);
+    return generateErrorModelAndView(AdviceErrorEnum.HTTP_MESSAGE_NOT_READABLE, ex);
   }
 
   @ExceptionHandler(AccessDeniedException.class)
-  public ResponseEntity<Map<String, String>> handleAccessDeniedException(AccessDeniedException ex) {
+  public ModelAndView handleAccessDeniedException(AccessDeniedException ex) {
     log.info("Is Running HandleAccessDeniedException");
-    return generateErrorEntity(AdviceErrorEnum.ACCESS_DENIED, ex);
+    return generateErrorModelAndView(AdviceErrorEnum.ACCESS_DENIED, ex);
   }
 }

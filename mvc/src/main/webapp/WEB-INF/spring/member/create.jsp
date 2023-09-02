@@ -41,17 +41,6 @@
 		<button type="submit" class="btn btn-dark" id="createButton">회원 생성</button>
 	</div>
 </form>
-<div class="modal alertModal" id="alertModal" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-body" id="modalMessage">${message}</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기
-				</button>
-			</div>
-		</div>
-	</div>
-</div>
 <%@ include file="../include/footer.jsp" %>
 <script src="/js/MemberValidation.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -59,33 +48,4 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
-<script>
-function showModal(data) {
-    document.getElementById('modalMessage').innerText = data.message;
-    $('#alertModal').modal('show');
-    setTimeout(function() {
-        $('#alertModal').modal('hide');
-    }, 3000);
-}
-document.querySelector('form').addEventListener('submit', async function(event) {
-    event.preventDefault();
-    const form = event.target;
-    const formData = new FormData(form);
-    try {
-        const response = await fetch('http://localhost:8084/spring/member/create', {
-            method: 'POST',
-            body: formData,
-        });
-        const result = await response.json();
-		// 서버 응답은 200 이지만 내부 메시지 응답이 400 ~ 500 일 경우 
-        if (result.status.startsWith("400") || result.status.startsWith("500")) {
-            showModal(result);
-        } else {
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
-});
-</script>
-
 </html>

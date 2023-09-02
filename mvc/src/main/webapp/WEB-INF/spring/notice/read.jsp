@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -7,6 +8,20 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Notice Read Page</title>
+<style>
+	.actionLike {
+      color: gray;
+      background-color: transparent;
+      border: none;
+      padding: 0;
+      font-size: 40px;
+      cursor: pointer;
+    }
+
+    .actionLike.liked {
+      color: red;
+    }
+</style>
 </head>
 <body>
 <%@ include file="../include/header.jsp" %>
@@ -45,17 +60,21 @@
 					</c:if>
 				</dl>
 			</form>
+			<!-- Like Button Start -->
+			<button class="actionLike"><i class="fas fa-heart"></i></button>
+			<!-- Like Count Start -->
+			<span class="likeCount" style="font-size: larger;"></span>
 		</div>
 	</div>
 	<!-- Member Delete & Member Signout & Member Update & Board List Page -->
 	<form onsubmit="return false;" action="/spring/notice/delete" method="post">
 		<div class="button_wrap mt-4">
-			<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
-				<button type="submit" class="btn btn-primary btn-delete"
-					onclick="confirmDelete(event)">공지사항 삭제</button>
-				<a href="/spring/notice/list" class="btn btn-outline-dark">목록으로</a>
-			</sec:authorize>
+			<sec:authentication property="principal.email" var="userEmail"/>
+			<c:if test="${userEmail == list.writer}">
+				<button type="submit" class="btn btn-primary btn-delete" onclick="confirmDelete(event)">공지사항 삭제</button>
 			<a href="/spring/notice/update/${list.nno}" class="btn btn-dark">정보 수정</a>
+			</c:if>
+			<a href="/spring/notice/list" class="btn btn-outline-dark">목록으로</a>
 		</div>
 	</form>
 	<!-- Update Complete Message Start -->
@@ -98,16 +117,14 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="/js/NoticeLike.js"></script>
 	<script>
-	<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
 	// '삭제' 버튼 클릭 시 모달 띄우기
 		document.querySelector('.btn-delete').addEventListener('click', function (event) {
 			event.preventDefault();
 		// 모달 보이기
 		$('.deleteModal').modal('show');
 	});
-	</sec:authorize>
-
 	// '확인' 버튼 클릭 시 폼 제출하기
 	document.querySelector('.btnDeleteModal').addEventListener('click', function () {
 		var nno = document.querySelector('.nno').textContent;

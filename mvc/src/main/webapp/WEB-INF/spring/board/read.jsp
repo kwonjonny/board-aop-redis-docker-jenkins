@@ -1,12 +1,28 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FastPickup</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+<title>Board Read Page</title>
+<style>
+	.actionLike {
+      color: gray;
+      background-color: transparent;
+      border: none;
+      padding: 0;
+      font-size: 40px;
+      cursor: pointer;
+    }
+
+    .actionLike.liked {
+      color: red;
+    }
+</style>
 </head>
 <body>
 <%@ include file="../include/header.jsp" %>
@@ -46,19 +62,24 @@
 					</dd>
 				</c:if>
 			</dl>
+			<!-- Like Button Start -->
+			<button class="actionLike"><i class="fas fa-heart"></i></button>
+			<!-- Like Count Start -->
+			<span class="likeCount" style="font-size: larger;"></span>
 		</form>
 	</div>
 </div>
 <!-- Member Delete & Member Signout & Member Update & Board List Page -->
 <form onsubmit="return false;" action="/spring/board/delete" method="post">
-	<div class="button_wrap mt-4">
-		<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
-			<button type="submit" class="btn btn-primary btn-delete"
-				onclick="confirmDelete(event)">게시글 삭제</button>
-			<a href="/spring/member/list" class="btn btn-outline-dark">목록으로</a>
-		</sec:authorize>
-		<a href="/spring/board/update/${list.bno}" class="btn btn-dark">정보 수정</a>
-	</div>
+    <div class="button_wrap mt-4">
+		<sec:authentication property="principal.email" var="userEmail"/>
+		<c:if test="${userEmail == list.writer}">
+            <button type="submit" class="btn btn-primary btn-delete"
+                onclick="confirmDelete(event)">게시글 삭제</button>
+            <a href="/spring/board/update/${list.bno}" class="btn btn-dark">정보 수정</a>
+        </c:if>
+        <a href="/spring/board/list" class="btn btn-outline-dark">목록으로</a>
+    </div>
 </form>
 <!-- Update Complete Message Start -->
 <div class="modal alertModal" tabindex="-1" role="dialog">
@@ -100,15 +121,14 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="/js/BoardLike.js"></script>
 <script>
-	<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
 	// '삭제' 버튼 클릭 시 모달 띄우기
 		document.querySelector('.btn-delete').addEventListener('click', function (event) {
 			event.preventDefault();
 		// 모달 보이기
 		$('.deleteModal').modal('show');
 		});
-	</sec:authorize>
 	// '확인' 버튼 클릭 시 폼 제출하기
 	document.querySelector('.btnDeleteModal').addEventListener('click', function () {
 		var bno = document.querySelector('.bno').textContent;

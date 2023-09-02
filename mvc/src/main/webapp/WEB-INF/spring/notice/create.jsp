@@ -21,10 +21,12 @@
 		<div class="bg-light rounded h-100 p-4">
 			<label for="title" class="form-label">공지사항 제목</label>
 			<input type="text" id="title" name="title" class="form-control" required>
+			<span class="error-message" style="color: red;"></span>
 		</div>
 		<div class="bg-light rounded h-100 p-4">
 			<label for="content" class="form-label">공지사항 내용</label>
 			<textarea id="content" name="content" class="form-control" rows="5" required></textarea>
+			<span class="error-message" style="color: red;"></span>
 		</div>
 		<div class="bg-light rounded h-100 p-4">
 			<label for="fileName" class="form-label">공지사항 이미지</label>
@@ -44,6 +46,7 @@
 <%@ include file="../include/footer.jsp" %>
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="/js/file.js"></script>
+	<script src="/js/TitleContentValidation.js"></script>
 	<!-- Script Start -->
 	<script>
 		const uploadInput = document.querySelector(".uploadInput")

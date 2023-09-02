@@ -14,11 +14,22 @@ function validatePhoneNumber(phoneNumber) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('email').addEventListener('blur', function () {
+    document.getElementById('email').addEventListener('blur', async function () {
         if (!validateEmail(this.value)) {
             this.nextElementSibling.textContent = "이메일 형식이 올바르지 않습니다.";
-        } else {
-            this.nextElementSibling.textContent = "";
+            return;
+        }
+        try {
+            const response = await axios.get(`/spring/member/duplicate/${this.value}`);
+            const isDuplicate = response.data.isDuplicate;
+    
+            if (isDuplicate === 1) {
+                this.nextElementSibling.textContent = "이미 사용 중인 이메일입니다.";
+            } else {
+                this.nextElementSibling.textContent = "";
+            }
+        } catch (error) {
+            console.error('Error:', error);
         }
     });
 

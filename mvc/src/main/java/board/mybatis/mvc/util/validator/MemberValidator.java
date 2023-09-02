@@ -6,13 +6,15 @@ import java.util.regex.Pattern;
 import board.mybatis.mvc.exception.InvalidEmailException;
 import board.mybatis.mvc.exception.MemberPhoneIllegalArgumentException;
 import board.mybatis.mvc.exception.PasswordIllegalArgumentException;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 public class MemberValidator {
     /*
      * 회원 이메일 형식 검증
      */
      public static void validateEmail(String email) {
-        Pattern pattern = Pattern.compile("/^[A-Za-z0-9+_.-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}$/");
+        Pattern pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}$");
         Matcher matcher = pattern.matcher(email);
         if (!matcher.matches()) {
             throw new InvalidEmailException("이메일 형식이 올바르지 않습니다.");

@@ -105,7 +105,7 @@ public class LikeServiceImpl implements LikeService {
             return likeMapper.incrementNoticeLike(nno);
         } else {
             likeMapper.deleteLikeNotice(likeToggleNoticeDTO);
-            return likeMapper.incrementNoticeLike(nno);
+            return likeMapper.decrementNoticeLike(nno);
         }
     }
 

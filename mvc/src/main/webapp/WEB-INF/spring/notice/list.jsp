@@ -47,6 +47,7 @@
                 <tr>
                     <th scope="col">공지사항 번호</th>
                     <th scope="col">공지사항 제목</th>
+                    <th scope="col">작성자</th>
                     <th scope="col">댓글, 좋아요, 조회수</th>
                     <th scope="col">공지사항 생성 날짜</th>
                     <th scope="col">공지사항 썸네일 이미지</th>
@@ -59,6 +60,7 @@
                         <td><a href="/spring/notice/read/${notice.nno}?${pageRequestDTO.link}">${notice.nno}</a>
                         </td>
                         <td>${notice.title}</td>
+                        <td>${notice.writer}</td>
                         <td>
                             <span class="badge bg-primary" style="font-size: 1.2rem; padding: 5px 10px;">댓글:${notice.replyCount}</span>
                             <span class="badge bg-success" style="font-size: 1.2rem; padding: 5px 10px;">좋아요:${notice.likeCount}</span>
@@ -75,7 +77,7 @@
         </table>
     </div>
     <div class="button_wrap">
-        <a href="/spring/notice/create" class="btn btn-dark">게시물 생성</a>
+        <a href="/spring/notice/create" class="btn btn-dark">공지사항 생성</a>
     </div>
 </div>
 <!-- Paging Start -->

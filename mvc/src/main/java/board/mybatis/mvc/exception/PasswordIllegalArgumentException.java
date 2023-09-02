@@ -7,6 +7,6 @@ public class PasswordIllegalArgumentException extends RuntimeException {
     }
 
     public PasswordIllegalArgumentException(String message) {
-        super();
+        super(message);
     }
 }

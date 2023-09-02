@@ -10,12 +10,12 @@
 </head>
 <body>
 <%@ include file="../include/header.jsp" %>
-<h3>게시물 정보 수정</h3>
-<form action="/spring/board/update" method="post">
+<h3>공지사항 정보 수정</h3>
+<form action="/spring/notice/update" method="post">
 <div class="form_content">
 	<div class="bg-light rounded h-100 p-4">
-		<label for="bno" class="form-label">게시물 번호</label>
-		<input type="text" name="bno" class="form-control" id="bno" value="${list.bno}">
+		<label for="nno" class="form-label">게시물 번호</label>
+		<input type="text" name="nno" class="form-control" id="nno" value="${list.nno}">
 	</div>
 	<div class="bg-light rounded h-100 p-4">
 		<label for="writer" class="form-label">작성자</label>
@@ -62,13 +62,13 @@
 <script src="/js/file.js"></script>
 <script src="/js/TitleContentValidation.js"></script>
 <div class="button_wrap p-4">
-	<a href="/spring/board/read/${list.bno}" class="btn btn-outline-dark">조회 페이지</a>
+	<a href="/spring/board/read/${list.nno}" class="btn btn-outline-dark">조회 페이지</a>
 	<button type="submit" class="btn btn-dark btnAdd">정보 수정</button>
 </div>
 </form>
 <%@ include file="../include/footer.jsp" %>
 <script>
-	const bno = ${ list.bno }
+	const nno = ${ list.nno }
 	const uploadInput = document.querySelector(".uploadInput")
 	const uploadUL = document.querySelector(".uploadUL")
 	const uploadHidden = document.querySelector(".uploadHidden")

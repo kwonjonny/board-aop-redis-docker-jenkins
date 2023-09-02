@@ -36,6 +36,17 @@
 		<button type="submit" class="btn btn-dark">정보 수정</button>
 	</div>
 </form>
+<div class="modal alertModal" id="alertModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body" id="modalMessage">${message}</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
 <%@ include file="../include/footer.jsp" %>
 <script src="/js/MemberValidation.js"></script>
 </body>

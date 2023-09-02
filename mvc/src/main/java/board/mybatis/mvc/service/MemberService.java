@@ -33,4 +33,9 @@ public interface MemberService {
      * 회원 리스트 
      */
     PageResponseDTO<MemberListDTO> listMember(PageRequestDTO pageRequestDTO);
+
+    /*
+     * 이메일 중복 체크 
+     */
+    Long duplicateEmail(String email);
 }
