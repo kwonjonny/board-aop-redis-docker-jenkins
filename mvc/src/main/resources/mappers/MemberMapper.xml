@@ -7,10 +7,10 @@
 <mapper namespace="board.mybatis.mvc.mappers.MemberMapper">
 
 <!-- MemberMapper id = "selectOne" -->
-<resultMap type="string" id="authMap">
+<resultMap type="java.lang.String" id="authMap">
         <result column ="rolename"/>
 </resultMap>
-<select id="selectOne" resultMap="memberMap">
+<select id="selectOne" resultMap="memberMap" parameterType="java.lang.String">
         SELECT * FROM 
         tbl_member tm
         INNER JOIN tbl_member_role tmr ON tmr.email = tm.email 
@@ -44,19 +44,26 @@
 </insert>
 
 
+<!-- MemberAuthResultMap -->
+<resultMap id="MemberAuthResultMap" type="java.lang.String">
+    <result property="rolename" column="rolename"/>
+</resultMap>
 <!-- MemberMapper id = "readMember" -->
-<select id="readMember" parameterType="java.lang.String">
-        SELECT 
-        tm.email,
-        tm.memberName,
-        tm.memberPw,
-        tm.memberPhone,
-        tm.createDate,
-        tr.rolename
-        FROM
+<select id="readMember" parameterType="java.lang.String" resultMap="userMap">
+        SELECT * FROM 
         tbl_member tm
-        LEFT OUTER JOIN tbl_member_role tr ON tr.email = tm.email
+        INNER JOIN tbl_member_role tmr ON tmr.email = tm.email 
+        WHERE tm.email = #{email}
 </select>
+<!-- userMap resultMap -->
+<resultMap id="userMap" type="board.mybatis.mvc.dto.member.MemberConvertDTO">
+    <id property ="email" column ="email"/>
+    <result property="memberName" column="memberName"/>
+    <result property="memberPw" column="memberPw"/>
+    <result property="memberPhone" column="memberPhone"/>
+    <result property="createDate" column="createDate"/>
+    <collection property="rolenames" ofType="java.lang.String" column="email" resultMap="MemberAuthResultMap"/>
+</resultMap>
 
 
 <!-- MemberMapper id = "updateMember" -->

@@ -43,7 +43,7 @@ public class NoticeMapperTests {
     private static final String JUNIT_TEST_WRITER = "Junit_Test_Writer";
     private static final String JUNIT_TEST_CONTENT = "Junit_Test_Content";
     private static final String JUNIT_TEST_FILE_NAME = "Junit_Test_File_Name.jpg";
-    private static final Long JUNIT_TEST_NNO = 3L;
+    private static final Long JUNIT_TEST_NNO = 101L;
 
     // Beforeach 사용을 위한 DTO 정의
     private NoticeCreateDTO noticeCreateDTO;
@@ -219,5 +219,19 @@ public class NoticeMapperTests {
         int updatedViewCount = afterRead.getViewCount();
         Assertions.assertEquals(viewCount + 1, updatedViewCount);
         log.info("=== End Count View Notice Mapper Test ===");
+    }
+
+    // Create View Count Notice Test 
+    @Test
+    @Transactional
+    @DisplayName("Mapper: 공지사항 조회수 생성 테스트")
+    public void createViewCountNoticeTest() {
+        // GIVEN 
+        log.info("=== Start Create View Count Notice Mapper Test ===");
+        // WHEN 
+        Long count = noticeMapper.createViewNoticeCount(JUNIT_TEST_NNO);
+        // THEN 
+        Assertions.assertEquals(count, 1, "count Should Be Return 1");
+        log.info("=== End Create View Count Notice Mapper Test ===");
     }
 }

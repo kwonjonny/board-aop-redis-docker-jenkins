@@ -204,4 +204,14 @@ useGeneratedKeys="true" keyProperty="bno">
 </update>
 
 
+<!-- BoardMapper id = "createViewBoardCount" -->
+<insert id="createViewBoardCount" parameterType="long">
+        INSERT INTO 
+        tbL_board_views 
+        (bno)
+        VALUES
+        (#{bno})
+</insert>
+
+
 </mapper>

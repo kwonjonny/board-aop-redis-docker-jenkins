@@ -52,4 +52,9 @@ public interface BoardMapper {
      * 게시물 조회수 증가
      */
     int countViewBoard(Long bno);
+
+    /*
+     * 조회수 테이블 조회수 생성 
+     */
+    Long createViewBoardCount(Long bno);
 }

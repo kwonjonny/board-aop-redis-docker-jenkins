@@ -4,7 +4,7 @@ import java.util.function.Function;
 
 import org.springframework.http.HttpStatus;
 
-// ENUM 타입으로 Advice Controller 의 JSP 화면에 Error Message JSON 데이터 전달 
+// ENUM 타입으로 Advice Controller 의 JSP 화면에 Error Message Model Message 데이터 전달 
 public enum AdviceErrorEnum {
 
     DATA_NOT_FOUND(HttpStatus.BAD_REQUEST, ex -> "Data Not Found " + ex.getMessage()),

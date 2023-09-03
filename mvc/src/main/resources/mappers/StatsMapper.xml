@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- StatsMapper.xml -->
+<mapper namespace="board.mybatis.mvc.mappers.StatsMapper">
+
+<!-- StatsMapper id = "memberDayEntryData" -->
+<select id="memberDayEntryData" resultMap="memberDayEntryData">
+        SELECT
+        DATE_FORMAT(createDate, '%Y-%m-%d') 
+        AS createDate,
+        COUNT(*) 
+        AS memberDayEntry
+        FROM
+        tbl_member
+        GROUP BY
+        createDate
+        ORDER BY
+        createDate
+</select>
+<resultMap id="memberDayEntryData" type="board.mybatis.mvc.dto.stats.member.MemberDayEntryDTO">
+    <result column="createDate" property="createDate"/>
+    <result column="memberDayEntry" property="memberDayEntry"/>
+</resultMap>
+
+
+<!-- StatsMapper id = "memberMonthEntryData" -->
+<select id="memberMonthEntryData" resultMap="memberMonthEntryData">
+        SELECT
+        DATE_FORMAT(createDate, '%Y-%m') 
+        AS createDate,
+        COUNT(*) 
+        AS memberMonthEntry
+        FROM
+        tbl_member
+        GROUP BY
+        createDate
+        ORDER BY
+        createDate
+</select>
+<resultMap id="memberMonthEntryData" type="board.mybatis.mvc.dto.stats.member.MemberMonthEntryDTO">
+    <result column="createDate" property="createDate"/>
+    <result column="memberMonthEntry" property="memberMonthEntry"/>
+</resultMap>
+
+
+<!-- StatsMapper id = "boardDayEntryData" -->
+<select id="boardDayEntryData" resultMap="boardDayEntryData">
+        SELECT 
+        DATE_FORMAT(createDate, '%Y-%m') 
+        AS createDate,
+        COUNT(*) 
+        AS boardDayEntry
+        FROM 
+        tbl_board 
+        GROUP BY 
+        createDate
+        ORDER BY 
+        createDate
+</select>
+<resultMap id="boardDayEntryData" type="board.mybatis.mvc.dto.stats.board.BoardDayEntryDTO">
+    <result column="createDate" property="createDate"/>
+    <result column="boardDayEntry" property="boardDayEntry"/>
+</resultMap>
+
+<!-- SatasMapper id = "boardMonthEntryData" -->
+<select id="boardMonthEntryData" resultMap="boardMonthEntryData">
+        SELECT 
+        DATE_FORMAT(createDate, '%Y-%m') 
+        AS createDate,
+        COUNT(*) 
+        AS boardMonthEntry
+        FROM 
+        tbl_board 
+        GROUP BY 
+        createDate
+        ORDER BY 
+        createDate
+</select>
+<resultMap id="boardMonthEntryData" type="board.mybatis.mvc.dto.stats.board.BoardMonthEntryDTO">
+    <result column="createDate" property="createDate"/>
+    <result column="boardMonthEntry" property="boardMonthEntry"/>
+</resultMap>
+
+
+<!-- StatsMapper id = "likeDayEntryData" -->
+<select id="likeDayEntryData" resultMap="likeDayEntryData"> 
+        SELECT 
+        bno,
+        DATE(createDate) 
+        AS likeEntryDay,
+        COUNT(*) AS likeCount
+        FROM tbl_like_board
+        GROUP BY bno, likeEntryDay
+        ORDER BY bno, likeEntryDay
+</select>
+<resultMap id="likeDayEntryData" type="board.mybatis.mvc.dto.stats.like.LikeDayEntryDTO">
+    <result column="bno" property="bno"/>
+    <result column="likeEntryDay" property="likeEntryDay"/>
+    <result column="likeCount" property="likeCount"/>
+</resultMap>
+
+
+<!-- StatsMapper id = "likeMonthEntryData" -->
+<select id="likeMonthEntryData" resultMap="likeMonthEntryData">
+        SELECT 
+        bno,
+        DATE_FORMAT(createDate, '%Y-%m') 
+        AS likeEntryMonth,
+        COUNT(*) AS likeCount
+        FROM tbl_like_board
+        GROUP BY bno, likeEntryMonth
+        ORDER BY bno, likeEntryMonth
+</select>
+<resultMap id="likeMonthEntryData" type="board.mybatis.mvc.dto.stats.like.LikeMonthEntryDTO">
+    <result column="bno" property="bno"/>
+    <result column="likeEntryMonth" property="likeEntryMonth"/>
+    <result column="likeCount" property="likeCount"/>
+</resultMap>
+
+
+<!-- StatsMapper id = "replyDayEntryData" -->
+<select id="replyDayEntryData" resultMap="replyDayEntryData">
+        SELECT 
+        bno,
+        DATE_FORMAT(createDate, '%Y-%m-%d') 
+        AS replyDayEntry,
+        COUNT(*) AS replyCount
+        FROM tbl_reply_board
+        GROUP BY bno, replyDayEntry
+        ORDER BY bno, replyDayEntry
+</select>
+<resultMap id="replyDayEntryData" type="board.mybatis.mvc.dto.stats.reply.ReplyDayEntryDTO">
+    <result column="bno" property="bno"/>
+    <result column="replyDayEntry" property="replyDayEntry"/>
+    <result column="replyCount" property="replyCount"/>
+</resultMap>
+
+
+<!-- StatsMapper id = "replyMonthEntryData" -->
+<select id="replyMonthEntryData" resultMap="replyMonthEntryData">
+        SELECT 
+        bno,
+        DATE_FORMAT(createDate, '%Y-%m') 
+        AS replyMonthEntry,
+        COUNT(*) AS replyCount
+        FROM tbl_reply_board
+        GROUP BY bno, replyMonthEntry
+        ORDER BY bno, replyMonthEntry
+</select>
+<resultMap id="replyMonthEntryData" type="board.mybatis.mvc.dto.stats.reply.ReplyMonthEntryDTO">
+    <result column="bno" property="bno"/>
+    <result column="replyMonthEntry" property="replyMonthEntry"/>
+    <result column="replyCount" property="replyCount"/>
+</resultMap>
+
+
+<!-- StatsMapper id = "viewsDayEntryData" -->
+<select id="viewsDayEntryData" resultMap="viewsDayEntryData">
+        SELECT 
+        bno,
+        DATE_FORMAT(viewDate, '%Y-%m-%d') 
+        AS viewDayEntry,
+        COUNT(*) AS viewCount
+        FROM tbl_board_views
+        GROUP BY bno, DATE_FORMAT(viewDate, '%Y-%m-%d')
+        ORDER BY bno, DATE_FORMAT(viewDate, '%Y-%m-%d')
+</select>
+<resultMap id="viewsDayEntryData" type="board.mybatis.mvc.dto.stats.view.ViewsDayEntryDTO">
+    <result column="bno" property="bno"/>
+    <result column="viewDayEntry" property="viewDayEntry"/>
+    <result column="viewCount" property="viewCount"/>
+</resultMap>
+
+
+<!-- StatsMapper id = "viewsMonthEntryData" -->
+<select id="viewsMonthEntryData" resultMap="viewsMonthEntryData">
+        SELECT 
+        bno,
+        DATE_FORMAT(viewDate, '%Y-%m') 
+        AS viewMonthEntry,
+        COUNT(*) 
+        AS viewCount
+        FROM tbl_board_views
+        GROUP BY bno, DATE_FORMAT(viewDate, '%Y-%m')
+        ORDER BY bno, DATE_FORMAT(viewDate, '%Y-%m')
+</select>
+<resultMap id="viewsMonthEntryData" type="board.mybatis.mvc.dto.stats.view.ViewsMonthEntryDTO">
+    <result column="bno" property="bno"/>
+    <result column="viewMonthEntry" property="viewMonthEntry"/>
+    <result column="viewCount" property="viewCount"/>
+</resultMap>
+
+
+</mapper> 

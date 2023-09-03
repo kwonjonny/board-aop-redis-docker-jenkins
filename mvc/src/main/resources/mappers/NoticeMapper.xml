@@ -172,4 +172,13 @@ useGeneratedKeys="true" keyProperty="nno">
 </update>
 
 
+<!-- NoticeMapper id = "createViewNoticeCount" -->
+<insert id="createViewNoticeCount" parameterType="long">
+        INSERT INTO 
+        tbl_notice_views
+        (nno)
+        VALUES
+        (#{nno})
+</insert>
+
 </mapper>

@@ -52,4 +52,9 @@ public interface NoticeMapper {
      * 공지사항 조회수 증가
      */
     int countViewNotice(Long nno);
+
+    /*
+     * 조회수 테이블 조회수 생성 
+     */
+    Long createViewNoticeCount(Long nno);
 }

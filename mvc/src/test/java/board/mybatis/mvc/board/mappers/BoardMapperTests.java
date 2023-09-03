@@ -208,4 +208,18 @@ public class BoardMapperTests {
         Assertions.assertEquals(viewCount + 1, updatedViewCount);
         log.info("=== End View Count Board Mapper Test ===");
     }
+
+    // Create View Count Board Mapper Test 
+    @Test
+    @Transactional
+    @DisplayName("Mapper: 게시판 조회수 생성 테스트")
+    public void createViewCountBoardTest() {
+        // GIVEN 
+        log.info("=== Start Create View Count Board Mapper Test ===");
+        // WHEN 
+        Long count = boardMapper.createViewBoardCount(JUNIT_TEST_BNO);
+        // THEN 
+        Assertions.assertEquals(count, 1, "count Should Be Return 1");
+        log.info("=== End Create View Count Board Mapper Test ===");
+    }
 }

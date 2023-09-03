@@ -65,7 +65,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             memberMapper.createJoinMemberRole(email, memberRole);
             memberMapper.joinMember(socialMember);
             // PW를 사용하지않는 자원 이미 카카오에서 인증이되었기 때문에 비워둔다.
-            MemberDTO memberDTO = new MemberDTO(email, "", "카카오사용자", List.of("USER"));
+            MemberDTO memberDTO = new MemberDTO(email, "", "카카오사용자", List.of("ADMIN"));
             return memberDTO;
         } else {
             MemberDTO memberDTO = new MemberDTO(

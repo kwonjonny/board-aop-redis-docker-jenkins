@@ -154,6 +154,8 @@ public class BoardServiceImpl implements BoardService {
 
     /*
      * 게시물 조회수 증가 서비스
+     * 게시물 월/일 통계를 위한 
+     * views 테이블 count 생성 
      */
     @Override
     @Transactional
@@ -163,6 +165,7 @@ public class BoardServiceImpl implements BoardService {
         if (bno == null) {
             throw new DataNotFoundException("해당하는 게시글 번호가 없습니다.");
         }
+        boardMapper.createViewBoardCount(bno);
         return boardMapper.countViewBoard(bno);
     }
 

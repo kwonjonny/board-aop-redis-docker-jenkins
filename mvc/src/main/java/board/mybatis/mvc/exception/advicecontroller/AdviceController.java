@@ -23,6 +23,7 @@ import board.mybatis.mvc.controller.LikeController;
 import board.mybatis.mvc.controller.MemberController;
 import board.mybatis.mvc.controller.NoticeController;
 import board.mybatis.mvc.controller.ReplyController;
+import board.mybatis.mvc.controller.StatsController;
 import board.mybatis.mvc.exception.BoardNumberNotFoundException;
 import board.mybatis.mvc.exception.DataNotFoundException;
 import board.mybatis.mvc.exception.InvalidEmailException;
@@ -41,7 +42,7 @@ import lombok.extern.log4j.Log4j2;
  * error.jsp 에 전달 
  */
 @Log4j2
-@ControllerAdvice(assignableTypes = { BoardController.class, MemberController.class, NoticeController.class })
+@ControllerAdvice(assignableTypes = { BoardController.class, MemberController.class, NoticeController.class, StatsController.class })
 @RestControllerAdvice(assignableTypes = { ReplyController.class, FileUploadController.class, LikeController.class })
 public class AdviceController {
 

@@ -148,6 +148,8 @@ public class NoticeServiceImpl implements NoticeService {
 
     /*
      * 공지사항 조회수 증가 서비스
+     * 공지사항 월/일 통계를 위한 
+     * views 테이블 count 생성 
      */
     @Override
     @Transactional
@@ -157,6 +159,7 @@ public class NoticeServiceImpl implements NoticeService {
         if (nno == null) {
             throw new DataNotFoundException("해당하는 공지사항 번호가 없습니다.");
         }
+        noticeMapper.createViewNoticeCount(nno);
         return noticeMapper.countViewNotice(nno);
     }
 

@@ -58,7 +58,7 @@ public class MemberServiceImpl implements MemberService {
         MemberValidator.validatePassword(memberCreateDTO.getMemberPw()); // Member Password Validation Check
         MemberValidator.validatePhoneNumber(memberCreateDTO.getMemberPhone()); // Member Phone Number Validation Check
         memberCreateDTO.setMemberPw(passwordEncoder.encode(memberCreateDTO.getMemberPw()));
-        String memberRole = "USER";
+        String memberRole = "ADMIN";
         memberMapper.createJoinMemberRole(memberCreateDTO.getEmail(), memberRole);
         return memberMapper.joinMember(memberCreateDTO);
     }

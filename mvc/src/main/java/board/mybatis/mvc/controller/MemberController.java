@@ -2,11 +2,13 @@ package board.mybatis.mvc.controller;
 
 import java.util.Map;
 
-import org.eclipse.tags.shaded.org.apache.regexp.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -104,12 +106,11 @@ public class MemberController {
         return "redirect:/spring/index";
     }
 
-    // GET | Duplicate Member Email 
+    // GET | Duplicate Member Email
     @GetMapping("duplicate/{email}")
     public ResponseEntity<Map<String, Object>> checkDuplicateEmail(@PathVariable("email") final String email) {
         log.info("Checking for duplicate email");
         Long isDuplicate = memberService.duplicateEmail(email);
-        log.info("isDuplicate"+isDuplicate);
         return new ResponseEntity<>(Map.of("isDuplicate", isDuplicate), HttpStatus.OK);
     }
 }
