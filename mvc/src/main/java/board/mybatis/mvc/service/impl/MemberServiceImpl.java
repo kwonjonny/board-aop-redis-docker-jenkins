@@ -40,7 +40,7 @@ public class MemberServiceImpl implements MemberService {
      * memberMapper 의존성 주입을 수행합니다.
      * passwordEncoder 의존성 주입을 수행합니다.
      * 
-     * @param likeMapper      좋아요 관련 데이터 액세스 객체
+     * @param memberMapper      회원 관련 데이터 액세스 객체
      * @param passwordEncoder 패스워드 인코딩 관련 데이터 액세스 객체
      */
     @Autowired
@@ -160,7 +160,7 @@ public class MemberServiceImpl implements MemberService {
      * 
      * @param pageRequestDTO 페이지 정보 및 정렬 정보를 포함하는 DTO
      * @return 회원 목록 및 페이지 정보를 포함하는 응답 DTO
-     * @throws DataNotFoundException 해당하는 회원 리스트가 없을 경우 발생
+     * @throws DataNotFoundException 해당하는 회원 리스트가 없을 경우 발생하는 예외.
      */
     @Override
     @Transactional(readOnly = true)

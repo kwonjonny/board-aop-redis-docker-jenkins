@@ -35,12 +35,10 @@ public class ReplyServiceImpl implements ReplyService {
     private final ReplyMapper replyMapper;
 
     /**
-     * NoticeServiceImpl 생성자.
-     * noticeMapper 의존성 주입을 수행합니다.
-     * fileMapper 의존성 주입을 수행합니다.
+     * ReplyServiceImpl 생성자.
+     * replyMapper 의존성 주입을 수행합니다.
      * 
-     * @param noticeMapper 공지사항 관련 데이터 엑세스 객체
-     * @param fileMapper   파일 업로드 관련 데이터 엑세스 객체
+     * @param replyMapper 댓글 관련 데이터 엑세스 객체
      */
     @Autowired
     public ReplyServiceImpl(ReplyMapper replyMapper) {
@@ -55,8 +53,8 @@ public class ReplyServiceImpl implements ReplyService {
      * 
      * @param replyBoardCreateDTO 게시글 댓글 생성에 필요한 데이터를 담고 있는 DTO.
      * @return 생성된 댓글의 번호.
-     * @throws DataNotFoundException        필수 데이터가 없을 경우 발생.
-     * @throws BoardNumberNotFoundException 게시글 번호가 유효하지 않을 경우 발생.
+     * @throws DataNotFoundException        필수 데이터가 없을 경우 발생하는 예외.
+     * @throws BoardNumberNotFoundException 게시글 번호가 유효하지 않을 경우 발생하는 예외.
      */
     @Override
     @Transactional
@@ -87,7 +85,7 @@ public class ReplyServiceImpl implements ReplyService {
      *
      * @param rno 삭제할 댓글의 번호.
      * @return 감소된 댓글의 총 수.
-     * @throws ReplyNumberNotFoundException 게시글 댓글 번호가 유효하지 않을 경우 발생.
+     * @throws ReplyNumberNotFoundException 게시글 댓글 번호가 유효하지 않을 경우 발생하는 예외..
      */
     @Override
     @Transactional
@@ -105,7 +103,7 @@ public class ReplyServiceImpl implements ReplyService {
      *
      * @param replyBoardUpdateDTO 게시글 댓글 업데이트에 필요한 DTO.
      * @return 업데이트된 댓글의 번호.
-     * @throws DataNotFoundException 게시글 댓글 번호가 유효하지 않을 경우 발생.
+     * @throws DataNotFoundException 게시글 댓글 번호가 유효하지 않을 경우 발생하는 예외.
      */
     @Override
     @Transactional
@@ -124,7 +122,7 @@ public class ReplyServiceImpl implements ReplyService {
      *
      * @param rno 조회할 댓글의 번호.
      * @return 조회된 댓글 정보.
-     * @throws ReplyNumberNotFoundException 게시글 댓글 번호가 유효하지 않을 경우 발생.
+     * @throws ReplyNumberNotFoundException 게시글 댓글 번호가 유효하지 않을 경우 발생하는 예외.
      */
     @Override
     @Transactional(readOnly = true)
@@ -141,7 +139,7 @@ public class ReplyServiceImpl implements ReplyService {
      * @param pageRequestDTO 페이지 정보 및 정렬 기준.
      * @param bno            조회할 게시글의 번호.
      * @return 페이지별 댓글 리스트.
-     * @throws BoardNumberNotFoundException 게시글 번호가 유효하지 않을 경우 발생.
+     * @throws BoardNumberNotFoundException 게시글 번호가 유효하지 않을 경우 발생하는 예외.
      */
     @Override
     @Transactional(readOnly = true)
@@ -175,7 +173,7 @@ public class ReplyServiceImpl implements ReplyService {
      *
      * @param bno 조회할 게시글의 번호.
      * @return 게시글의 댓글 총 수.
-     * @throws BoardNumberNotFoundException 게시글 번호가 유효하지 않을 경우 발생.
+     * @throws BoardNumberNotFoundException 게시글 번호가 유효하지 않을 경우 발생하는 예외.
      */
     @Override
     @Transactional(readOnly = true)
@@ -193,8 +191,8 @@ public class ReplyServiceImpl implements ReplyService {
      *
      * @param replyBoardCreateDTO 게시글 댓글 생성에 필요한 데이터를 담고 있는 DTO.
      * @return 생성된 댓글의 번호.
-     * @throws DataNotFoundException         필수 데이터가 없을 경우 발생.
-     * @throws NoticeNumberNotFoundException 공지사항 번호가 유효하지 않을 경우 발생.
+     * @throws DataNotFoundException         필수 데이터가 없을 경우 발생하는 예외.
+     * @throws NoticeNumberNotFoundException 공지사항 번호가 유효하지 않을 경우 발생하는 예외.
      */
     @Override
     @Transactional
@@ -225,7 +223,7 @@ public class ReplyServiceImpl implements ReplyService {
      *
      * @param rno 삭제할 댓글의 번호.
      * @return 감소된 댓글의 총 수.
-     * @throws ReplyNumberNotFoundException 공지사항 번호가 유효하지 않을 경우 발생.
+     * @throws ReplyNumberNotFoundException 공지사항 번호가 유효하지 않을 경우 발생하는 예외.
      */
     @Override
     @Transactional
@@ -243,7 +241,7 @@ public class ReplyServiceImpl implements ReplyService {
      *
      * @param replyBoardUpdateDTO 게시글 댓글 업데이트에 필요한 DTO.
      * @return 업데이트된 댓글의 번호.
-     * @throws DataNotFoundException 필수 데이터가 없을 경우 발생.
+     * @throws DataNotFoundException 필수 데이터가 없을 경우 발생하는 예외.
      */
     @Override
     @Transactional
@@ -262,7 +260,7 @@ public class ReplyServiceImpl implements ReplyService {
      *
      * @param rno 조회할 댓글의 번호.
      * @return 조회된 댓글 정보.
-     * @throws ReplyNumberNotFoundException 게시글 댓글 번호가 유효하지 않을 경우 발생.
+     * @throws ReplyNumberNotFoundException 게시글 댓글 번호가 유효하지 않을 경우 발생하는 예외.
      */
     @Override
     @Transactional(readOnly = true)
@@ -279,7 +277,7 @@ public class ReplyServiceImpl implements ReplyService {
      * @param pageRequestDTO 페이지 정보 및 정렬 기준.
      * @param nno            조회할 공지사항의 번호.
      * @return 페이지별 댓글 리스트.
-     * @throws BoardNumberNotFoundException 게시글 번호가 유효하지 않을 경우 발생.
+     * @throws BoardNumberNotFoundException 게시글 번호가 유효하지 않을 경우 발생하는 예외.
      */
     @Override
     @Transactional(readOnly = true)
@@ -315,7 +313,7 @@ public class ReplyServiceImpl implements ReplyService {
      *
      * @param nno 조회할 공지사항 번호.
      * @return 공지사항 댓글 총 수.
-     * @throws NoticeNumberNotFoundException 게시글 번호가 유효하지 않을 경우 발생.
+     * @throws NoticeNumberNotFoundException 게시글 번호가 유효하지 않을 경우 발생하는 예외.
      */
     @Override
     @Transactional(readOnly = true)
@@ -330,7 +328,7 @@ public class ReplyServiceImpl implements ReplyService {
      * 공지사항 번호의 유효성을 검증합니다.
      *
      * @param nno 검증하고자 하는 공지사항 번호.
-     * @throws NoticeNumberNotFoundException 해당하는 공지사항 번호가 없을 경우 발생.
+     * @throws NoticeNumberNotFoundException 해당하는 공지사항 번호가 없을 경우 발생하는 예외.
      */
     @Transactional(readOnly = true)
     private void validateNoticeNumber(Long nno) {
@@ -345,7 +343,7 @@ public class ReplyServiceImpl implements ReplyService {
      * 게시글에 번호의 유효성을 검증합니다.
      *
      * @param bno 검증하고자 하는 게시판 번호.
-     * @throws BoardNumberNotFoundException 해당하는 게시물 번호가 없을 경우 발생.
+     * @throws BoardNumberNotFoundException 해당하는 게시물 번호가 없을 경우 발생하는 예외.
      */
     @Transactional(readOnly = true)
     private void validateBoardNumber(Long bno) {
@@ -360,7 +358,7 @@ public class ReplyServiceImpl implements ReplyService {
      * 공지사항 댓글 번호의 유효성을 검증합니다.
      *
      * @param rno 검증하고자 하는 공지사항 댓글 번호.
-     * @throws ReplyNumberNotFoundException 해당하는 공지사항 댓글 번호가 없을 경우 발생.
+     * @throws ReplyNumberNotFoundException 해당하는 공지사항 댓글 번호가 없을 경우 발생하는 예외.
      */
     @Transactional(readOnly = true)
     private void validateNoticeReplyNumber(Long rno) {
@@ -375,7 +373,7 @@ public class ReplyServiceImpl implements ReplyService {
      * 게시글 댓글 번호의 유효성을 검증합니다.
      *
      * @param rno 검증하고자 하는 게시글 댓글 번호.
-     * @throws ReplyNumberNotFoundException 해당하는 게시글 댓글 번호가 없을 경우 발생.
+     * @throws ReplyNumberNotFoundException 해당하는 게시글 댓글 번호가 없을 경우 발생하는 예외.
      */
     @Transactional(readOnly = true)
     private void validateBoardReplyNumber(Long rno) {
