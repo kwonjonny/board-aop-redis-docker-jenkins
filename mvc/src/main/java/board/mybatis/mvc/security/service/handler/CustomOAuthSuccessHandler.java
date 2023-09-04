@@ -15,11 +15,21 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
 
-// Kakao Login And Normal Login Success Handler Calss
+/**
+ * {@code CustomOAuthSuccessHandler}는 카카오 로그인 및 일반 로그인 성공 시 처리하는 핸들러 클래스입니다.
+ */
 @Log4j2
 public class CustomOAuthSuccessHandler implements AuthenticationSuccessHandler {
 
-    // Kakao Login Sucess Handler
+    /**
+     * 인증 성공 시 호출되는 메서드입니다.
+     *
+     * @param request        HttpServletRequest 객체
+     * @param response       HttpServletResponse 객체
+     * @param authentication 인증 객체
+     * @throws IOException      입출력 예외
+     * @throws ServletException 서블릿 예외
+     */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
             Authentication authentication) throws IOException, ServletException {

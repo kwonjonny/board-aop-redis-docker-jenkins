@@ -22,17 +22,24 @@ import board.mybatis.mvc.util.PageRequestDTO;
 import board.mybatis.mvc.util.PageResponseDTO;
 import lombok.extern.log4j.Log4j2;
 
-// Board ServiceImpl Class
+/**
+ * 게시판 서비스 구현 클래스.
+ * 게시판에 대한 CRUD 관련 서비스를 제공합니다.
+ */
 @Log4j2
 @Service
 public class BoardServiceImpl implements BoardService {
 
-    // 의존성 주입
     private final BoardMapper boardMapper;
     private final FileMapper fileMapper;
 
-    /*
-     * Autowired 명시적 표시
+    /**
+     * BoardServiceImpl 생성자.
+     * boardMapper 의존성 주입을 수행합니다.
+     * fileMapper 의존성 주입을 수행합니다.
+     * 
+     * @param boardMapper 게시물 관련 데이터 엑세스 객체
+     * @param fileMapper  파일 업로드 관련 데이터 엑세스 객체
      */
     @Autowired
     public BoardServiceImpl(BoardMapper boardMapper, FileMapper fileMapper) {
@@ -41,9 +48,13 @@ public class BoardServiceImpl implements BoardService {
         this.fileMapper = fileMapper;
     }
 
-    /*
-     * 게시물 생성 서비스
-     * 부가기능: 파일 업로드
+    /**
+     * 게시물 생성 서비스 메서드.
+     * 부가 기능: 파일 업로드.
+     *
+     * @param boardCreateDTO 게시판 생성 정보 DTO
+     * @return 생성된 게시물의 번호
+     * @throws DataNotFoundException 필수 정보가 누락될 경우 발생
      */
     @Override
     @Transactional
@@ -70,9 +81,13 @@ public class BoardServiceImpl implements BoardService {
         return boardCreateDTO.getBno();
     }
 
-    /*
-     * 게시물 조회 서비스
-     * 트랜잭션 readOnly
+    /**
+     * 게시물 조회 서비스 메서드.
+     *
+     * @param bno 조회할 게시물 번호
+     * @return 조회된 게시물 정보
+     * @throws DataNotFoundException        해당하는 게시물 번호가 없을 경우 발생
+     * @throws BoardNumberNotFoundException 해당 번호의 게시물이 없을 경우 발생
      */
     @Override
     @Transactional(readOnly = true)
@@ -85,9 +100,14 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.readBoard(bno);
     }
 
-    /*
-     * 게시물 업데이트 서비스
-     * 부가기능: 파일 업로드
+    /**
+     * 게시물 수정 서비스 메서드.
+     * 부가 기능: 파일업로드.
+     *
+     * @param boardUpdateDTO 게시판 수정 정보 DTO
+     * @return 수정된 게시물의 번호
+     * @throws DataNotFoundException        제목, 내용, 작성자가 없을 경우 발생
+     * @throws BoardNumberNotFoundException 해당 번호의 게시물이 없을 경우 발생
      */
     @Override
     @Transactional
@@ -97,7 +117,7 @@ public class BoardServiceImpl implements BoardService {
                 || boardUpdateDTO.getContent() == null) {
             throw new DataNotFoundException("제목, 내용, 작성자는 필수입니다.");
         }
-        validateBoardNumber(boardUpdateDTO.getBno()); // Check Board Number
+        validateBoardNumber(boardUpdateDTO.getBno()); 
 
         Long count = boardMapper.updateBoard(boardUpdateDTO);
         AtomicInteger index = new AtomicInteger(0);
@@ -117,8 +137,13 @@ public class BoardServiceImpl implements BoardService {
         return boardUpdateDTO.getBno();
     }
 
-    /*
-     * 게시물 삭제 서비스
+    /**
+     * 게시물 삭제 서비스 메서드.
+     *
+     * @param bno 삭제할 게시물 번호
+     * @return 삭제된 게시물의 번호
+     * @throws DataNotFoundException        해당하는 게시물 번호가 없을 경우 발생
+     * @throws BoardNumberNotFoundException 해당 번호의 게시물이 없을 경우 발생
      */
     @Override
     @Transactional
@@ -132,9 +157,12 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.deleteBoard(bno);
     }
 
-    /*
-     * 게시물 리스트 서비스
-     * 트랜잭션 readOnly
+    /**
+     * 게시물 목록 조회 서비스 메서드.
+     *
+     * @param pageRequestDTO 페이지 요청 정보 DTO
+     * @return 게시물 목록과 페이징 정보
+     * @throws DataNotFoundException 해당하는 게시글 리스트가 없을 경우 발생
      */
     @Override
     @Transactional(readOnly = true)
@@ -152,16 +180,19 @@ public class BoardServiceImpl implements BoardService {
                 .build();
     }
 
-    /*
-     * 게시물 조회수 증가 서비스
-     * 게시물 월/일 통계를 위한 
-     * views 테이블 count 생성 
+    /**
+     * 게시물 조회수 증가 서비스 메서드.
+     *
+     * @param bno 조회수를 증가시킬 게시물 번호
+     * @return 증가된 조회수
+     * @throws DataNotFoundException        해당하는 게시글 번호가 없을 경우 발생
+     * @throws BoardNumberNotFoundException 해당 번호의 게시물이 없을 경우 발생
      */
     @Override
     @Transactional
-    public int countviewBoard(Long bno) {
+    public int countViewBoard(Long bno) {
         log.info("Is Running Board View Count ServiceImpl");
-        validateBoardNumber(bno); // Check Board Number
+        validateBoardNumber(bno); 
         if (bno == null) {
             throw new DataNotFoundException("해당하는 게시글 번호가 없습니다.");
         }
@@ -169,9 +200,11 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.countViewBoard(bno);
     }
 
-    /*
-     * 게시물 번호 검증 서비스
-     * 트랜잭션 readOnly
+    /**
+     * 게시물 번호 검증 서비스 메서드.
+     *
+     * @param bno 검증할 게시물 번호
+     * @throws BoardNumberNotFoundException 해당 번호의 게시물이 없을 경우 발생
      */
     @Transactional(readOnly = true)
     private void validateBoardNumber(Long bno) {

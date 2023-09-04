@@ -2,6 +2,7 @@ package board.mybatis.mvc.controller;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -26,16 +27,22 @@ import board.mybatis.mvc.util.PageRequestDTO;
 import board.mybatis.mvc.util.PageResponseDTO;
 import lombok.extern.log4j.Log4j2;
 
-// Reply Controller Class 
+/**
+ * {@code ReplyController}는 댓글 관련 기능을 처리하는 컨트롤러 클래스입니다.
+ */
 @Log4j2
 @RestController
 @RequestMapping("/reply/")
 public class ReplyController {
 
-    // 의존성 주입
     private final ReplyService replyService;
 
-    // Autowired 명시적 표시
+    /**
+     * 생성자를 통한 의존성 주입
+     *
+     * @param replyService 댓글 서비스
+     */
+    @Autowired
     public ReplyController(ReplyService replyService) {
         log.info("Inject ReplyService");
         this.replyService = replyService;

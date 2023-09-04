@@ -20,16 +20,21 @@ import board.mybatis.mvc.mappers.StatsMapper;
 import board.mybatis.mvc.service.StatsService;
 import lombok.extern.log4j.Log4j2;
 
-// Stats ServiceImpl Class 
+/**
+ * 통계 서비스의 구현체.
+ * 회원 가입, 게시물 생성, 좋아요, 조회수, 댓글 생성에 대한 일일 및 월간 통계 정보를 제공합니다.
+ */
 @Log4j2
 @Service
 public class StatsServiceImpl implements StatsService {
 
-    // 의존성 주입
     private final StatsMapper statsMapper;
 
-    /*
-     * Autowired 명시적 표시
+    /**
+     * StatsServiceImpl 생성자.
+     * statsMapper 의존성 주입을 수행합니다.
+     * 
+     * @param statsMapper 통계 관련 데이터 엑세스 객체
      */
     @Autowired
     public StatsServiceImpl(StatsMapper statsMapper) {
@@ -37,9 +42,10 @@ public class StatsServiceImpl implements StatsService {
         this.statsMapper = statsMapper;
     }
 
-    /*
-     * 회원 일 가입 통계 서비스
-     * 트랜잭션 readOnly
+    /**
+     * 회원 가입에 대한 일일 통계 정보를 반환합니다.
+     * 
+     * @return 일별 회원 가입 통계 목록.
      */
     @Override
     @Transactional(readOnly = true)
@@ -48,9 +54,10 @@ public class StatsServiceImpl implements StatsService {
         return statsMapper.memberDayEntryData();
     }
 
-    /*
-     * 회원 월 가입 통계 서비스
-     * 트랜잭션 readOnly
+    /**
+     * 회원 가입에 대한 월간 통계 정보를 반환합니다.
+     * 
+     * @return 월별 회원 가입 통계 목록.
      */
     @Override
     @Transactional(readOnly = true)
@@ -59,9 +66,10 @@ public class StatsServiceImpl implements StatsService {
         return statsMapper.memberMonthEntryData();
     }
 
-    /*
-     * 게시물 일 생성 통계 서비스
-     * 트랜잭션 readOnly
+    /**
+     * 게시물 생성에 대한 일일 통계 정보를 반환합니다.
+     * 
+     * @return 일별 게시물 생성 통계 목록.
      */
     @Override
     @Transactional(readOnly = true)
@@ -70,9 +78,10 @@ public class StatsServiceImpl implements StatsService {
         return statsMapper.boardDayEntryData();
     }
 
-    /*
-     * 게시물 월 생성 통계 서비스
-     * 트랜잭션 readOnly
+    /**
+     * 게시물 생성에 대한 월간 통계 정보를 반환합니다.
+     * 
+     * @return 월별 게시물 생성 통계 목록.
      */
     @Override
     @Transactional(readOnly = true)
@@ -81,9 +90,10 @@ public class StatsServiceImpl implements StatsService {
         return statsMapper.boardMonthEntryData();
     }
 
-    /*
-     * 라이크 일 생성 통계 서비스
-     * 트랜잭션 ReadOnly
+    /**
+     * 좋아요 생성에 대한 일일 통계 정보를 반환합니다.
+     * 
+     * @return 일별 좋아요 생성 통계 목록.
      */
     @Override
     @Transactional(readOnly = true)
@@ -92,9 +102,10 @@ public class StatsServiceImpl implements StatsService {
         return statsMapper.likeDayEntryData();
     }
 
-    /*
-     * 라이크 월 생성 통계 서비스
-     * 트랜잭션 readOnly
+    /**
+     * 좋아요 생성에 대한 월간 통계 정보를 반환합니다.
+     * 
+     * @return 월별 좋아요 생성 통계 목록.
      */
     @Override
     @Transactional(readOnly = true)
@@ -103,9 +114,10 @@ public class StatsServiceImpl implements StatsService {
         return statsMapper.likeMonthEntryData();
     }
 
-    /*
-     * 댓글 일 생성 통계 서비스
-     * 트랜잭션 readOnly
+    /**
+     * 댓글 생성에 대한 일일 통계 정보를 반환합니다.
+     * 
+     * @return 일별 댓글 생성 통계 목록.
      */
     @Override
     @Transactional(readOnly = true)
@@ -114,9 +126,10 @@ public class StatsServiceImpl implements StatsService {
         return statsMapper.replyDayEntryData();
     }
 
-    /*
-     * 댓글 월 생성 통계 서비스
-     * 트랜잭션 readOnly
+    /**
+     * 댓글 생성에 대한 월간 통계 정보를 반환합니다.
+     * 
+     * @return 월별 댓글 생성 통계 목록.
      */
     @Override
     @Transactional(readOnly = true)
@@ -125,9 +138,10 @@ public class StatsServiceImpl implements StatsService {
         return statsMapper.replyMonthEntryData();
     }
 
-    /*
-     * 조회수 일 생성 통계 서비스
-     * 트랜잭션 readOnly
+    /**
+     * 조회수에 대한 일일 통계 정보를 반환합니다.
+     * 
+     * @return 일별 조회수 통계 목록.
      */
     @Override
     @Transactional(readOnly = true)
@@ -136,9 +150,10 @@ public class StatsServiceImpl implements StatsService {
         return statsMapper.viewsDayEntryData();
     }
 
-    /*
-     * 조회수 월 생성 통계 서비스
-     * 트랜잭션 readOnly
+    /**
+     * 조회수에 대한 월간 통계 정보를 반환합니다.
+     * 
+     * @return 월별 조회수 통계 목록.
      */
     @Override
     @Transactional(readOnly = true)

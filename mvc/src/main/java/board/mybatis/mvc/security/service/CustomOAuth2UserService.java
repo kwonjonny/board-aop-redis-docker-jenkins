@@ -19,18 +19,24 @@ import board.mybatis.mvc.mappers.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-// Kakao Login User Details Class 
+/**
+ * {@code CustomOAuth2UserService}는 카카오 로그인 사용자 정보를 처리하는 서비스 클래스입니다.
+ */
 @Service
 @Log4j2
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-    // 의존성 주입
     private final MemberMapper memberMapper;
-
     private final PasswordEncoder passwordEncoder;
 
-    // Oauth2User LoadByUserRequest
+    /**
+     * OAuth2User 정보를 로드하여 처리합니다.
+     *
+     * @param userRequest OAuth2UserRequest 객체
+     * @return OAuth2User 객체
+     * @throws OAuth2AuthenticationException OAuth2 인증 예외
+     */
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         log.info("Is Running Load By User Request");

@@ -24,17 +24,23 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 
-// Notice Controller Class
+/**
+ * {@code NoticeController}는 공지사항 관련 기능을 처리하는 컨트롤러 클래스입니다.
+ */
 @Log4j2
 @Controller
 @RequestMapping("spring/notice/")
 public class NoticeController {
 
-    // 의존성주입
     private final NoticeService noticeService;
     private final ManagementCookie managementCookie;
 
-    // Autowired 명시적 표시
+    /**
+     * 생성자를 통한 의존성 주입
+     *
+     * @param noticeService    공지사항 서비스
+     * @param managementCookie 쿠키 관리 유틸리티
+     */
     @Autowired
     public NoticeController(NoticeService noticeService, ManagementCookie managementCookie) {
         log.info("Inject NoticeServices");

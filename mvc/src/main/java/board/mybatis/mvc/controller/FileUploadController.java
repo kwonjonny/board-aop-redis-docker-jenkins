@@ -22,7 +22,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnailator;
 
-// File Upload Controller Class
+/**
+ * {@code FileUploadController}는 파일 업로드 및 삭제를 처리하는 컨트롤러 클래스입니다.
+ */
 @Log4j2
 @RestController
 @RequiredArgsConstructor
@@ -32,7 +34,12 @@ public class FileUploadController {
     @Value("${org.zerock.upload.path}")
     private String uploadPath;
 
-    // Create File Upload
+    /**
+     * 파일 업로드 처리 메소드
+     *
+     * @param files 업로드할 파일 배열
+     * @return 업로드 결과 목록
+     */
     @PostMapping("/upload")
     public List<UploadResultDTO> postFileUpload(@Valid MultipartFile[] files) {
         log.info("RestController | Upload File");
@@ -65,7 +72,12 @@ public class FileUploadController {
         return resultList;
     }
 
-    // Delete File
+    /**
+     * 파일 삭제 처리 메소드
+     *
+     * @param fileName 삭제할 파일 이름
+     * @return 삭제 결과 메시지
+     */
     @DeleteMapping("removeFile/{fileName}")
     public Map<String, String> deleteFile(@PathVariable("fileName") String fileName) {
         log.info("RestController | Delete File");

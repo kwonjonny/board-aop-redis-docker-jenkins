@@ -22,22 +22,28 @@ import board.mybatis.mvc.service.StatsService;
 import board.mybatis.mvc.util.PageRequestDTO;
 import lombok.extern.log4j.Log4j2;
 
+/**
+ * {@code StatsController}는 통계 관련 기능을 처리하는 컨트롤러 클래스입니다.
+ */
 @Log4j2
 @Controller
 @RequestMapping("spring/stats/")
 public class StatsController {
 
-    // 의존성 주입
     private final StatsService statsService;
 
-    // Autowired 명시적 표시
+    /**
+     * 생성자를 통한 의존성 주입
+     *
+     * @param statsService 통계 서비스
+     */
     @Autowired
     public StatsController(StatsService statsService) {
         log.info("Inject StatsService");
         this.statsService = statsService;
     }
 
-    // GET | Stats List 
+    // GET | Stats List
     @GetMapping("list")
     public String getListStats(PageRequestDTO pageRequestDTO, Model model) {
         log.info("GET | List Stats Controller");

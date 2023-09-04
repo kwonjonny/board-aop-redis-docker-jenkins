@@ -18,16 +18,21 @@ import board.mybatis.mvc.dto.like.noticelike.LikeToggleNoticeDTO;
 import board.mybatis.mvc.service.LikeService;
 import lombok.extern.log4j.Log4j2;
 
-// Like Controller Class
+/**
+ * {@code LikeController}는 게시물 및 공지사항 좋아요 관련 요청을 처리하는 컨트롤러 클래스입니다.
+ */
 @Log4j2
 @RestController
 @RequestMapping("/like/")
 public class LikeController {
 
-    // 의존성 주입
     private final LikeService likeService;
 
-    // Autwoired 명시적 표시
+    /**
+     * 생성자를 통한 의존성 주입
+     *
+     * @param likeService 좋아요 서비스
+     */
     @Autowired
     public LikeController(LikeService likeService) {
         log.info("Inject LikeService");

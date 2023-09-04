@@ -26,17 +26,21 @@ import board.mybatis.mvc.util.PageResponseDTO;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 
-// Member Controller Class
+/**
+ * {@code MemberController}는 회원 관련 기능을 처리하는 컨트롤러 클래스입니다.
+ */
 @Log4j2
 @Controller
 @RequestMapping("spring/member/")
-@PreAuthorize("permitAll")
 public class MemberController {
 
-    // 의존성 주입
     private final MemberService memberService;
 
-    // Autowired 명시적 표시
+    /**
+     * 생성자를 통한 의존성 주입
+     *
+     * @param memberService 회원 서비스
+     */
     @Autowired
     public MemberController(MemberService memberService) {
         log.info("Inject MemberService");

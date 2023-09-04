@@ -15,19 +15,25 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-// Service Layer 의 모든 로직 점검을 위한 Aop Logging Class
+/**
+ * {@code LoggingAOP}는 Service Layer의 모든 로직을 점검하기 위한 AOP Logging 클래스입니다.
+ */
 @Aspect
 @Component
 public class LoggingAOP {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    // 포인트컷 설정 - board.myabatis.mvc.service 패키지의 모든 메소드를 대상으로 함.
+    /**
+     * 포인트컷 설정 - board.mybatis.mvc.service 패키지의 모든 메서드를 대상으로 함.
+     */
     @Pointcut("execution(* board.mybatis.mvc.service..*.*(..))")
     public void applicationPackagePointcut() {
     }
 
-    // 포인트컷 메소드가 실행되기 전(Before)에 로깅을 하도록 설정함.
+    /**
+     * 포인트컷 메서드가 실행되기 전(Before)에 로깅을 하도록 설정합니다.
+     */
     @Before("applicationPackagePointcut()")
     public void logBefore(JoinPoint joinPoint) {
         // Request 정보를 가져오기 위해 사용.
@@ -48,7 +54,9 @@ public class LoggingAOP {
                 logMessage);
     }
 
-    // 포인트컷 메소드가 정상적으로 종료된 후(AfterReturning)에 로깅을 하도록 설정함.
+    /**
+     * 포인트컷 메서드가 정상적으로 종료된 후(AfterReturning)에 로깅을 하도록 설정합니다.
+     */
     @AfterReturning(pointcut = "applicationPackagePointcut()", returning = "result")
     public void logAfterReturning(JoinPoint joinPoint, Object result) {
         // 메소드의 반환값을 로그로 출력.

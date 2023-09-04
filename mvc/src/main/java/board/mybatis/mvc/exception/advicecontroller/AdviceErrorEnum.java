@@ -4,7 +4,10 @@ import java.util.function.Function;
 
 import org.springframework.http.HttpStatus;
 
-// ENUM 타입으로 Advice Controller 의 JSP 화면에 Error Message Model Message 데이터 전달 
+/**
+ * {@code AdviceErrorEnum}은 에러 코드와 에러 메시지를 관리하는 ENUM 타입입니다.
+ * 각 ENUM 값은 특정한 에러 상황을 나타내며, 상태 코드와 에러 메시지를 추출하는 기능을 제공합니다.
+ */
 public enum AdviceErrorEnum {
 
     DATA_NOT_FOUND(HttpStatus.BAD_REQUEST, ex -> "Data Not Found " + ex.getMessage()),
@@ -50,15 +53,32 @@ public enum AdviceErrorEnum {
     private final HttpStatus status;
     private final Function<Exception, String> messageExtractor;
 
+    /**
+     * AdviceErrorEnum의 생성자입니다.
+     *
+     * @param status           해당 에러 상황의 HTTP 상태 코드
+     * @param messageExtractor 예외 객체로부터 에러 메시지를 추출하는 함수
+     */
     AdviceErrorEnum(HttpStatus status, Function<Exception, String> messageExtractor) {
         this.status = status;
         this.messageExtractor = messageExtractor;
     }
 
+    /**
+     * HTTP 상태 코드를 반환합니다.
+     *
+     * @return HTTP 상태 코드
+     */
     public HttpStatus getStatus() {
         return status;
     }
 
+    /**
+     * 예외 객체로부터 에러 메시지를 추출하여 반환합니다.
+     *
+     * @param ex 예외 객체
+     * @return 추출된 에러 메시지
+     */
     public String getMessage(Exception ex) {
         return messageExtractor.apply(ex);
     }

@@ -65,6 +65,9 @@ dependencies {
 	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
 	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+
+	// 회원가입, 비밀번호 분실, 회원가입 환영 메일, 회원가입 탈퇴 메일 
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 tasks.named('test') {

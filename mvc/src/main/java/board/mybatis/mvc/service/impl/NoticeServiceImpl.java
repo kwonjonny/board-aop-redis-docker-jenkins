@@ -22,17 +22,24 @@ import board.mybatis.mvc.util.PageRequestDTO;
 import board.mybatis.mvc.util.PageResponseDTO;
 import lombok.extern.log4j.Log4j2;
 
-// Notice ServiceImpl Class
+/**
+ * 공지사항 서비스 구현 클래스.
+ * 공지사항에 대한 CRUD 관련 서비스를 제공합니다.
+ */
 @Log4j2
 @Service
 public class NoticeServiceImpl implements NoticeService {
 
-    // 의존성 주입
     private final NoticeMapper noticeMapper;
     private final FileMapper fileMapper;
 
-    /*
-     * Autowired 명시적 표시
+    /**
+     * NoticeServiceImpl 생성자.
+     * noticeMapper 의존성 주입을 수행합니다.
+     * fileMapper 의존성 주입을 수행합니다.
+     * 
+     * @param noticeMapper 공지사항 관련 데이터 엑세스 객체
+     * @param fileMapper   파일 업로드 관련 데이터 엑세스 객체
      */
     @Autowired
     public NoticeServiceImpl(NoticeMapper noticeMapper, FileMapper fileMapper) {
@@ -41,9 +48,12 @@ public class NoticeServiceImpl implements NoticeService {
         this.fileMapper = fileMapper;
     }
 
-    /*
-     * 공지사항 생성 서비스
-     * 부가 기능: 파일 업로드
+    /**
+     * 새로운 공지사항 생성 서비스.
+     * 
+     * @param noticeCreateDTO 생성할 공지사항의 세부 정보를 포함하는 DTO.
+     * @return 생성된 공지사항의 ID 반환.
+     * @throws DataNotFoundException 필수 데이터가 누락된 경우 발생하는 예외.
      */
     @Override
     @Transactional
@@ -70,9 +80,12 @@ public class NoticeServiceImpl implements NoticeService {
         return noticeCreateDTO.getNno();
     }
 
-    /*
-     * 공지사항 조회 서비스
-     * 트랜잭션 readOnly
+    /**
+     * 공지사항 조회 서비스.
+     * 
+     * @param nno 조회할 공지사항의 번호.
+     * @return 조회된 공지사항의 정보를 담고 있는 DTO.
+     * @throws NoticeNumberNotFoundException 해당 번호의 공지사항이 없을 때 발생하는 예외.
      */
     @Override
     @Transactional(readOnly = true)
@@ -82,9 +95,13 @@ public class NoticeServiceImpl implements NoticeService {
         return noticeMapper.readNotice(nno);
     }
 
-    /*
-     * 공지사항 업데이트 서비스
-     * 부가기능: 파일 업로드
+    /**
+     * 공지사항 업데이트 서비스.
+     * 
+     * @param noticeUpdateDTO 업데이트 할 공지사항의 세부 정보를 포함하는 DTO.
+     * @return 업데이트 된 공지사항의 ID 반환.
+     * @throws DataNotFoundException         필수 데이터가 누락된 경우 발생하는 예외.
+     * @throws NoticeNumberNotFoundException 해당 번호의 공지사항이 없을 때 발생하는 예외.
      */
     @Override
     @Transactional
@@ -94,7 +111,7 @@ public class NoticeServiceImpl implements NoticeService {
                 || noticeUpdateDTO.getWriter() == null || noticeUpdateDTO.getTitle() == null) {
             throw new DataNotFoundException("공지사항 게시글, 작성자, 내용은 필수입니다,");
         }
-        validateNoticeNumber(noticeUpdateDTO.getNno()); // Notice Number Check
+        validateNoticeNumber(noticeUpdateDTO.getNno());
 
         Long count = noticeMapper.updateNotice(noticeUpdateDTO);
         AtomicInteger index = new AtomicInteger(0);
@@ -114,8 +131,12 @@ public class NoticeServiceImpl implements NoticeService {
         return noticeUpdateDTO.getNno();
     }
 
-    /*
-     * 공지사항 삭제 서비스
+    /**
+     * 공지사항 삭제 서비스.
+     * 
+     * @param nno 삭제할 공지사항의 번호.
+     * @return 삭제된 공지사항의 번호 반환.
+     * @throws NoticeNumberNotFoundException 해당 번호의 공지사항이 없을 때 발생하는 예외.
      */
     @Override
     @Transactional
@@ -126,9 +147,12 @@ public class NoticeServiceImpl implements NoticeService {
         return noticeMapper.deleteNotice(nno);
     }
 
-    /*
-     * 공지사항 리스트 서비스
-     * 트랜잭션 readOnly
+    /**
+     * 공지사항 리스트 조회 서비스.
+     * 
+     * @param pageRequestDTO 페이지 요청 정보를 포함하는 DTO.
+     * @return 해당 페이지의 공지사항 리스트와 관련 정보를 담고 있는 응답 DTO.
+     * @throws DataNotFoundException 해당하는 공지사항 리스트가 없을 때 발생하는 예외.
      */
     @Override
     @Transactional(readOnly = true)
@@ -146,16 +170,19 @@ public class NoticeServiceImpl implements NoticeService {
                 .build();
     }
 
-    /*
-     * 공지사항 조회수 증가 서비스
-     * 공지사항 월/일 통계를 위한 
-     * views 테이블 count 생성 
+    /**
+     * 공지사항 조회수 증가 서비스.
+     * 
+     * @param nno 조회수를 증가시킬 공지사항의 번호.
+     * @return 증가된 조회수 값 반환.
+     * @throws DataNotFoundException         해당하는 공지사항 번호가 없을 때 발생하는 예외.
+     * @throws NoticeNumberNotFoundException 해당 번호의 공지사항이 없을 때 발생하는 예외.
      */
     @Override
     @Transactional
     public int countViewNotice(Long nno) {
         log.info("Is Running Notice View Count");
-        validateNoticeNumber(nno); // Check Notice Number
+        validateNoticeNumber(nno);
         if (nno == null) {
             throw new DataNotFoundException("해당하는 공지사항 번호가 없습니다.");
         }
@@ -163,9 +190,11 @@ public class NoticeServiceImpl implements NoticeService {
         return noticeMapper.countViewNotice(nno);
     }
 
-    /*
-     * 공지사항 번호 검증 서비스
-     * 트랜잭션 readOnly
+    /**
+     * 공지사항 번호 검증 서비스.
+     * 
+     * @param nno 검증할 공지사항의 번호.
+     * @throws NoticeNumberNotFoundException 해당 번호의 공지사항이 없을 때 발생하는 예외.
      */
     @Transactional(readOnly = true)
     private void validateNoticeNumber(Long nno) {

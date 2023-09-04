@@ -17,17 +17,22 @@ import board.mybatis.mvc.security.service.handler.CustomOAuthSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-// Spring Security Config Class
+/**
+ * {@code SecurityConfig}는 Spring Security 설정 클래스입니다.
+ */
 @Log4j2
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    // 의존성 주입
     private final DataSource dataSource;
 
-    // TokenRepository에 토큰 값 저장 함수
+    /**
+     * TokenRepository에 토큰 값을 저장하는 메서드입니다.
+     *
+     * @return PersistentTokenRepository 인스턴스
+     */
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
@@ -35,17 +40,33 @@ public class SecurityConfig {
         return repo;
     }
 
+    /**
+     * OAuth 로그인 성공 핸들러를 생성하는 메서드입니다.
+     *
+     * @return CustomOAuthSuccessHandler 인스턴스
+     */
     @Bean
     public CustomOAuthSuccessHandler customOAuthSuccessHandler() {
         return new CustomOAuthSuccessHandler();
     }
 
+    /**
+     * 비밀번호 인코더를 생성하는 메서드입니다.
+     *
+     * @return BCryptPasswordEncoder 인스턴스
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // Spring Seucirty Filter
+    /**
+     * Spring Security Filter Chain을 생성하는 메서드입니다.
+     *
+     * @param http HttpSecurity 객체
+     * @return SecurityFilterChain 인스턴스
+     * @throws Exception 예외
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         log.info("Spring Seucirty Filter Chain Is Running");

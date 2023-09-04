@@ -1,7 +1,6 @@
 package board.mybatis.mvc.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,18 +22,23 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 
-// Board Controller Class
+/**
+ * {@code BoardController}는 게시판과 관련된 요청을 처리하는 컨트롤러 클래스입니다.
+ */
 @Log4j2
 @Controller
 @RequestMapping("spring/board/")
-@PreAuthorize("permitAll")
 public class BoardController {
 
-    // 의존성 주입
     private final BoardService boardService;
     private final ManagementCookie managementCookie;
 
-    // Autowired 명시적 표시
+    /**
+     * 생성자를 통한 의존성 주입
+     *
+     * @param boardService     게시글 서비스
+     * @param managementCookie 쿠키 관리 유틸리티
+     */
     @Autowired
     public BoardController(BoardService boardService, ManagementCookie managementCookie) {
         log.info("Inject BoardService");
@@ -56,7 +60,7 @@ public class BoardController {
         log.info("GET | Read Board Controller");
         if (managementCookie.createCookie(request, response, bno)) {
             log.info("Making Cookie");
-            boardService.countviewBoard(bno);
+            boardService.countViewBoard(bno);
         }
         BoardDTO list = boardService.readBoard(bno);
         model.addAttribute("list", list);

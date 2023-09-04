@@ -5,7 +5,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-// 유저의 인정정보 체크 어노테이션 
+/**
+ * {@code CheckUserMatch}는 유저의 정보 일치 여부 체크를 위한 커스텀 어노테이션입니다.
+ */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CheckUserMatch {
