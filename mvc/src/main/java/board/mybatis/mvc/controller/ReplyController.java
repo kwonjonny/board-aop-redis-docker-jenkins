@@ -4,11 +4,14 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,16 +52,22 @@ public class ReplyController {
 
     // POST | Create Board Reply
     @PostMapping("board/create")
-    public ResponseEntity<Map<String, Object>> createBoardReply(ReplyBoardCreateDTO replyBoardCreateDTO) {
+    public ResponseEntity<Map<String, Object>> createBoardReply(@RequestBody ReplyBoardCreateDTO replyBoardCreateDTO,
+            Authentication authentication) {
         log.info("Reply Board Create RestController");
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        replyBoardCreateDTO.setReplyer(userDetails.getUsername());
         Long result = replyService.createBoardReply(replyBoardCreateDTO);
         return new ResponseEntity<>(Map.of("result", result), HttpStatus.OK);
     }
 
     // PUT | Update Board Reply
     @PutMapping("board/update")
-    public ResponseEntity<Map<String, Object>> updateBoardReply(ReplyBoardUpdateDTO replyBoardUpdateDTO) {
+    public ResponseEntity<Map<String, Object>> updateBoardReply(@RequestBody ReplyBoardUpdateDTO replyBoardUpdateDTO,
+            Authentication authentication) {
         log.info("Reply Board Update RestController");
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        replyBoardUpdateDTO.setReplyer(userDetails.getUsername());
         Long result = replyService.updateBoardReply(replyBoardUpdateDTO);
         return new ResponseEntity<>(Map.of("result", result), HttpStatus.OK);
     }
@@ -79,6 +88,15 @@ public class ReplyController {
         return new ResponseEntity<>(Map.of("result", result), HttpStatus.OK);
     }
 
+    // GET | Get User Details
+    @GetMapping("board/user/email")
+    public ResponseEntity<Map<String, Object>> getBoardUserDetails(Authentication authentication) {
+        log.info("GET | Reply Board User Deatils RestController");
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String email = userDetails.getUsername();
+        return new ResponseEntity<>(Map.of("email", email), HttpStatus.OK);
+    }
+
     // GET | List NoticeReply
     @GetMapping("notice/list/{nno}")
     public ResponseEntity<Map<String, Object>> listNoticeReply(PageRequestDTO pageRequestDTO,
@@ -90,16 +108,22 @@ public class ReplyController {
 
     // POST | Create Notice Reply
     @PostMapping("notice/create")
-    public ResponseEntity<Map<String, Object>> createNoticeReply(ReplyNoticeCreateDTO replyNoticeCreateDTO) {
+    public ResponseEntity<Map<String, Object>> createNoticeReply(@RequestBody ReplyNoticeCreateDTO replyNoticeCreateDTO,
+            Authentication authentication) {
         log.info("Reply Notice Create RestController");
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        replyNoticeCreateDTO.setReplyer(userDetails.getUsername());
         Long result = replyService.createNoticeReply(replyNoticeCreateDTO);
         return new ResponseEntity<>(Map.of("result", result), HttpStatus.OK);
     }
 
     // PUT | Update Notice Reply
     @PutMapping("notice/update")
-    public ResponseEntity<Map<String, Object>> updateNoticeReply(ReplyNoticeUpdateDTO replyNoticeUpdateDTO) {
+    public ResponseEntity<Map<String, Object>> updateNoticeReply(@RequestBody ReplyNoticeUpdateDTO replyNoticeUpdateDTO,
+            Authentication authentication) {
         log.info("Reply Notice Update RestController");
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        replyNoticeUpdateDTO.setReplyer(userDetails.getUsername());
         Long result = replyService.updateNoticeReply(replyNoticeUpdateDTO);
         return new ResponseEntity<>(Map.of("result", result), HttpStatus.OK);
     }
@@ -118,5 +142,14 @@ public class ReplyController {
         log.info("Reply Notice Count RestsController");
         Long result = replyService.countNoticeReply(nno);
         return new ResponseEntity<>(Map.of("result", result), HttpStatus.OK);
+    }
+
+    // GET | Get Notice User Details
+    @GetMapping("notice/user/email")
+    public ResponseEntity<Map<String, Object>> getNoticeUserDetails(Authentication authentication) {
+        log.info("GET | Reply Notice User Deatils RestController");
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String email = userDetails.getUsername();
+        return new ResponseEntity<>(Map.of("email", email), HttpStatus.OK);
     }
 }

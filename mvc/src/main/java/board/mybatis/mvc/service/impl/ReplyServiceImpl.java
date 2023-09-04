@@ -190,6 +190,7 @@ public class ReplyServiceImpl implements ReplyService {
         validateNoticeReplyNumber(rno); // Check Notice Reply Number
         ReplyNoticeDTO replyNoticeDTO = replyMapper.readNoticeReply(rno);
         replyMapper.deleteNoticeReply(rno);
+        log.info("replyNoticeDTO"+replyNoticeDTO);
         return replyMapper.decrementNoticeReplyCount(replyNoticeDTO.getNno());
     }
 

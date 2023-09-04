@@ -21,6 +21,10 @@
     .actionLike.liked {
       color: red;
     }
+
+	.reply-margin {
+    margin-left: 60px;
+	}
 </style>
 </head>
 <body>
@@ -66,7 +70,7 @@
 			<span class="likeCount" style="font-size: larger;"></span>
 		</div>
 	</div>
-	<!-- Member Delete & Member Signout & Member Update & Board List Page -->
+	<!-- Member Delete & Member Signout & Member Update & Notice List Page -->
 	<form onsubmit="return false;" action="/spring/notice/delete" method="post">
 		<div class="button_wrap mt-4">
 			<sec:authentication property="principal.email" var="userEmail"/>
@@ -77,6 +81,36 @@
 			<a href="/spring/notice/list" class="btn btn-outline-dark">목록으로</a>
 		</div>
 	</form>
+<!-- Reply Form Start -->
+<div class="reply-form">
+<form class="ActionCreateReply">
+	<div class="mb-3">
+	<h6 class="mb-4">댓글 작성</h6>
+	<label for="replyer" class="form-label">이름</label>
+	<input type="text" class="form-control actionReplyer" name="replyer" id="replyer"
+	value="<sec:authentication property='principal.email'/>" readonly>
+	</div>
+	<div class="mb-3">
+	<label for="reply" class="form-label">댓글</label>
+	<textarea class="form-control actionReply" id="reply" name="reply" rows="3"
+	placeholder="Write your comment"></textarea>
+	</div>
+	<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</div>
+<!-- Reply Start -->
+<div class="col-sm-12 col-md-12 col-xl-12">
+<div class="h-100 bg-light rounded p-4">
+	<div class="d-flex align-items-center justify-content-between mb-3">
+	<h6 class="mb-7">Reply</h6>
+	</div>
+	<div class="replyWrap"></div>
+	<div class="btn-toolbar" role="toolbar" style="justify-content: center;">
+	<!-- Reply Paging -->
+	<ul class="btn-group me-2 paging replyPaging" role="group" aria-label="First group"></ul>
+	</div>
+</div>
+</div>
 	<!-- Update Complete Message Start -->
 	<div class="modal alertModal" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
@@ -118,12 +152,16 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script src="/js/NoticeLike.js"></script>
-	<script>
+<script src="/js/NoticeReply.js"></script>
+
+<sec:authentication property="principal.email" var="userEmail"/>
+<c:if test="${userEmail == list.writer}">
+<script>
 	// '삭제' 버튼 클릭 시 모달 띄우기
-		document.querySelector('.btn-delete').addEventListener('click', function (event) {
-			event.preventDefault();
-		// 모달 보이기
-		$('.deleteModal').modal('show');
+	document.querySelector('.btn-delete').addEventListener('click', function (event) {
+	event.preventDefault();
+	// 모달 보이기
+	$('.deleteModal').modal('show');
 	});
 	// '확인' 버튼 클릭 시 폼 제출하기
 	document.querySelector('.btnDeleteModal').addEventListener('click', function () {
@@ -132,7 +170,10 @@
 		form.action = '/spring/notice/delete/' + encodeURIComponent(nno);
 		form.submit();
 	});
+</script>
+</c:if>
 
+<script>
 	const alertModal = new bootstrap.Modal(document.querySelector(".alertModal"))
 	let message = "${message}";
 	if (message !== "") {
@@ -141,6 +182,50 @@
 	setTimeout(function () {
 		alertModal.hide();
 	}, 1500);
-	</script>
+</script>
+
+<script>
+	// 댓글 페이징 처리 
+	// Reply and pagination containers
+	const replyWrap = document.querySelector(".replyWrap");
+    const replyPaging = document.querySelector(".replyPaging");
+
+    //댓글 페이징 처리
+    replyPaging.addEventListener("click", (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      //target 찾기
+      const target = e.target
+      //paging 번호 찾기 click 시 
+      const pageNum = target.getAttribute("data-page")
+      //페이징 변경해주기
+      listReplyAxios(true, pageNum)
+    }, false)
+
+    const replyForm = document.querySelector('.ActionCreateReply');
+    const replyerInput = document.querySelector('.actionReplyer');
+    const replyInput = document.querySelector('.actionReply');
+
+    replyForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const replyer = replyerInput.value;
+      const reply = replyInput.value;
+      const list = {
+        replyer: replyer,
+        reply: reply,
+        nno: nno,
+      };
+      const response = await createReplyNotice(list);
+      // Clear the form
+      replyInput.value = '';
+      // 답글 등록 후 댓글 목록을 다시 로드
+      listReplyAxios(false, 1);
+    }, false);
+
+    // Reply Axios List Show 
+    listReplyAxios()
+</script>
+
 </body>
 </html>

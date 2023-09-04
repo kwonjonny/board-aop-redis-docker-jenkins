@@ -22,6 +22,7 @@ public class ReplyBoardListDTO {
     private Long bno;
     private String reply;
     private String replyer;
+    private String step;
 
     @Builder.Default
     private Long gno = 0L;

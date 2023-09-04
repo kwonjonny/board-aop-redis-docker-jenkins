@@ -25,6 +25,8 @@ public class ReplyNoticeListDTO {
 
     @Builder.Default
     private Long gno = 0L;
+    
+    private String step;
 
     private LocalDate createDate;
     private LocalDate updateDate;

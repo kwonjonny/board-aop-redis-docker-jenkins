@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -59,7 +60,8 @@
       </table>
     </div>
     <div class="button_wrap">
-      <a href="/spring/member/read/${email}" class="btn btn-outline-dark">회원 상세</a>
+      <sec:authentication property="principal.email" var="userEmail"/>
+      <a href="/spring/member/read/${userEmail}" class="btn btn-outline-dark">회원 상세</a>
       <a href="/spring/member/create" class="btn btn-dark">회원 추가</a>
     </div>
   </div>

@@ -16,9 +16,9 @@
         FROM
         tbl_member
         GROUP BY
-        createDate
+        DATE_FORMAT(createDate, '%Y-%m-%d')
         ORDER BY
-        createDate
+        DATE_FORMAT(createDate, '%Y-%m-%d')
 </select>
 <resultMap id="memberDayEntryData" type="board.mybatis.mvc.dto.stats.member.MemberDayEntryDTO">
     <result column="createDate" property="createDate"/>
@@ -36,9 +36,9 @@
         FROM
         tbl_member
         GROUP BY
-        createDate
+        DATE_FORMAT(createDate, '%Y-%m')
         ORDER BY
-        createDate
+        DATE_FORMAT(createDate, '%Y-%m')
 </select>
 <resultMap id="memberMonthEntryData" type="board.mybatis.mvc.dto.stats.member.MemberMonthEntryDTO">
     <result column="createDate" property="createDate"/>
@@ -49,23 +49,24 @@
 <!-- StatsMapper id = "boardDayEntryData" -->
 <select id="boardDayEntryData" resultMap="boardDayEntryData">
         SELECT 
-        DATE_FORMAT(createDate, '%Y-%m') 
+        DATE_FORMAT(createDate, '%Y-%m-%d') 
         AS createDate,
         COUNT(*) 
         AS boardDayEntry
         FROM 
-        tbl_board 
+        tbl_board
         GROUP BY 
-        createDate
+        DATE_FORMAT(createDate, '%Y-%m-%d')
         ORDER BY 
-        createDate
+        DATE_FORMAT(createDate, '%Y-%m-%d')
 </select>
 <resultMap id="boardDayEntryData" type="board.mybatis.mvc.dto.stats.board.BoardDayEntryDTO">
     <result column="createDate" property="createDate"/>
     <result column="boardDayEntry" property="boardDayEntry"/>
 </resultMap>
 
-<!-- SatasMapper id = "boardMonthEntryData" -->
+
+<!-- StatsMapper id = "boardMonthEntryData" -->
 <select id="boardMonthEntryData" resultMap="boardMonthEntryData">
         SELECT 
         DATE_FORMAT(createDate, '%Y-%m') 
@@ -73,11 +74,11 @@
         COUNT(*) 
         AS boardMonthEntry
         FROM 
-        tbl_board 
+        tbl_board
         GROUP BY 
-        createDate
+        DATE_FORMAT(createDate, '%Y-%m')
         ORDER BY 
-        createDate
+        DATE_FORMAT(createDate, '%Y-%m')
 </select>
 <resultMap id="boardMonthEntryData" type="board.mybatis.mvc.dto.stats.board.BoardMonthEntryDTO">
     <result column="createDate" property="createDate"/>
@@ -88,13 +89,13 @@
 <!-- StatsMapper id = "likeDayEntryData" -->
 <select id="likeDayEntryData" resultMap="likeDayEntryData"> 
         SELECT 
-        bno,
-        DATE(createDate) 
+        DATE_FORMAT(createDate, '%Y-%m-%d') 
         AS likeEntryDay,
-        COUNT(*) AS likeCount
+        COUNT(*) 
+        AS likeCount
         FROM tbl_like_board
-        GROUP BY bno, likeEntryDay
-        ORDER BY bno, likeEntryDay
+        GROUP BY DATE_FORMAT(createDate, '%Y-%m-%d')
+        ORDER BY DATE_FORMAT(createDate, '%Y-%m-%d')
 </select>
 <resultMap id="likeDayEntryData" type="board.mybatis.mvc.dto.stats.like.LikeDayEntryDTO">
     <result column="bno" property="bno"/>
@@ -106,13 +107,13 @@
 <!-- StatsMapper id = "likeMonthEntryData" -->
 <select id="likeMonthEntryData" resultMap="likeMonthEntryData">
         SELECT 
-        bno,
         DATE_FORMAT(createDate, '%Y-%m') 
         AS likeEntryMonth,
-        COUNT(*) AS likeCount
+        COUNT(*) 
+        AS likeCount
         FROM tbl_like_board
-        GROUP BY bno, likeEntryMonth
-        ORDER BY bno, likeEntryMonth
+        GROUP BY  DATE_FORMAT(createDate, '%Y-%m')
+        ORDER BY  DATE_FORMAT(createDate, '%Y-%m')
 </select>
 <resultMap id="likeMonthEntryData" type="board.mybatis.mvc.dto.stats.like.LikeMonthEntryDTO">
     <result column="bno" property="bno"/>
@@ -124,13 +125,13 @@
 <!-- StatsMapper id = "replyDayEntryData" -->
 <select id="replyDayEntryData" resultMap="replyDayEntryData">
         SELECT 
-        bno,
         DATE_FORMAT(createDate, '%Y-%m-%d') 
         AS replyDayEntry,
-        COUNT(*) AS replyCount
+        COUNT(*) 
+        AS replyCount
         FROM tbl_reply_board
-        GROUP BY bno, replyDayEntry
-        ORDER BY bno, replyDayEntry
+        GROUP BY DATE_FORMAT(createDate, '%Y-%m-%d') 
+        ORDER BY DATE_FORMAT(createDate, '%Y-%m-%d') 
 </select>
 <resultMap id="replyDayEntryData" type="board.mybatis.mvc.dto.stats.reply.ReplyDayEntryDTO">
     <result column="bno" property="bno"/>
@@ -142,13 +143,13 @@
 <!-- StatsMapper id = "replyMonthEntryData" -->
 <select id="replyMonthEntryData" resultMap="replyMonthEntryData">
         SELECT 
-        bno,
         DATE_FORMAT(createDate, '%Y-%m') 
         AS replyMonthEntry,
-        COUNT(*) AS replyCount
+        COUNT(*) 
+        AS replyCount
         FROM tbl_reply_board
-        GROUP BY bno, replyMonthEntry
-        ORDER BY bno, replyMonthEntry
+        GROUP BY DATE_FORMAT(createDate, '%Y-%m') 
+        ORDER BY DATE_FORMAT(createDate, '%Y-%m') 
 </select>
 <resultMap id="replyMonthEntryData" type="board.mybatis.mvc.dto.stats.reply.ReplyMonthEntryDTO">
     <result column="bno" property="bno"/>
@@ -160,13 +161,12 @@
 <!-- StatsMapper id = "viewsDayEntryData" -->
 <select id="viewsDayEntryData" resultMap="viewsDayEntryData">
         SELECT 
-        bno,
         DATE_FORMAT(viewDate, '%Y-%m-%d') 
         AS viewDayEntry,
         COUNT(*) AS viewCount
         FROM tbl_board_views
-        GROUP BY bno, DATE_FORMAT(viewDate, '%Y-%m-%d')
-        ORDER BY bno, DATE_FORMAT(viewDate, '%Y-%m-%d')
+        GROUP BY DATE_FORMAT(viewDate, '%Y-%m-%d')
+        ORDER BY DATE_FORMAT(viewDate, '%Y-%m-%d')
 </select>
 <resultMap id="viewsDayEntryData" type="board.mybatis.mvc.dto.stats.view.ViewsDayEntryDTO">
     <result column="bno" property="bno"/>
@@ -178,14 +178,13 @@
 <!-- StatsMapper id = "viewsMonthEntryData" -->
 <select id="viewsMonthEntryData" resultMap="viewsMonthEntryData">
         SELECT 
-        bno,
         DATE_FORMAT(viewDate, '%Y-%m') 
         AS viewMonthEntry,
         COUNT(*) 
         AS viewCount
         FROM tbl_board_views
-        GROUP BY bno, DATE_FORMAT(viewDate, '%Y-%m')
-        ORDER BY bno, DATE_FORMAT(viewDate, '%Y-%m')
+        GROUP BY DATE_FORMAT(viewDate, '%Y-%m')
+        ORDER BY DATE_FORMAT(viewDate, '%Y-%m')
 </select>
 <resultMap id="viewsMonthEntryData" type="board.mybatis.mvc.dto.stats.view.ViewsMonthEntryDTO">
     <result column="bno" property="bno"/>
