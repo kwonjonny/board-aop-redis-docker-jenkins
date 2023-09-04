@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import board.mybatis.mvc.annotation.RoleAdmin;
 import board.mybatis.mvc.dto.notice.NoticeCreateDTO;
 import board.mybatis.mvc.dto.notice.NoticeDTO;
 import board.mybatis.mvc.dto.notice.NoticeListDTO;
@@ -62,6 +63,7 @@ public class NoticeController {
     }
 
     // GET | Update Notice
+    @RoleAdmin
     @GetMapping("update/{nno}")
     public String getNoticeUpdate(@PathVariable("nno") final Long nno, Model model, PageRequestDTO pageRequestDTO) {
         log.info("GET | Update Notice Controller");
@@ -80,6 +82,7 @@ public class NoticeController {
     }
 
     // POST | Create Notice
+    @RoleAdmin
     @PostMapping("create")
     public String postCreateNotice(@Valid NoticeCreateDTO noticeCreateDTO, RedirectAttributes redirectAttributes) {
         log.info("POST | Create Notice Controller");
@@ -89,6 +92,7 @@ public class NoticeController {
     }
 
     // POST | Update Notice
+    @RoleAdmin
     @PostMapping("update")
     public String postUpdateNotice(@Valid NoticeUpdateDTO noticeUpdateDTO, RedirectAttributes redirectAttributes) {
         log.info("POST | Update Notice Controller");
@@ -98,6 +102,7 @@ public class NoticeController {
     }
 
     // POST | Delete Notice
+    @RoleAdmin
     @PostMapping("delete/{nno}")
     public String postDeleteNotice(@PathVariable("nno") final Long nno, RedirectAttributes redirectAttributes) {
         log.info("POST | Delete Notice Controller");

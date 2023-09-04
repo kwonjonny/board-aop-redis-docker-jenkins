@@ -5,8 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-// 유저의 인정정보 체크 어노테이션 
+// 유저의 관리자 권한 체크 어노테이션 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CheckUserMatch {
+public @interface RoleAdmin {
 }
