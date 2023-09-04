@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import board.mybatis.mvc.exception.AuthorizationException;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * 이 Aspect는 애플리케이션의 권한 관련 문제를 처리합니다.
@@ -15,6 +16,7 @@ import board.mybatis.mvc.exception.AuthorizationException;
  * MemberController 의 GET Update, Post Update, Post Delete 에 적용 
  */
 @Aspect
+@Log4j2
 @Component
 public class AuthorizationAspect {
 
@@ -27,6 +29,7 @@ public class AuthorizationAspect {
      */
     @Around("@annotation(board.mybatis.mvc.annotation.CheckUserMatch)")
     public Object checkUserMatch(ProceedingJoinPoint joinPoint) throws Throwable {
+        log.info("Current User Authentication Check");
         // joinPoint에서 메서드 인수를 가져옵니다.
         Object[] args = joinPoint.getArgs();
         // 인수 목록을 순회하면서 Authentication 타입의 인수를 찾습니다.
@@ -36,6 +39,7 @@ public class AuthorizationAspect {
                 // 인수 목록을 순회하면서 String 타입의 인수 (이메일)를 찾습니다.
                 for (Object otherArg : args) {
                     if (otherArg instanceof String) {
+                        log.info("Current User Check: " + userDetails.getUsername());
                         String email = (String) otherArg;
                         // 현재 인증된 사용자의 이름(이메일)과 메서드의 이메일 인수를 비교합니다.
                         if (!userDetails.getUsername().equals(email)) {

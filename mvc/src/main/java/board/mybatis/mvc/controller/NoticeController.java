@@ -1,6 +1,7 @@
 package board.mybatis.mvc.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,8 +43,9 @@ public class NoticeController {
     }
 
     // GET | Create Notice
+    @RoleAdmin
     @GetMapping("create")
-    public String getCreateNotice() {
+    public String getCreateNotice(Authentication authentication) {
         log.info("GET | Create Notice Controller");
         return "spring/notice/create";
     }
@@ -65,7 +67,8 @@ public class NoticeController {
     // GET | Update Notice
     @RoleAdmin
     @GetMapping("update/{nno}")
-    public String getNoticeUpdate(@PathVariable("nno") final Long nno, Model model, PageRequestDTO pageRequestDTO) {
+    public String getNoticeUpdate(@PathVariable("nno") final Long nno, Model model, PageRequestDTO pageRequestDTO,
+            Authentication authentication) {
         log.info("GET | Update Notice Controller");
         NoticeDTO list = noticeService.readNotice(nno);
         model.addAttribute("list", list);
@@ -84,7 +87,8 @@ public class NoticeController {
     // POST | Create Notice
     @RoleAdmin
     @PostMapping("create")
-    public String postCreateNotice(@Valid NoticeCreateDTO noticeCreateDTO, RedirectAttributes redirectAttributes) {
+    public String postCreateNotice(@Valid NoticeCreateDTO noticeCreateDTO, RedirectAttributes redirectAttributes,
+            Authentication authentication) {
         log.info("POST | Create Notice Controller");
         Long createNotice = noticeService.createNotice(noticeCreateDTO);
         redirectAttributes.addFlashAttribute("message", "공지사항 게시글 생성 완료.");
@@ -94,7 +98,8 @@ public class NoticeController {
     // POST | Update Notice
     @RoleAdmin
     @PostMapping("update")
-    public String postUpdateNotice(@Valid NoticeUpdateDTO noticeUpdateDTO, RedirectAttributes redirectAttributes) {
+    public String postUpdateNotice(@Valid NoticeUpdateDTO noticeUpdateDTO, RedirectAttributes redirectAttributes,
+            Authentication authentication) {
         log.info("POST | Update Notice Controller");
         Long updateNotice = noticeService.updateNotice(noticeUpdateDTO);
         redirectAttributes.addFlashAttribute("message", "공지사항 게시글 업데이트 완료");
@@ -104,7 +109,8 @@ public class NoticeController {
     // POST | Delete Notice
     @RoleAdmin
     @PostMapping("delete/{nno}")
-    public String postDeleteNotice(@PathVariable("nno") final Long nno, RedirectAttributes redirectAttributes) {
+    public String postDeleteNotice(@PathVariable("nno") final Long nno, RedirectAttributes redirectAttributes,
+            Authentication authentication) {
         log.info("POST | Delete Notice Controller");
         Long deleteNotice = noticeService.deleteNotice(nno);
         redirectAttributes.addFlashAttribute("message", "공지사항 게시글 삭제 완료.");
