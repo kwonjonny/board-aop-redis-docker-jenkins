@@ -1,7 +1,6 @@
 package board.mybatis.mvc.exception.advicecontroller;
 
 import java.net.BindException;
-import java.nio.file.AccessDeniedException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,6 +23,7 @@ import board.mybatis.mvc.controller.MemberController;
 import board.mybatis.mvc.controller.NoticeController;
 import board.mybatis.mvc.controller.ReplyController;
 import board.mybatis.mvc.controller.StatsController;
+import board.mybatis.mvc.exception.AuthorizationException;
 import board.mybatis.mvc.exception.BoardNumberNotFoundException;
 import board.mybatis.mvc.exception.DataNotFoundException;
 import board.mybatis.mvc.exception.InvalidEmailException;
@@ -175,8 +175,8 @@ public class AdviceController {
     return generateErrorModelAndView(AdviceErrorEnum.HTTP_MESSAGE_NOT_READABLE, ex);
   }
 
-  @ExceptionHandler(AccessDeniedException.class)
-  public ModelAndView handleAccessDeniedException(AccessDeniedException ex) {
+  @ExceptionHandler(AuthorizationException.class)
+  public ModelAndView handleAccessDeniedException(AuthorizationException ex) {
     log.info("Is Running HandleAccessDeniedException");
     return generateErrorModelAndView(AdviceErrorEnum.ACCESS_DENIED, ex);
   }

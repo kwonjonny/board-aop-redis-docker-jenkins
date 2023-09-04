@@ -5,7 +5,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,10 +16,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import board.mybatis.mvc.annotation.CheckUserMatch;
 import board.mybatis.mvc.dto.member.MemberConvertDTO;
 import board.mybatis.mvc.dto.member.MemberCreateDTO;
 import board.mybatis.mvc.dto.member.MemberListDTO;
 import board.mybatis.mvc.dto.member.MemberUpdateDTO;
+import board.mybatis.mvc.exception.AuthorizationException;
 import board.mybatis.mvc.service.MemberService;
 import board.mybatis.mvc.util.PageRequestDTO;
 import board.mybatis.mvc.util.PageResponseDTO;
@@ -61,9 +62,10 @@ public class MemberController {
     }
 
     // GET : Update Member
+    @CheckUserMatch
     @GetMapping("update/{email}")
     public String geteUpdateMember(@PathVariable("email") final String email, Model model,
-            PageRequestDTO pageRequestDTO) {
+            PageRequestDTO pageRequestDTO, Authentication authentication) {
         log.info("GET | Update Member Controller");
         MemberConvertDTO list = memberService.readMember(email);
         model.addAttribute("list", list);
@@ -89,8 +91,10 @@ public class MemberController {
     }
 
     // POST | Update Member
+    @CheckUserMatch
     @PostMapping("update")
-    public String postUpdateMember(@Valid MemberUpdateDTO memberUpdateDTO, RedirectAttributes redirectAttributes) {
+    public String postUpdateMember(@Valid MemberUpdateDTO memberUpdateDTO, RedirectAttributes redirectAttributes,
+            Authentication authentication) {
         log.info("POST | Update Member Controller");
         Long updateMember = memberService.updateMember(memberUpdateDTO);
         redirectAttributes.addFlashAttribute("message", "회원 업데이트 완료.");
@@ -98,8 +102,10 @@ public class MemberController {
     }
 
     // POST | Delete Member
+    @CheckUserMatch
     @PostMapping("delete/{email}")
-    public String postDeleteMember(@PathVariable("email") final String email, RedirectAttributes redirectAttributes) {
+    public String postDeleteMember(@PathVariable("email") final String email, RedirectAttributes redirectAttributes,
+            Authentication authentication) {
         log.info("POST | Delete Member Controller");
         Long deleteMember = memberService.deleteMember(email);
         redirectAttributes.addFlashAttribute("message", "회원 탈퇴 완료.");
