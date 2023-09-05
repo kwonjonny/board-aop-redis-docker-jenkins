@@ -24,24 +24,24 @@ repositories {
 dependencies {
 	implementation 'org.jetbrains:annotations:24.0.0'
 	
-	// spring boot starter web
+	// Spring boot starter web
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
 
-	// spring boot devtools
+	// Srping boot devtools
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-	// database
+	// Database
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
-	// lombok
+	// Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	// spring starter test
+	// Srping starter test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	// test lombok
+	// Test lombok
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
 
@@ -54,13 +54,13 @@ dependencies {
 	// Spring AOP 
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
 
-	//security
+	// Spring Security 
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'org.springframework.security:spring-security-taglibs'
 
-	//jsp
+	// JSP
 	implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
 	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
 	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
@@ -68,6 +68,13 @@ dependencies {
 
 	// 회원가입, 비밀번호 분실, 회원가입 환영 메일, 회원가입 탈퇴 메일 
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	// Spring Data Redis 
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	// Spring boot cache  
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	// Redis Date Time
+	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.15.2'
 }
 
 tasks.named('test') {

@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -91,12 +92,14 @@ public class BoardServiceImpl implements BoardService {
      */
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "board", keyGenerator = "customKeyGenerator")
+    // @Cacheable(key = "#categoryCode", value = CATEGORY_LIST, cacheManager = "redisCacheManager")
     public BoardDTO readBoard(Long bno) {
         log.info("Is Running Read Board ServiceImpl");
         if (bno == null) {
             throw new DataNotFoundException("해당하는 게시물 번호가 없습니다.");
         }
-        validateBoardNumber(bno); // Board Number Check
+        validateBoardNumber(bno);
         return boardMapper.readBoard(bno);
     }
 

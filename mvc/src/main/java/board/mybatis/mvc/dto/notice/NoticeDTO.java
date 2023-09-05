@@ -21,6 +21,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NoticeDTO {
+
     // tbl_notice
     @NotBlank(message = "nno Should Be Not Blank")
     private Long nno;

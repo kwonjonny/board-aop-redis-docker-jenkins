@@ -6,9 +6,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import board.mybatis.mvc.annotation.CurrentUser;
 import board.mybatis.mvc.dto.notice.NoticeCreateDTO;
 import board.mybatis.mvc.dto.notice.NoticeDTO;
 import board.mybatis.mvc.dto.notice.NoticeListDTO;
@@ -20,6 +22,7 @@ import board.mybatis.mvc.mappers.NoticeMapper;
 import board.mybatis.mvc.service.NoticeService;
 import board.mybatis.mvc.util.PageRequestDTO;
 import board.mybatis.mvc.util.PageResponseDTO;
+import board.mybatis.mvc.util.security.CurrentMember;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -91,7 +94,7 @@ public class NoticeServiceImpl implements NoticeService {
     @Transactional(readOnly = true)
     public NoticeDTO readNotice(Long nno) {
         log.info("Is Running Read Notice ServiceImpl");
-        validateNoticeNumber(nno); // Notice Number Check
+        validateNoticeNumber(nno);
         return noticeMapper.readNotice(nno);
     }
 

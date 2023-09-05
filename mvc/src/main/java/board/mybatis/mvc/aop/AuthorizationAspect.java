@@ -13,7 +13,7 @@ import lombok.extern.log4j.Log4j2;
 /**
  * 이 Aspect는 애플리케이션의 권한 관련 문제를 처리합니다.
  * AOP (관점 지향 프로그래밍)를 활용하여 @CheckUserMatch 어노테이션이 붙은 메서드 호출을 가로챕니다.
- * MemberController 의 GET Update, Post Update, Post Delete 에 적용 
+ * MemberController 의 GET Update, Post Update, Post Delete 에 적용
  */
 @Aspect
 @Log4j2
@@ -48,7 +48,8 @@ public class AuthorizationAspect {
                     }
                 }
             }
-        } // 원래의 메서드를 계속 실행합니다.
+        }
+        // 원래의 메서드를 계속 실행합니다.
         return joinPoint.proceed();
     }
 }

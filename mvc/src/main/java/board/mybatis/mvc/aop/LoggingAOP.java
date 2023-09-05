@@ -27,7 +27,7 @@ public class LoggingAOP {
     /**
      * 포인트컷 설정 - board.mybatis.mvc.service 패키지의 모든 메서드를 대상으로 함.
      */
-    @Pointcut("execution(* board.mybatis.mvc.service..*.*(..))")
+    @Pointcut("execution(* board.mybatis.mvc.service.impl..*.*(..))")
     public void applicationPackagePointcut() {
     }
 

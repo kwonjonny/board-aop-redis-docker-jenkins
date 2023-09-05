@@ -206,7 +206,7 @@ public class BoardServiceTests {
         }
         int viewCount = readBoard.getViewCount();
 
-        boardService.countviewBoard(JUNIT_TEST_BNO);
+        boardService.countViewBoard(JUNIT_TEST_BNO);
         // THEN
         BoardDTO afterReading = boardService.readBoard(JUNIT_TEST_BNO);
         int updatedViewCount = afterReading.getViewCount();
