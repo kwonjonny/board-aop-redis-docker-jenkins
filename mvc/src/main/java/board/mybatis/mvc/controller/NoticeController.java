@@ -19,6 +19,9 @@ import board.mybatis.mvc.service.NoticeService;
 import board.mybatis.mvc.util.ManagementCookie;
 import board.mybatis.mvc.util.PageRequestDTO;
 import board.mybatis.mvc.util.PageResponseDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -30,6 +33,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Controller
 @RequestMapping("spring/notice/")
+@Tag(name = "Notice API", description = "공지사항과 관련된 모든 API")
 public class NoticeController {
 
     private final NoticeService noticeService;
@@ -51,6 +55,7 @@ public class NoticeController {
     // GET | Create Notice
     @RoleAdmin
     @GetMapping("create")
+    @Operation(summary = "공지사항 생성 페이지 조회", description = "공지사항을 생성하는 페이지를 조회합니다.")
     public String getCreateNotice(Authentication authentication) {
         log.info("GET | Create Notice Controller");
         return "spring/notice/create";
@@ -58,9 +63,12 @@ public class NoticeController {
 
     // GET | Read Notice
     @GetMapping("read/{nno}")
-    public String getReadNotice(@PathVariable("nno") final Long nno, Model model, PageRequestDTO pageRequestDTO,
+    @Operation(summary = "공지사항 조회", description = "특정 공지사항을 조회합니다.")
+    public String getReadNotice(
+            @Parameter(description = "공지사항 번호", required = true) @PathVariable("nno") final Long nno,
+            Model model, PageRequestDTO pageRequestDTO,
             HttpServletRequest request, HttpServletResponse response) {
-        log.info("GET | Read Notice Contoller");
+        log.info("GET | Read Notice Controller");
         if (managementCookie.createCookie(request, response, nno)) {
             log.info("Making Cookie");
             noticeService.countViewNotice(nno);
@@ -73,7 +81,10 @@ public class NoticeController {
     // GET | Update Notice
     @RoleAdmin
     @GetMapping("update/{nno}")
-    public String getNoticeUpdate(@PathVariable("nno") final Long nno, Model model, PageRequestDTO pageRequestDTO,
+    @Operation(summary = "공지사항 수정 페이지 조회", description = "공지사항을 수정하는 페이지를 조회합니다.")
+    public String getNoticeUpdate(
+            @Parameter(description = "공지사항 번호", required = true) @PathVariable("nno") final Long nno,
+            Model model, PageRequestDTO pageRequestDTO,
             Authentication authentication) {
         log.info("GET | Update Notice Controller");
         NoticeDTO list = noticeService.readNotice(nno);
@@ -83,7 +94,8 @@ public class NoticeController {
 
     // GET | List Notice
     @GetMapping("list")
-    public String getListNotice(PageRequestDTO pageRequestDTO, Model model) {
+    @Operation(summary = "공지사항 목록 조회", description = "공지사항 목록을 조회합니다.")
+    public String getListNotice(@Parameter(description = "페이지 정보") PageRequestDTO pageRequestDTO, Model model) {
         log.info("GET | List Notice Controller");
         PageResponseDTO<NoticeListDTO> list = noticeService.listNotice(pageRequestDTO);
         model.addAttribute("list", list);
@@ -93,7 +105,9 @@ public class NoticeController {
     // POST | Create Notice
     @RoleAdmin
     @PostMapping("create")
-    public String postCreateNotice(@Valid NoticeCreateDTO noticeCreateDTO, RedirectAttributes redirectAttributes,
+    @Operation(summary = "공지사항 생성", description = "새로운 공지사항을 생성합니다.")
+    public String postCreateNotice(
+            @Valid NoticeCreateDTO noticeCreateDTO, RedirectAttributes redirectAttributes,
             Authentication authentication) {
         log.info("POST | Create Notice Controller");
         Long createNotice = noticeService.createNotice(noticeCreateDTO);
@@ -104,7 +118,9 @@ public class NoticeController {
     // POST | Update Notice
     @RoleAdmin
     @PostMapping("update")
-    public String postUpdateNotice(@Valid NoticeUpdateDTO noticeUpdateDTO, RedirectAttributes redirectAttributes,
+    @Operation(summary = "공지사항 업데이트", description = "기존 공지사항을 업데이트합니다.")
+    public String postUpdateNotice(
+            @Valid NoticeUpdateDTO noticeUpdateDTO, RedirectAttributes redirectAttributes,
             Authentication authentication) {
         log.info("POST | Update Notice Controller");
         Long updateNotice = noticeService.updateNotice(noticeUpdateDTO);
@@ -115,8 +131,10 @@ public class NoticeController {
     // POST | Delete Notice
     @RoleAdmin
     @PostMapping("delete/{nno}")
-    public String postDeleteNotice(@PathVariable("nno") final Long nno, RedirectAttributes redirectAttributes,
-            Authentication authentication) {
+    @Operation(summary = "공지사항 삭제", description = "특정 공지사항을 삭제합니다.")
+    public String postDeleteNotice(
+            @Parameter(description = "공지사항 번호", required = true) @PathVariable("nno") final Long nno,
+            RedirectAttributes redirectAttributes, Authentication authentication) {
         log.info("POST | Delete Notice Controller");
         Long deleteNotice = noticeService.deleteNotice(nno);
         redirectAttributes.addFlashAttribute("message", "공지사항 게시글 삭제 완료.");

@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import board.mybatis.mvc.dto.file.UploadResultDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -28,6 +31,7 @@ import net.coobird.thumbnailator.Thumbnailator;
 @Log4j2
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "File API", description = "파일 업로드와 관련된 모든 API")
 public class FileUploadController {
 
     // File Upload Path = Enginx
@@ -41,7 +45,9 @@ public class FileUploadController {
      * @return 업로드 결과 목록
      */
     @PostMapping("/upload")
-    public List<UploadResultDTO> postFileUpload(@Valid MultipartFile[] files) {
+    @Operation(summary = "파일 업로드", description = "파일을 업로드합니다.")
+    public List<UploadResultDTO> postFileUpload(
+            @Parameter(description = "업로드할 파일 배열", required = true) @Valid MultipartFile[] files) {
         log.info("RestController | Upload File");
         if (files == null || files.length == 0) {
             return null;
@@ -79,7 +85,9 @@ public class FileUploadController {
      * @return 삭제 결과 메시지
      */
     @DeleteMapping("removeFile/{fileName}")
-    public Map<String, String> deleteFile(@PathVariable("fileName") String fileName) {
+    @Operation(summary = "파일 삭제", description = "특정 파일을 삭제합니다.")
+    public Map<String, String> deleteFile(
+            @Parameter(description = "삭제할 파일 이름", required = true) @PathVariable("fileName") String fileName) {
         log.info("RestController | Delete File");
         File originFile = new File(uploadPath, fileName);
 

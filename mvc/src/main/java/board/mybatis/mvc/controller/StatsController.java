@@ -20,6 +20,8 @@ import board.mybatis.mvc.dto.stats.view.ViewsDayEntryDTO;
 import board.mybatis.mvc.dto.stats.view.ViewsMonthEntryDTO;
 import board.mybatis.mvc.service.StatsService;
 import board.mybatis.mvc.util.PageRequestDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -28,6 +30,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Controller
 @RequestMapping("spring/stats/")
+@Tag(name = "Stats API", description = "통계와 관련된 모든 API")
 public class StatsController {
 
     private final StatsService statsService;
@@ -45,6 +48,7 @@ public class StatsController {
 
     // GET | Stats List
     @GetMapping("list")
+    @Operation(summary = "통계 목록 조회", description = "다양한 통계 데이터의 목록을 조회하는 API")
     public String getListStats(PageRequestDTO pageRequestDTO, Model model) {
         log.info("GET | List Stats Controller");
         List<BoardDayEntryDTO> boardDayStats = statsService.boardDayEntryData();
