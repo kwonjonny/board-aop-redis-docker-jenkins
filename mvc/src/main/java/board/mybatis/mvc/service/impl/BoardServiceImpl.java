@@ -91,9 +91,8 @@ public class BoardServiceImpl implements BoardService {
      * @throws BoardNumberNotFoundException 해당 번호의 게시물이 없을 경우 발생
      */
     @Override
+    @Cacheable(value = "board" , keyGenerator = "customKeyGenerator")
     @Transactional(readOnly = true)
-    @Cacheable(value = "board", keyGenerator = "customKeyGenerator")
-    // @Cacheable(key = "#categoryCode", value = CATEGORY_LIST, cacheManager = "redisCacheManager")
     public BoardDTO readBoard(Long bno) {
         log.info("Is Running Read Board ServiceImpl");
         if (bno == null) {

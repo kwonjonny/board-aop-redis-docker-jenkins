@@ -1,5 +1,6 @@
 package board.mybatis.mvc.dto.board;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class BoardDTO {
+public class BoardDTO implements Serializable {
     // tbl_board
     @NotBlank(message = "bno Should Be Not Blank")
     private Long bno;

@@ -3,6 +3,7 @@ package board.mybatis.mvc.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +41,7 @@ public class MemberServiceImpl implements MemberService {
      * memberMapper 의존성 주입을 수행합니다.
      * passwordEncoder 의존성 주입을 수행합니다.
      * 
-     * @param memberMapper      회원 관련 데이터 액세스 객체
+     * @param memberMapper    회원 관련 데이터 액세스 객체
      * @param passwordEncoder 패스워드 인코딩 관련 데이터 액세스 객체
      */
     @Autowired
@@ -95,6 +96,7 @@ public class MemberServiceImpl implements MemberService {
      * @throws InvalidEmailException   이메일 형식에 맞지 않을때 발생하는 예외.
      */
     @Override
+    @Cacheable(value = "myInfo", key = "#email")
     @Transactional(readOnly = true)
     public MemberConvertDTO readMember(String email) {
         log.info("Is Running Read Member ServiceImpl");

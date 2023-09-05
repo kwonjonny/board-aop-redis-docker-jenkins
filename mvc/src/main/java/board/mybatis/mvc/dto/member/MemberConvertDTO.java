@@ -1,5 +1,6 @@
 package board.mybatis.mvc.dto.member;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberConvertDTO {
+public class MemberConvertDTO implements Serializable {
     // tbl_member 
     @NotNull(message = "email Should Be Not Null")
     private String email;
