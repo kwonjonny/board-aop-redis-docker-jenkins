@@ -15,6 +15,7 @@
 <li><strong>대용량 트래픽</strong>을 고려한 응답 속도 향상 구현</li>
 <li><strong>차후 유지보수를 고려한</strong>자바독 주석 커밋</li>
 <li><strong>서버 부하 분산을 위한</strong>Master Slave MySQL Docker 적용</li>
+<li>기능 검증을 위한 <strong>Controller, Service, Mapper 테스트 커버리지 100% 달성</strong></li>
 
 <h2 tabindex="-1" dir="auto"><a id="user-content-wrench-사용-기술" class="anchor" aria-hidden="true" tabindex="-1" href="#wrench-사용-기술"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>🔧 사용 기술</h2>
 
