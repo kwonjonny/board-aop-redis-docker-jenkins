@@ -8,7 +8,7 @@ import board.mybatis.mvc.dto.notice.NoticeCreateDTO;
 import board.mybatis.mvc.dto.notice.NoticeDTO;
 import board.mybatis.mvc.dto.notice.NoticeListDTO;
 import board.mybatis.mvc.dto.notice.NoticeUpdateDTO;
-import board.mybatis.mvc.util.PageRequestDTO;
+import board.mybatis.mvc.util.page.PageRequestDTO;
 
 /**
  * {@code NoticeMapper}는 공지사항 정보에 접근하는 매퍼 인터페이스입니다.

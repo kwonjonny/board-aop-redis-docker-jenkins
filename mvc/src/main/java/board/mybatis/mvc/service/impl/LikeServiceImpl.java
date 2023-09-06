@@ -216,6 +216,7 @@ public class LikeServiceImpl implements LikeService {
     @Transactional(readOnly = true)
     private void validateMemberEmail(String email) {
         log.info("Is Running Validate Member Email ServiceImpl");
+        MemberValidator.validateEmail(email);
         if (likeMapper.findMemberEmail(email) == 0 || likeMapper.findMemberEmail(email) == null) {
             throw new MemberNotFoundException("요청하신 이메일은 회원가입 되지 않은 회원입니다.");
         }

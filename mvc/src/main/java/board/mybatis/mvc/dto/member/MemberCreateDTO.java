@@ -1,6 +1,8 @@
 package board.mybatis.mvc.dto.member;
 
-import jakarta.validation.constraints.NotNull;
+import java.io.Serializable;
+
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,24 +10,26 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-// Member Create DTO Class
+/**
+ * {@code MemberCreateDTO} 클래스는 회원 생성을 위한 DTO 클래스입니다.
+ */
 @Getter
 @Setter
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberCreateDTO {
+public class MemberCreateDTO implements Serializable {
     // tbl_member 
-    @NotNull(message = "email Should Be Not Null")
+    @NotBlank(message = "email Should Be Not Null")
     private String email;
 
-    @NotNull(message = "memberName Should Be Not Null")
+    @NotBlank(message = "memberName Should Be Not Null")
     private String memberName;
 
-    @NotNull(message = "memberPw Should Be Not Null")
+    @NotBlank(message = "memberPw Should Be Not Null")
     private String memberPw;
 
-    @NotNull(message = "memberPhone Should Be Not Null")
+    @NotBlank(message = "memberPhone Should Be Not Null")
     private String memberPhone;
 }

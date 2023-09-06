@@ -1,4 +1,4 @@
-package board.mybatis.mvc.aop;
+package board.mybatis.mvc.aop.rolevalidation;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -27,9 +27,8 @@ public class AuthorizationAspect {
      * @return 원래 메서드의 반환 값
      * @throws Throwable 원래 메서드에서 발생하는 예외를 포함하여 다양한 예외 발생 가능
      */
-    @Around("@annotation(board.mybatis.mvc.annotation.CheckUserMatch)")
-    public Object checkUserMatch(ProceedingJoinPoint joinPoint) throws Throwable {
-        log.info("Current User Authentication Check");
+    @Around("@annotation(board.mybatis.mvc.annotation.CheckMemberMatch)")
+    public Object handleCheckMemberMatch(ProceedingJoinPoint joinPoint) throws Throwable {
         // joinPoint에서 메서드 인수를 가져옵니다.
         Object[] args = joinPoint.getArgs();
         // 인수 목록을 순회하면서 Authentication 타입의 인수를 찾습니다.

@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import board.mybatis.mvc.annotation.CheckUserMatch;
+import board.mybatis.mvc.annotation.CheckMemberMatch;
 import board.mybatis.mvc.dto.member.MemberConvertDTO;
 import board.mybatis.mvc.dto.member.MemberCreateDTO;
 import board.mybatis.mvc.dto.member.MemberListDTO;
 import board.mybatis.mvc.dto.member.MemberUpdateDTO;
 import board.mybatis.mvc.service.MemberService;
-import board.mybatis.mvc.util.PageRequestDTO;
-import board.mybatis.mvc.util.PageResponseDTO;
+import board.mybatis.mvc.util.page.PageRequestDTO;
+import board.mybatis.mvc.util.page.PageResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -71,7 +71,7 @@ public class MemberController {
     }
 
     // GET : Update Member
-    @CheckUserMatch
+    @CheckMemberMatch
     @GetMapping("update/{email}")
     @Operation(summary = "회원 수정 페이지 조회", description = "회원 정보를 수정하는 페이지를 조회합니다.")
     public String geteUpdateMember(
@@ -105,7 +105,7 @@ public class MemberController {
     }
 
     // POST | Update Member
-    @CheckUserMatch
+    @CheckMemberMatch
     @PostMapping("update")
     @Operation(summary = "회원 업데이트", description = "기존 회원 정보를 업데이트합니다.")
     public String postUpdateMember(
@@ -118,7 +118,7 @@ public class MemberController {
     }
 
     // POST | Delete Member
-    @CheckUserMatch
+    @CheckMemberMatch
     @PostMapping("delete/{email}")
     @Operation(summary = "회원 탈퇴", description = "특정 회원을 탈퇴시킵니다.")
     public String postDeleteMember(

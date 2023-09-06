@@ -1,5 +1,6 @@
 package board.mybatis.mvc.dto.member;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotBlank;
@@ -11,25 +12,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-// Member Update DTO Class
+/**
+ * {@code MemberUpdateDTO} 클래스는 회원 정보 업데이트를 위한 DTO 클래스입니다.
+ */
 @Getter
 @Setter
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberUpdateDTO {
+public class MemberUpdateDTO implements Serializable {
     // tbl_member
-    @NotNull(message = "email Should Be Not Null")
+    @NotBlank(message = "email Should Be Not NotBlank")
     private String email;
 
-    @NotNull(message = "memberName Should Be Not Null")
+    @NotBlank(message = "memberName Should Be Not NotBlank")
     private String memberName;
 
-    @NotNull(message = "memberPw Should Be Not Null")
+    @NotBlank(message = "memberPw Should Be Not NotBlank")
     private String memberPw;
 
-    @NotNull(message = "memberPhone Should Be Not Null")
+    @NotNull(message = "memberPhone Should Be Not NotBlank")
     private String memberPhone;
 
     @NotBlank(message = "createDate Should Be Not Blank")

@@ -19,7 +19,7 @@ import board.mybatis.mvc.dto.stats.reply.ReplyMonthEntryDTO;
 import board.mybatis.mvc.dto.stats.view.ViewsDayEntryDTO;
 import board.mybatis.mvc.dto.stats.view.ViewsMonthEntryDTO;
 import board.mybatis.mvc.service.StatsService;
-import board.mybatis.mvc.util.PageRequestDTO;
+import board.mybatis.mvc.util.page.PageRequestDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.log4j.Log4j2;

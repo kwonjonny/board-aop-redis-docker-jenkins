@@ -20,8 +20,8 @@ import board.mybatis.mvc.exception.NoticeNumberNotFoundException;
 import board.mybatis.mvc.exception.ReplyNumberNotFoundException;
 import board.mybatis.mvc.mappers.ReplyMapper;
 import board.mybatis.mvc.service.ReplyService;
-import board.mybatis.mvc.util.PageRequestDTO;
-import board.mybatis.mvc.util.PageResponseDTO;
+import board.mybatis.mvc.util.page.PageRequestDTO;
+import board.mybatis.mvc.util.page.PageResponseDTO;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -64,17 +64,17 @@ public class ReplyServiceImpl implements ReplyService {
                 || replyBoardCreateDTO.getBno() == null) {
             throw new DataNotFoundException("게시물 번호, 작성자, 댓글 내용 은 필수사항입니다.");
         }
-        validateBoardNumber(replyBoardCreateDTO.getBno()); // Check Board Number
+        validateBoardNumber(replyBoardCreateDTO.getBno()); 
         if (replyBoardCreateDTO.getGno() == null || replyBoardCreateDTO.getGno() == 0) {
             Long createBoardReply = replyMapper.createBoardReply(replyBoardCreateDTO);
 
-            validateBoardReplyNumber(replyBoardCreateDTO.getRno()); // Check Board Reply Number
+            validateBoardReplyNumber(replyBoardCreateDTO.getRno()); 
             replyMapper.updateBoardReplyGno(replyBoardCreateDTO.getRno(), replyBoardCreateDTO.getRno());
             return replyMapper.incrementBoardReplyCount(replyBoardCreateDTO.getBno());
         } else {
             Long createBoardReplyChild = replyMapper.createBoardReplyChild(replyBoardCreateDTO);
 
-            validateBoardReplyNumber(replyBoardCreateDTO.getRno()); // Check Board Reply Number
+            validateBoardReplyNumber(replyBoardCreateDTO.getRno()); 
             return replyMapper.incrementBoardReplyCount(replyBoardCreateDTO.getBno());
         }
     }
@@ -91,7 +91,7 @@ public class ReplyServiceImpl implements ReplyService {
     @Transactional
     public Long deleteBoardReply(Long rno) {
         log.info("Is Running Delete Board Reply ServiceImpl");
-        validateBoardReplyNumber(rno); // Check Board Reply Number
+        validateBoardReplyNumber(rno); 
         ReplyBoardDTO replyBoardDTO = replyMapper.readBoardReply(rno);
         replyMapper.deleteBoardReply(rno);
         return replyMapper.decrementBoardReplyCount(replyBoardDTO.getBno());
@@ -128,7 +128,7 @@ public class ReplyServiceImpl implements ReplyService {
     @Transactional(readOnly = true)
     public ReplyBoardDTO readBoardReply(Long rno) {
         log.info("Is Running Read Board Reply ServiceImpl");
-        validateBoardReplyNumber(rno); // Check Board Reply Number
+        validateBoardReplyNumber(rno);
         return replyMapper.readBoardReply(rno);
     }
 
@@ -145,7 +145,7 @@ public class ReplyServiceImpl implements ReplyService {
     @Transactional(readOnly = true)
     public PageResponseDTO<ReplyBoardListDTO> listBoardReply(PageRequestDTO pageRequestDTO, Long bno) {
         log.info("Is Running List Board Reply ServiceImpl");
-        validateBoardNumber(bno); // Check Board Number
+        validateBoardNumber(bno); 
         pageRequestDTO.setSize(10);
         int total = replyMapper.totalBoardReply(bno);
         // page 번호
@@ -179,7 +179,7 @@ public class ReplyServiceImpl implements ReplyService {
     @Transactional(readOnly = true)
     public Long countBoardReply(Long bno) {
         log.info("Is Running Count Board Reply ServiceImpl");
-        validateBoardNumber(bno); // Check Board Number
+        validateBoardNumber(bno); 
         return replyMapper.countBoardReply(bno);
     }
 
@@ -202,17 +202,17 @@ public class ReplyServiceImpl implements ReplyService {
                 || replyNoticeCreateDTO.getReplyer() == null) {
             throw new DataNotFoundException("공지사항 번호, 작성자, 댓글 내용은 필수입니다.");
         }
-        validateNoticeNumber(replyNoticeCreateDTO.getNno()); // Check Notice Number
+        validateNoticeNumber(replyNoticeCreateDTO.getNno()); 
         if (replyNoticeCreateDTO.getGno() == null || replyNoticeCreateDTO.getGno() == 0) {
             Long createNoticeReply = replyMapper.createNoticeReply(replyNoticeCreateDTO);
 
-            validateNoticeReplyNumber(replyNoticeCreateDTO.getRno()); // Check Notice Reply Number
+            validateNoticeReplyNumber(replyNoticeCreateDTO.getRno()); 
             replyMapper.updateNoticeReplyGno(replyNoticeCreateDTO.getRno(), replyNoticeCreateDTO.getRno());
             return replyMapper.incrementNoticeReplyCount(replyNoticeCreateDTO.getNno());
         } else {
             Long createNoticeReplyChild = replyMapper.createNoticeReplyChild(replyNoticeCreateDTO);
 
-            validateNoticeReplyNumber(replyNoticeCreateDTO.getRno()); // Check Notice Reply Number
+            validateNoticeReplyNumber(replyNoticeCreateDTO.getRno()); 
             return replyMapper.incrementNoticeReplyCount(replyNoticeCreateDTO.getNno());
         }
     }
@@ -229,7 +229,7 @@ public class ReplyServiceImpl implements ReplyService {
     @Transactional
     public Long deleteNoticeReply(Long rno) {
         log.info("Is Running Delete Notice Reply ServiceImpl");
-        validateNoticeReplyNumber(rno); // Check Notice Reply Number
+        validateNoticeReplyNumber(rno);
         ReplyNoticeDTO replyNoticeDTO = replyMapper.readNoticeReply(rno);
         replyMapper.deleteNoticeReply(rno);
         return replyMapper.decrementNoticeReplyCount(replyNoticeDTO.getNno());
@@ -282,10 +282,7 @@ public class ReplyServiceImpl implements ReplyService {
     @Override
     @Transactional(readOnly = true)
     public PageResponseDTO<ReplyNoticeListDTO> listNoticeReply(PageRequestDTO pageRequestDTO, Long nno) {
-        if (pageRequestDTO == null) {
-            throw new DataNotFoundException("해당하는 공지사항 댓글 리스트가 없습니다.");
-        }
-        validateNoticeNumber(nno); // Check Notice Number
+        validateNoticeNumber(nno); 
         pageRequestDTO.setSize(10);
         int total = replyMapper.totalNoticeReply(nno);
         // page 번호
@@ -319,7 +316,7 @@ public class ReplyServiceImpl implements ReplyService {
     @Transactional(readOnly = true)
     public Long countNoticeReply(Long nno) {
         log.info("Is Running Count Notice Reply ServiceImpl");
-        validateNoticeNumber(nno); // Check Notice Number
+        validateNoticeNumber(nno);
         return replyMapper.countNoticeReply(nno);
     }
 

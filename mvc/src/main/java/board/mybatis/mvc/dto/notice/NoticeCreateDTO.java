@@ -1,9 +1,10 @@
 package board.mybatis.mvc.dto.notice;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,24 +12,26 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-// Notice Create DTO Class
+/**
+ * {@code NoticeCreateDTO} 클래스는 공지사항 생성을 위한 DTO 클래스입니다.
+ */
 @Getter
 @Setter
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class NoticeCreateDTO {
+public class NoticeCreateDTO implements Serializable{
     // tbl_notice
     private Long nno;
 
-    @NotNull(message = "writer Should Be Not Null")
+    @NotBlank(message = "writer Should Be Not NotBlank")
     private String writer;
 
-    @NotNull(message = "title Should Be Not Null")
+    @NotBlank(message = "title Should Be Not NotBlank")
     private String title;
 
-    @NotNull(message = "content Should Be Not Null")
+    @NotBlank(message = "content Should Be Not NotBlank")
     private String content;
 
     @Builder.Default

@@ -3,6 +3,7 @@ package board.mybatis.mvc.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,14 +21,15 @@ import board.mybatis.mvc.exception.MemberPhoneIllegalArgumentException;
 import board.mybatis.mvc.exception.PasswordIllegalArgumentException;
 import board.mybatis.mvc.mappers.MemberMapper;
 import board.mybatis.mvc.service.MemberService;
-import board.mybatis.mvc.util.PageRequestDTO;
-import board.mybatis.mvc.util.PageResponseDTO;
+import board.mybatis.mvc.util.page.PageRequestDTO;
+import board.mybatis.mvc.util.page.PageResponseDTO;
 import board.mybatis.mvc.util.validator.MemberValidator;
 import lombok.extern.log4j.Log4j2;
 
 /**
  * 회원 서비스 구현 클래스.
  * 회원 에 대한 CRUD 관련 서비스를 제공합니다.
+ * Redis Cache 는 ReadMember, UpdateMember, DeleteMember 에 포함되어 있습니다.
  */
 @Log4j2
 @Service
@@ -89,6 +91,7 @@ public class MemberServiceImpl implements MemberService {
      * 회원 조회 메서드.
      * 이메일을 기준으로 회원 정보를 조회합니다.
      * 이메일의 유효성 검사를 포함합니다.
+     * 이메일에 대한 회원 정보는 캐시에서 조회하며, 캐시에 없는 경우 DB에서 가져와 캐시에 저장합니다.
      * 
      * @param email 조회하려는 회원의 이메일
      * @return 회원의 정보가 담긴 DTO
@@ -96,7 +99,7 @@ public class MemberServiceImpl implements MemberService {
      * @throws InvalidEmailException   이메일 형식에 맞지 않을때 발생하는 예외.
      */
     @Override
-    @Cacheable(value = "myInfo", key = "#email")
+    @Cacheable(value = "Member", key = "#email", cacheManager = "cacheManager")
     @Transactional(readOnly = true)
     public MemberConvertDTO readMember(String email) {
         log.info("Is Running Read Member ServiceImpl");
@@ -110,6 +113,7 @@ public class MemberServiceImpl implements MemberService {
      * 회원 정보 업데이트 메서드.
      * 제공된 DTO를 사용하여 회원 정보를 업데이트합니다.
      * 이메일, 비밀번호, 전화번호에 대한 유효성 검사를 포함합니다.
+     * 회원 정보가 업데이트되면 해당 회원의 캐시된 데이터가 삭제됩니다.
      * 
      * @param memberUpdateDTO 업데이트하려는 회원 정보 DTO
      * @return 업데이트된 회원의 ID
@@ -121,6 +125,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     @Transactional
+    @CacheEvict(value = "Member", key = "#memberUpdateDTO.email", cacheManager = "cacheManager")
     public Long updateMember(MemberUpdateDTO memberUpdateDTO) {
         log.info("Is Running Update Member ServiceImpl");
         if (memberUpdateDTO.getEmail() == null || memberUpdateDTO.getMemberName() == null
@@ -139,6 +144,7 @@ public class MemberServiceImpl implements MemberService {
      * 회원 탈퇴 서비스.
      * 회원 탈퇴 메서드.
      * 회원의 이메일을 기준으로 회원 정보를 삭제합니다.
+     * 해당 회원이 탈퇴하면, 그 회원의 캐시된 데이터가 삭제됩니다.
      * 
      * @param email 탈퇴하려는 회원의 이메일
      * @return 삭제된 회원의 ID
@@ -147,6 +153,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     @Transactional
+    @CacheEvict(value = "Member", key = "#email", cacheManager = "cacheManager")
     public Long deleteMember(String email) {
         log.info("Is Running Delete Member ServiceImpl");
         notFoundMember(email);
@@ -168,9 +175,6 @@ public class MemberServiceImpl implements MemberService {
     @Transactional(readOnly = true)
     public PageResponseDTO<MemberListDTO> listMember(PageRequestDTO pageRequestDTO) {
         log.info("Is Running List Member ServiceImpl");
-        if (pageRequestDTO == null) {
-            throw new DataNotFoundException("해당하는 회원 리스트가 없습니다.");
-        }
         List<MemberListDTO> list = memberMapper.listMember(pageRequestDTO);
         int total = memberMapper.total(pageRequestDTO);
         return PageResponseDTO.<MemberListDTO>withAll()
@@ -192,6 +196,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional(readOnly = true)
     private void duplicateMemberEmail(String email) {
         log.info("Is Running Duplicate Member Email ServiceImpl");
+        MemberValidator.validateEmail(email);
         if (memberMapper.findMemberEmail(email) == 1) {
             throw new MemberEmailDuplicateException("이미 회원가입이 완료된 이메일입니다");
         }
@@ -209,6 +214,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional(readOnly = true)
     private void notFoundMember(String email) {
         log.info("Is Running Not Found Member Email ServiceImpl");
+        MemberValidator.validateEmail(email);
         if (memberMapper.findMemberEmail(email) == 0 || memberMapper.findMemberEmail(email) == null) {
             throw new MemberNotFoundException("해당하는 이메일의 회원이 없습니다.");
         }

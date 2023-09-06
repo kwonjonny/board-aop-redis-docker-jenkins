@@ -1,4 +1,4 @@
-package board.mybatis.mvc.util;
+package board.mybatis.mvc.util.page;
 
 import java.util.List;
 

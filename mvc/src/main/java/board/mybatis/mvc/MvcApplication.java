@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.EnableCaching;
 
 /**
  * 애플리케이션의 시작점을 나타내는 클래스입니다.
+ * EnableCaching 은 Redis 의 캐싱 작업을 수행하게 합니다.
  */
 @EnableCaching
 @SpringBootApplication

@@ -13,7 +13,7 @@ import board.mybatis.mvc.dto.reply.notice.ReplyNoticeCreateDTO;
 import board.mybatis.mvc.dto.reply.notice.ReplyNoticeDTO;
 import board.mybatis.mvc.dto.reply.notice.ReplyNoticeListDTO;
 import board.mybatis.mvc.dto.reply.notice.ReplyNoticeUpdateDTO;
-import board.mybatis.mvc.util.PageRequestDTO;
+import board.mybatis.mvc.util.page.PageRequestDTO;
 
 /**
  * {@code ReplyMapper}는 게시물 및 공지사항 댓글 관련 데이터베이스 작업을 위한 매퍼 인터페이스입니다.

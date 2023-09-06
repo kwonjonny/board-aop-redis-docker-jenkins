@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,8 +20,8 @@ import board.mybatis.mvc.exception.DataNotFoundException;
 import board.mybatis.mvc.mappers.BoardMapper;
 import board.mybatis.mvc.mappers.FileMapper;
 import board.mybatis.mvc.service.BoardService;
-import board.mybatis.mvc.util.PageRequestDTO;
-import board.mybatis.mvc.util.PageResponseDTO;
+import board.mybatis.mvc.util.page.PageRequestDTO;
+import board.mybatis.mvc.util.page.PageResponseDTO;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -65,7 +66,7 @@ public class BoardServiceImpl implements BoardService {
                 || boardCreateDTO.getContent() == null) {
             throw new DataNotFoundException("제목, 내용, 작성자는 필수입니다.");
         }
-        Long count = boardMapper.createBoard(boardCreateDTO);
+        boardMapper.createBoard(boardCreateDTO);
         AtomicInteger index = new AtomicInteger(0);
         List<String> fileNames = boardCreateDTO.getFileName();
         Long bno = boardCreateDTO.getBno();
@@ -84,20 +85,19 @@ public class BoardServiceImpl implements BoardService {
 
     /**
      * 게시물 조회 서비스 메서드.
-     *
+     * 해당 게시물 정보는 캐시에서 조회하며, 캐시에 없는 경우 DB에서 가져와 캐시에 저장합니다.
+     * 캐시 키 생성은 "Key_Generator"를 사용합니다.
+     * 
      * @param bno 조회할 게시물 번호
      * @return 조회된 게시물 정보
      * @throws DataNotFoundException        해당하는 게시물 번호가 없을 경우 발생
      * @throws BoardNumberNotFoundException 해당 번호의 게시물이 없을 경우 발생
      */
     @Override
-    @Cacheable(value = "board" , keyGenerator = "customKeyGenerator")
+    @Cacheable(value = "Board", keyGenerator = "Key_Generator", cacheManager = "cacheManager")
     @Transactional(readOnly = true)
     public BoardDTO readBoard(Long bno) {
         log.info("Is Running Read Board ServiceImpl");
-        if (bno == null) {
-            throw new DataNotFoundException("해당하는 게시물 번호가 없습니다.");
-        }
         validateBoardNumber(bno);
         return boardMapper.readBoard(bno);
     }
@@ -105,6 +105,8 @@ public class BoardServiceImpl implements BoardService {
     /**
      * 게시물 수정 서비스 메서드.
      * 부가 기능: 파일업로드.
+     * 해당 게시물 정보는 캐시에서 수정됩니다. 수정된 정보로 캐시 내용이 갱신되며, "Key_Generator"를 사용하여 캐시 키를
+     * 생성합니다.
      *
      * @param boardUpdateDTO 게시판 수정 정보 DTO
      * @return 수정된 게시물의 번호
@@ -113,15 +115,16 @@ public class BoardServiceImpl implements BoardService {
      */
     @Override
     @Transactional
+    @CacheEvict(value = "Board", keyGenerator = "Key_Generator", cacheManager = "cacheManager")
     public Long updateBoard(BoardUpdateDTO boardUpdateDTO) {
         log.info("Is Running Update Board ServiceImpl");
         if (boardUpdateDTO.getTitle() == null || boardUpdateDTO.getWriter() == null || boardUpdateDTO.getBno() == null
                 || boardUpdateDTO.getContent() == null) {
             throw new DataNotFoundException("제목, 내용, 작성자는 필수입니다.");
         }
-        validateBoardNumber(boardUpdateDTO.getBno()); 
+        validateBoardNumber(boardUpdateDTO.getBno());
 
-        Long count = boardMapper.updateBoard(boardUpdateDTO);
+        boardMapper.updateBoard(boardUpdateDTO);
         AtomicInteger index = new AtomicInteger(0);
         List<String> fileNames = boardUpdateDTO.getFileName();
         Long bno = boardUpdateDTO.getBno();
@@ -141,6 +144,8 @@ public class BoardServiceImpl implements BoardService {
 
     /**
      * 게시물 삭제 서비스 메서드.
+     * 해당 게시물 정보는 캐시에서 제거됩니다. "Key_Generator"를 사용하여 캐시 키를 생성하여 해당 게시물 정보를 캐시에서
+     * 제거합니다.
      *
      * @param bno 삭제할 게시물 번호
      * @return 삭제된 게시물의 번호
@@ -149,12 +154,13 @@ public class BoardServiceImpl implements BoardService {
      */
     @Override
     @Transactional
+    @CacheEvict(value = "Board", keyGenerator = "Key_Generator", cacheManager = "cacheManager")
     public Long deleteBoard(Long bno) {
         log.info("Is Running Delete Board ServiceImpl");
         if (bno == null) {
             throw new DataNotFoundException("해당하는 게시물 번호가 없습니다.");
         }
-        validateBoardNumber(bno); // Board Number Check
+        validateBoardNumber(bno);
         fileMapper.deleteImage(bno);
         return boardMapper.deleteBoard(bno);
     }
@@ -172,9 +178,6 @@ public class BoardServiceImpl implements BoardService {
         log.info("Is Running List Board ServiceImpl");
         List<BoardListDTO> list = boardMapper.listBoard(pageRequestDTO);
         int total = boardMapper.total(pageRequestDTO);
-        if (list == null || pageRequestDTO == null) {
-            throw new DataNotFoundException("해당하는 게시글 리스트가 없습니다.");
-        }
         return PageResponseDTO.<BoardListDTO>withAll()
                 .list(list)
                 .total(total)
@@ -194,10 +197,7 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     public int countViewBoard(Long bno) {
         log.info("Is Running Board View Count ServiceImpl");
-        validateBoardNumber(bno); 
-        if (bno == null) {
-            throw new DataNotFoundException("해당하는 게시글 번호가 없습니다.");
-        }
+        validateBoardNumber(bno);
         boardMapper.createViewBoardCount(bno);
         return boardMapper.countViewBoard(bno);
     }

@@ -4,8 +4,8 @@ import board.mybatis.mvc.dto.board.BoardCreateDTO;
 import board.mybatis.mvc.dto.board.BoardDTO;
 import board.mybatis.mvc.dto.board.BoardListDTO;
 import board.mybatis.mvc.dto.board.BoardUpdateDTO;
-import board.mybatis.mvc.util.PageRequestDTO;
-import board.mybatis.mvc.util.PageResponseDTO;
+import board.mybatis.mvc.util.page.PageRequestDTO;
+import board.mybatis.mvc.util.page.PageResponseDTO;
 
 /**
  * 게시물 관련 서비스의 인터페이스입니다.

@@ -24,8 +24,8 @@ import board.mybatis.mvc.exception.NoticeNumberNotFoundException;
 import board.mybatis.mvc.mappers.FileMapper;
 import board.mybatis.mvc.mappers.NoticeMapper;
 import board.mybatis.mvc.service.NoticeService;
-import board.mybatis.mvc.util.PageRequestDTO;
-import board.mybatis.mvc.util.PageResponseDTO;
+import board.mybatis.mvc.util.page.PageRequestDTO;
+import board.mybatis.mvc.util.page.PageResponseDTO;
 import lombok.extern.log4j.Log4j2;
 
 // Notice Service Test Class

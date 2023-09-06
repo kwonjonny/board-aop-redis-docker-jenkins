@@ -29,8 +29,8 @@ import board.mybatis.mvc.dto.member.MemberCreateDTO;
 import board.mybatis.mvc.dto.member.MemberListDTO;
 import board.mybatis.mvc.dto.member.MemberUpdateDTO;
 import board.mybatis.mvc.service.MemberService;
-import board.mybatis.mvc.util.PageRequestDTO;
-import board.mybatis.mvc.util.PageResponseDTO;
+import board.mybatis.mvc.util.page.PageRequestDTO;
+import board.mybatis.mvc.util.page.PageResponseDTO;
 import lombok.extern.log4j.Log4j2;
 
 // Member Controller Test Class

@@ -18,8 +18,8 @@ import board.mybatis.mvc.dto.reply.notice.ReplyNoticeListDTO;
 import board.mybatis.mvc.dto.reply.notice.ReplyNoticeUpdateDTO;
 import board.mybatis.mvc.exception.ReplyNumberNotFoundException;
 import board.mybatis.mvc.service.ReplyService;
-import board.mybatis.mvc.util.PageRequestDTO;
-import board.mybatis.mvc.util.PageResponseDTO;
+import board.mybatis.mvc.util.page.PageRequestDTO;
+import board.mybatis.mvc.util.page.PageResponseDTO;
 import lombok.extern.log4j.Log4j2;
 
 // Reply Service Test Class

@@ -23,7 +23,7 @@ import board.mybatis.mvc.exception.DataNotFoundException;
 import board.mybatis.mvc.exception.NoticeNumberNotFoundException;
 import board.mybatis.mvc.mappers.FileMapper;
 import board.mybatis.mvc.mappers.NoticeMapper;
-import board.mybatis.mvc.util.PageRequestDTO;
+import board.mybatis.mvc.util.page.PageRequestDTO;
 import lombok.extern.log4j.Log4j2;
 
 // Notice Mapper Test Class

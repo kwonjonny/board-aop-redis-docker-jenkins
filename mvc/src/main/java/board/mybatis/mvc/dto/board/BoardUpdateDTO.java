@@ -1,11 +1,11 @@
 package board.mybatis.mvc.dto.board;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,29 +13,32 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-// Board Update DTO Class
+/**
+ * {@code BoardUpdateDTO} 클래스는 게시판 업데이트를 위한 DTO 클래스입니다.
+ *
+ * 이 클래스는 게시물 번호, 내용, 작성자, 제목, 업데이트 일자, 첨부 파일 목록을 가지고 있습니다.
+ */
 @Getter
 @Setter
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class BoardUpdateDTO {
+public class BoardUpdateDTO implements Serializable {
     // tbl_board
-
-    @NotBlank(message = "bno Should Be Not Null")
+    @NotBlank(message = "bno Should Be Not Blank")
     private Long bno;
 
-    @NotNull(message = "content Should Be Not Null")
+    @NotBlank(message = "content Should Be Not Blank")
     private String content;
 
-    @NotNull(message = "writer Should Be Not Null")
+    @NotBlank(message = "writer Should Be Not Blank")
     private String writer;
 
-    @NotNull(message = "title Should Be Not Null")
+    @NotBlank(message = "title Should Be Not Blank")
     private String title;
 
-    @NotBlank(message = "updateDate Should Be Not Null")
+    @NotBlank(message = "updateDate Should Be Not Blank")
     private LocalDate updateDate;
 
     @Builder.Default

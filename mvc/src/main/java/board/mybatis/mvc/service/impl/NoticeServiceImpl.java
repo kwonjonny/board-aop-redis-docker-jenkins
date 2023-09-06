@@ -6,11 +6,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import board.mybatis.mvc.annotation.CurrentUser;
 import board.mybatis.mvc.dto.notice.NoticeCreateDTO;
 import board.mybatis.mvc.dto.notice.NoticeDTO;
 import board.mybatis.mvc.dto.notice.NoticeListDTO;
@@ -20,9 +20,8 @@ import board.mybatis.mvc.exception.NoticeNumberNotFoundException;
 import board.mybatis.mvc.mappers.FileMapper;
 import board.mybatis.mvc.mappers.NoticeMapper;
 import board.mybatis.mvc.service.NoticeService;
-import board.mybatis.mvc.util.PageRequestDTO;
-import board.mybatis.mvc.util.PageResponseDTO;
-import board.mybatis.mvc.util.security.CurrentMember;
+import board.mybatis.mvc.util.page.PageRequestDTO;
+import board.mybatis.mvc.util.page.PageResponseDTO;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -52,7 +51,8 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     /**
-     * 새로운 공지사항 생성 서비스.
+     * 새로운 공지사항 생성 서비스 메서드.
+     * 부가 기능: 파일업로드.
      * 
      * @param noticeCreateDTO 생성할 공지사항의 세부 정보를 포함하는 DTO.
      * @return 생성된 공지사항의 ID 반환.
@@ -66,7 +66,7 @@ public class NoticeServiceImpl implements NoticeService {
                 || noticeCreateDTO.getTitle() == null) {
             throw new DataNotFoundException("공지사항 게시글, 작성자, 내용은 필수입니다.");
         }
-        Long count = noticeMapper.createNotice(noticeCreateDTO);
+        noticeMapper.createNotice(noticeCreateDTO);
         AtomicInteger index = new AtomicInteger(0);
         List<String> fileNames = noticeCreateDTO.getFileName();
         Long nno = noticeCreateDTO.getNno();
@@ -85,6 +85,8 @@ public class NoticeServiceImpl implements NoticeService {
 
     /**
      * 공지사항 조회 서비스.
+     * 해당 게시물 정보는 캐시에서 조회하며, 캐시에 없는 경우 DB에서 가져와 캐시에 저장합니다.
+     * 캐시 키 생성은 "Key_Generator"를 사용합니다.
      * 
      * @param nno 조회할 공지사항의 번호.
      * @return 조회된 공지사항의 정보를 담고 있는 DTO.
@@ -92,6 +94,7 @@ public class NoticeServiceImpl implements NoticeService {
      */
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "Notice", keyGenerator = "Key_Generator", cacheManager = "cacheManager")
     public NoticeDTO readNotice(Long nno) {
         log.info("Is Running Read Notice ServiceImpl");
         validateNoticeNumber(nno);
@@ -99,7 +102,8 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     /**
-     * 공지사항 업데이트 서비스.
+     * 공지사항 수정 서비스 메서드.
+     * 부가기능: 파일업로드.
      * 
      * @param noticeUpdateDTO 업데이트 할 공지사항의 세부 정보를 포함하는 DTO.
      * @return 업데이트 된 공지사항의 ID 반환.
@@ -108,6 +112,7 @@ public class NoticeServiceImpl implements NoticeService {
      */
     @Override
     @Transactional
+    @CacheEvict(value = "Notice", keyGenerator = "Key_Generator", cacheManager = "cacheManager")
     public Long updateNotice(NoticeUpdateDTO noticeUpdateDTO) {
         log.info("Is Running Update Notice ServiceImpl");
         if (noticeUpdateDTO.getNno() == null || noticeUpdateDTO.getContent() == null
@@ -116,7 +121,7 @@ public class NoticeServiceImpl implements NoticeService {
         }
         validateNoticeNumber(noticeUpdateDTO.getNno());
 
-        Long count = noticeMapper.updateNotice(noticeUpdateDTO);
+        noticeMapper.updateNotice(noticeUpdateDTO);
         AtomicInteger index = new AtomicInteger(0);
         List<String> fileNames = noticeUpdateDTO.getFileName();
         Long nno = noticeUpdateDTO.getNno();
@@ -136,6 +141,8 @@ public class NoticeServiceImpl implements NoticeService {
 
     /**
      * 공지사항 삭제 서비스.
+     * 해당 게시물 정보는 캐시에서 제거됩니다. "Key_Generator"를 사용하여 캐시 키를 생성하여 해당 게시물 정보를 캐시에서
+     * 제거합니다.
      * 
      * @param nno 삭제할 공지사항의 번호.
      * @return 삭제된 공지사항의 번호 반환.
@@ -143,9 +150,10 @@ public class NoticeServiceImpl implements NoticeService {
      */
     @Override
     @Transactional
+    @CacheEvict(value = "Notice", keyGenerator = "Key_Generator", cacheManager = "cacheManager")
     public Long deleteNotice(Long nno) {
         log.info("Is Running Delete Notice ServiceImpl");
-        validateNoticeNumber(nno); // Notice Number Check
+        validateNoticeNumber(nno);
         fileMapper.deleteNoticeImage(nno);
         return noticeMapper.deleteNotice(nno);
     }
@@ -161,9 +169,6 @@ public class NoticeServiceImpl implements NoticeService {
     @Transactional(readOnly = true)
     public PageResponseDTO<NoticeListDTO> listNotice(PageRequestDTO pageRequestDTO) {
         log.info("Is Running List Notice ServiceImpl");
-        if (pageRequestDTO == null) {
-            throw new DataNotFoundException("해당하는 공지사항 게시글 리스트가 없습니다.");
-        }
         List<NoticeListDTO> list = noticeMapper.listNotice(pageRequestDTO);
         int total = noticeMapper.total(pageRequestDTO);
         return PageResponseDTO.<NoticeListDTO>withAll()
@@ -186,9 +191,6 @@ public class NoticeServiceImpl implements NoticeService {
     public int countViewNotice(Long nno) {
         log.info("Is Running Notice View Count");
         validateNoticeNumber(nno);
-        if (nno == null) {
-            throw new DataNotFoundException("해당하는 공지사항 번호가 없습니다.");
-        }
         noticeMapper.createViewNoticeCount(nno);
         return noticeMapper.countViewNotice(nno);
     }

@@ -12,7 +12,10 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import lombok.Getter;
 import lombok.Setter;
 
-// Spring Security Member DTO Class
+
+/**
+ * {@code MemberDTO} 클래스는 Spring Security와 관련된 회원 정보를 포함하는 DTO 클래스입니다.
+ */
 @Getter
 @Setter
 public class MemberDTO extends User implements OAuth2User {

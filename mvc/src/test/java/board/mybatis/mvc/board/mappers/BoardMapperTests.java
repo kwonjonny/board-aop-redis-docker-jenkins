@@ -23,7 +23,7 @@ import board.mybatis.mvc.exception.BoardNumberNotFoundException;
 import board.mybatis.mvc.exception.DataNotFoundException;
 import board.mybatis.mvc.mappers.BoardMapper;
 import board.mybatis.mvc.mappers.FileMapper;
-import board.mybatis.mvc.util.PageRequestDTO;
+import board.mybatis.mvc.util.page.PageRequestDTO;
 import lombok.extern.log4j.Log4j2;
 
 // Board Mapper Test Class 

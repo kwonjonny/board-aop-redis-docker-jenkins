@@ -35,7 +35,7 @@ import net.coobird.thumbnailator.Thumbnailator;
 public class FileUploadController {
 
     // File Upload Path = Enginx
-    @Value("${org.zerock.upload.path}")
+    @Value("${org.kwon.upload.path}")
     private String uploadPath;
 
     /**
@@ -90,7 +90,6 @@ public class FileUploadController {
             @Parameter(description = "삭제할 파일 이름", required = true) @PathVariable("fileName") String fileName) {
         log.info("RestController | Delete File");
         File originFile = new File(uploadPath, fileName);
-
         // JVM외부랑 연결되는 소스는 exception 처리
         try {
             String mimeType = Files.probeContentType(originFile.toPath());

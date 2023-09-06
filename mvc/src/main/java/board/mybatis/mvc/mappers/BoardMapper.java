@@ -8,7 +8,7 @@ import board.mybatis.mvc.dto.board.BoardCreateDTO;
 import board.mybatis.mvc.dto.board.BoardDTO;
 import board.mybatis.mvc.dto.board.BoardListDTO;
 import board.mybatis.mvc.dto.board.BoardUpdateDTO;
-import board.mybatis.mvc.util.PageRequestDTO;
+import board.mybatis.mvc.util.page.PageRequestDTO;
 
 /**
  * {@code BoardMapper}는 게시물에 대한 데이터베이스 작업을 처리하기 위한 매퍼 인터페이스입니다.

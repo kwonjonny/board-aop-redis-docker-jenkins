@@ -1,4 +1,4 @@
-package board.mybatis.mvc.util;
+package board.mybatis.mvc.util.cookie;
 
 import org.springframework.context.annotation.Configuration;
 

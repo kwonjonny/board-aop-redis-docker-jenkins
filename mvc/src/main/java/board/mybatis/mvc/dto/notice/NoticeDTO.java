@@ -1,5 +1,6 @@
 package board.mybatis.mvc.dto.notice;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,15 +14,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-// Notice DTO Class
+/**
+ * {@code NoticeDTO} 클래스는 공지사항 정보를 전달하는 데 사용되는 DTO 클래스입니다.
+ */
 @Getter
 @Setter
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class NoticeDTO {
-
+public class NoticeDTO implements Serializable{
     // tbl_notice
     @NotBlank(message = "nno Should Be Not Blank")
     private Long nno;

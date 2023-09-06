@@ -1,9 +1,8 @@
 package board.mybatis.mvc.dto.board;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,40 +10,29 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-// Board List DTO Class
+/**
+ * 이 클래스는 게시물 번호, 제목, 내용, 작성자, 생성일, 수정일, 댓글 번호,
+ * 조회 수, 댓글 수, 좋아요 수, 파일 이름을 포함합니다.
+ * 
+ * {@code BoardListDTO} 클래스는 게시판 목록을 표현하는 DTO 클래스입니다.
+ */
 @Getter
 @Setter
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class BoardListDTO {
+public class BoardListDTO implements Serializable {
     // tbl_board
-    @NotBlank(message = "bno Should Be Not Blank")
     private Long bno;
-
-    @NotNull(message = "title Should Be Not Null")
     private String title;
-
-    @NotNull(message = "content Should Be Not Null")
     private String content;
-
-    @NotNull(message = "writer Should Be Not Null")
     private String writer;
-
-    @NotBlank(message = "createDate Should Be Not Blank")
     private LocalDate createDate;
-
-    @NotBlank(message = "updateDate Should Be Not Blank")
     private LocalDate updateDate;
-
     private Long nno;
-
     private int viewCount;
-
     private int replyCount;
-
     private int likeCount;
-
     private String fileName;
 }

@@ -1,4 +1,4 @@
-package board.mybatis.mvc.aop;
+package board.mybatis.mvc.aop.logging;
 
 import java.util.Enumeration;
 
