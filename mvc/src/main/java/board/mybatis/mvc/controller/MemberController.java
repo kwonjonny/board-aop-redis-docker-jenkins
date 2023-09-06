@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import board.mybatis.mvc.annotation.CheckMemberMatch;
+import board.mybatis.mvc.annotation.role.CheckMemberMatch;
 import board.mybatis.mvc.dto.member.MemberConvertDTO;
 import board.mybatis.mvc.dto.member.MemberCreateDTO;
 import board.mybatis.mvc.dto.member.MemberListDTO;

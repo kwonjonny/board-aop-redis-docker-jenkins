@@ -94,7 +94,7 @@ public class NoticeServiceImpl implements NoticeService {
      */
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(value = "Notice", keyGenerator = "Key_Generator", cacheManager = "cacheManager")
+    @Cacheable(value = "Notice", keyGenerator = "Key_Generator")
     public NoticeDTO readNotice(Long nno) {
         log.info("Is Running Read Notice ServiceImpl");
         validateNoticeNumber(nno);
@@ -112,7 +112,7 @@ public class NoticeServiceImpl implements NoticeService {
      */
     @Override
     @Transactional
-    @CacheEvict(value = "Notice", keyGenerator = "Key_Generator", cacheManager = "cacheManager")
+    @CacheEvict(value = "Notice", keyGenerator = "Key_Generator")
     public Long updateNotice(NoticeUpdateDTO noticeUpdateDTO) {
         log.info("Is Running Update Notice ServiceImpl");
         if (noticeUpdateDTO.getNno() == null || noticeUpdateDTO.getContent() == null
@@ -150,7 +150,7 @@ public class NoticeServiceImpl implements NoticeService {
      */
     @Override
     @Transactional
-    @CacheEvict(value = "Notice", keyGenerator = "Key_Generator", cacheManager = "cacheManager")
+    @CacheEvict(value = "Notice", keyGenerator = "Key_Generator")
     public Long deleteNotice(Long nno) {
         log.info("Is Running Delete Notice ServiceImpl");
         validateNoticeNumber(nno);

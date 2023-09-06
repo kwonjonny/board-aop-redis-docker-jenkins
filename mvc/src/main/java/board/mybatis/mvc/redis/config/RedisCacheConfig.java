@@ -14,6 +14,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import lombok.extern.log4j.Log4j2;
+
 /**
  * RedisCacheConfig는 Redis 캐싱 설정을 담당하는 스프링 구성 클래스입니다.
  * 
@@ -22,6 +24,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * 
  * 설정 값은 application.properties 또는 application.yml 파일에서 가져옵니다.
  */
+@Log4j2
 @Configuration
 @EnableCaching
 public class RedisCacheConfig {
@@ -93,8 +96,8 @@ public class RedisCacheConfig {
      *
      * @return RedisCacheManager 레디스를 캐시 저장소로 사용하기 위한 캐시 관리자
      */
-    @Bean(name = "cacheManager")
-    public RedisCacheManager cacheManager() {
+    @Bean(name = "redisCacheManager")
+    public RedisCacheManager redisCacheManager() {
         RedisCacheConfiguration cacheConfig = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofMinutes(30))
                 .disableCachingNullValues();

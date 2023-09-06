@@ -1,4 +1,4 @@
-package board.mybatis.mvc.annotation;
+package board.mybatis.mvc.annotation.role;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -11,6 +11,11 @@ java {
 	sourceCompatibility = '17'
 }
 
+compileJava {
+    options.compilerArgs = ['--parameters']
+}
+
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -29,7 +34,7 @@ dependencies {
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
 
 	// Srping boot devtools
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	// developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	// Database
 	runtimeOnly 'com.mysql:mysql-connector-j'

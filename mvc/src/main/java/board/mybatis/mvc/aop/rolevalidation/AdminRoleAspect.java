@@ -27,7 +27,7 @@ public class AdminRoleAspect {
      * @return 원래 메서드의 반환 값을 돌려줍니다.
      * @throws Throwable 원래 메서드에서 발생하는 예외 및 권한 관련 예외를 포함하여 다양한 예외가 발생할 수 있습니다.
      */
-    @Around("@annotation(board.mybatis.mvc.annotation.RoleAdmin)")
+    @Around("@annotation(board.mybatis.mvc.annotation.role.RoleAdmin)")
     public Object handleCheckAdminRole(ProceedingJoinPoint joinPoint) throws Throwable {
         // joinPoint에서 메서드 인수를 가져옵니다.
         Object[] args = joinPoint.getArgs();

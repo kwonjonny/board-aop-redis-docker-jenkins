@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import board.mybatis.mvc.annotation.redis.KwonCacheable;
 import board.mybatis.mvc.dto.member.MemberConvertDTO;
 import board.mybatis.mvc.dto.member.MemberCreateDTO;
 import board.mybatis.mvc.dto.member.MemberListDTO;
@@ -99,7 +100,7 @@ public class MemberServiceImpl implements MemberService {
      * @throws InvalidEmailException   이메일 형식에 맞지 않을때 발생하는 예외.
      */
     @Override
-    @Cacheable(value = "Member", key = "#email", cacheManager = "cacheManager")
+    @KwonCacheable(value = "Member", key = "")
     @Transactional(readOnly = true)
     public MemberConvertDTO readMember(String email) {
         log.info("Is Running Read Member ServiceImpl");
@@ -125,7 +126,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     @Transactional
-    @CacheEvict(value = "Member", key = "#memberUpdateDTO.email", cacheManager = "cacheManager")
+    @CacheEvict(value = "Member", key = "#memberUpdateDTO.email")
     public Long updateMember(MemberUpdateDTO memberUpdateDTO) {
         log.info("Is Running Update Member ServiceImpl");
         if (memberUpdateDTO.getEmail() == null || memberUpdateDTO.getMemberName() == null
@@ -153,7 +154,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     @Transactional
-    @CacheEvict(value = "Member", key = "#email", cacheManager = "cacheManager")
+    @CacheEvict(value = "Member", key = "#email")
     public Long deleteMember(String email) {
         log.info("Is Running Delete Member ServiceImpl");
         notFoundMember(email);

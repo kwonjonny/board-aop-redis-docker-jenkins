@@ -1,4 +1,4 @@
-package board.mybatis.mvc.annotation;
+package board.mybatis.mvc.annotation.role;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,9 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * {@code CheckUserMatch}는 유저의 정보 일치 여부 체크를 위한 커스텀 어노테이션입니다.
+ * {@code CurrentUser}는 현재 유저의 정보를 가져오는 커스텀 어노테이션입니다.
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CheckMemberMatch {
+public @interface CurrentMember {
 }

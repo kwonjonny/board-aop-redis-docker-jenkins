@@ -11,6 +11,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import board.mybatis.mvc.annotation.redis.KwonCacheEvict;
+import board.mybatis.mvc.annotation.redis.KwonCacheable;
 import board.mybatis.mvc.dto.board.BoardCreateDTO;
 import board.mybatis.mvc.dto.board.BoardDTO;
 import board.mybatis.mvc.dto.board.BoardListDTO;
@@ -94,8 +96,8 @@ public class BoardServiceImpl implements BoardService {
      * @throws BoardNumberNotFoundException 해당 번호의 게시물이 없을 경우 발생
      */
     @Override
-    @Cacheable(value = "Board", keyGenerator = "Key_Generator", cacheManager = "cacheManager")
     @Transactional(readOnly = true)
+    @KwonCacheable(value = "Board", key = "")
     public BoardDTO readBoard(Long bno) {
         log.info("Is Running Read Board ServiceImpl");
         validateBoardNumber(bno);
@@ -115,7 +117,7 @@ public class BoardServiceImpl implements BoardService {
      */
     @Override
     @Transactional
-    @CacheEvict(value = "Board", keyGenerator = "Key_Generator", cacheManager = "cacheManager")
+    @KwonCacheEvict(value = "Board")
     public Long updateBoard(BoardUpdateDTO boardUpdateDTO) {
         log.info("Is Running Update Board ServiceImpl");
         if (boardUpdateDTO.getTitle() == null || boardUpdateDTO.getWriter() == null || boardUpdateDTO.getBno() == null
@@ -154,7 +156,7 @@ public class BoardServiceImpl implements BoardService {
      */
     @Override
     @Transactional
-    @CacheEvict(value = "Board", keyGenerator = "Key_Generator", cacheManager = "cacheManager")
+    @KwonCacheEvict(value = "Board")
     public Long deleteBoard(Long bno) {
         log.info("Is Running Delete Board ServiceImpl");
         if (bno == null) {

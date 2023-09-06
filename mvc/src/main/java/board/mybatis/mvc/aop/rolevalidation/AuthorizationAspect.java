@@ -27,7 +27,7 @@ public class AuthorizationAspect {
      * @return 원래 메서드의 반환 값
      * @throws Throwable 원래 메서드에서 발생하는 예외를 포함하여 다양한 예외 발생 가능
      */
-    @Around("@annotation(board.mybatis.mvc.annotation.CheckMemberMatch)")
+    @Around("@annotation(board.mybatis.mvc.annotation.role.CheckMemberMatch)")
     public Object handleCheckMemberMatch(ProceedingJoinPoint joinPoint) throws Throwable {
         // joinPoint에서 메서드 인수를 가져옵니다.
         Object[] args = joinPoint.getArgs();
