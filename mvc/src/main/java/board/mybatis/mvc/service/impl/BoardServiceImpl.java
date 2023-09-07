@@ -117,7 +117,7 @@ public class BoardServiceImpl implements BoardService {
      */
     @Override
     @Transactional
-    @KwonCacheEvict(value = "Board")
+    @KwonCacheEvict(value = "Board", key = "")
     public Long updateBoard(BoardUpdateDTO boardUpdateDTO) {
         log.info("Is Running Update Board ServiceImpl");
         if (boardUpdateDTO.getTitle() == null || boardUpdateDTO.getWriter() == null || boardUpdateDTO.getBno() == null
@@ -156,12 +156,9 @@ public class BoardServiceImpl implements BoardService {
      */
     @Override
     @Transactional
-    @KwonCacheEvict(value = "Board")
+    @KwonCacheEvict(value = "Board", key = "")
     public Long deleteBoard(Long bno) {
         log.info("Is Running Delete Board ServiceImpl");
-        if (bno == null) {
-            throw new DataNotFoundException("해당하는 게시물 번호가 없습니다.");
-        }
         validateBoardNumber(bno);
         fileMapper.deleteImage(bno);
         return boardMapper.deleteBoard(bno);

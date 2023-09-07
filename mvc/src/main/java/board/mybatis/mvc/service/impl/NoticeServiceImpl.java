@@ -11,6 +11,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import board.mybatis.mvc.annotation.redis.KwonCacheEvict;
+import board.mybatis.mvc.annotation.redis.KwonCacheable;
 import board.mybatis.mvc.dto.notice.NoticeCreateDTO;
 import board.mybatis.mvc.dto.notice.NoticeDTO;
 import board.mybatis.mvc.dto.notice.NoticeListDTO;
@@ -94,7 +96,7 @@ public class NoticeServiceImpl implements NoticeService {
      */
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(value = "Notice", keyGenerator = "Key_Generator")
+    @KwonCacheable(value = "Notice", key = "")
     public NoticeDTO readNotice(Long nno) {
         log.info("Is Running Read Notice ServiceImpl");
         validateNoticeNumber(nno);
@@ -104,6 +106,8 @@ public class NoticeServiceImpl implements NoticeService {
     /**
      * 공지사항 수정 서비스 메서드.
      * 부가기능: 파일업로드.
+     * 해당 게시물 정보는 캐시에서 제거됩니다. "Key_Generator"를 사용하여 캐시 키를 생성하여 해당 게시물 정보를 캐시에서
+     * 제거합니다.
      * 
      * @param noticeUpdateDTO 업데이트 할 공지사항의 세부 정보를 포함하는 DTO.
      * @return 업데이트 된 공지사항의 ID 반환.
@@ -112,7 +116,7 @@ public class NoticeServiceImpl implements NoticeService {
      */
     @Override
     @Transactional
-    @CacheEvict(value = "Notice", keyGenerator = "Key_Generator")
+    @KwonCacheEvict(value = "Notice", key = "")
     public Long updateNotice(NoticeUpdateDTO noticeUpdateDTO) {
         log.info("Is Running Update Notice ServiceImpl");
         if (noticeUpdateDTO.getNno() == null || noticeUpdateDTO.getContent() == null
@@ -150,7 +154,7 @@ public class NoticeServiceImpl implements NoticeService {
      */
     @Override
     @Transactional
-    @CacheEvict(value = "Notice", keyGenerator = "Key_Generator")
+    @CacheEvict(value = "Notice", key = "")
     public Long deleteNotice(Long nno) {
         log.info("Is Running Delete Notice ServiceImpl");
         validateNoticeNumber(nno);

@@ -1,0 +1,28 @@
+version: '3'
+services:
+  mysql-master:
+    image: mysql:latest
+    container_name: mysql-master
+    environment:
+      MYSQL_ROOT_PASSWORD: 1111
+    volumes:
+      - ./mysql-master.cnf:/etc/mysql/my.cnf  # MySQL 마스터 컨테이너에 사용할 설정 파일을 볼륨으로 연결
+    ports:
+      - "3307:3306"
+    networks:
+      - mynetwork
+
+  mysql-slave:
+    image: mysql:latest
+    container_name: mysql-slave
+    environment:
+      MYSQL_ROOT_PASSWORD: 1111
+    volumes:
+      - ./mysql-slave.cnf:/etc/mysql/my.cnf  # MySQL 슬레이브 컨테이너에 사용할 설정 파일을 볼륨으로 연결
+    ports:
+      - "3308:3306"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:

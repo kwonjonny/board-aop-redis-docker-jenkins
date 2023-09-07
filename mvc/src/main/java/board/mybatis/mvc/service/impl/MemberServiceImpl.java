@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import board.mybatis.mvc.annotation.redis.KwonCacheEvict;
 import board.mybatis.mvc.annotation.redis.KwonCacheable;
 import board.mybatis.mvc.dto.member.MemberConvertDTO;
 import board.mybatis.mvc.dto.member.MemberCreateDTO;
@@ -126,7 +127,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     @Transactional
-    @CacheEvict(value = "Member", key = "#memberUpdateDTO.email")
+    @KwonCacheEvict(value = "Member", key = "")
     public Long updateMember(MemberUpdateDTO memberUpdateDTO) {
         log.info("Is Running Update Member ServiceImpl");
         if (memberUpdateDTO.getEmail() == null || memberUpdateDTO.getMemberName() == null
@@ -154,7 +155,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     @Transactional
-    @CacheEvict(value = "Member", key = "#email")
+    @KwonCacheEvict(value = "Member", key = "")
     public Long deleteMember(String email) {
         log.info("Is Running Delete Member ServiceImpl");
         notFoundMember(email);

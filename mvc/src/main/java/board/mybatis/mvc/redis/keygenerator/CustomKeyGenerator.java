@@ -5,7 +5,11 @@ import java.lang.reflect.Method;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.stereotype.Component;
 
+import board.mybatis.mvc.dto.board.BoardUpdateDTO;
+import board.mybatis.mvc.dto.member.MemberUpdateDTO;
+import board.mybatis.mvc.dto.notice.NoticeUpdateDTO;
 import board.mybatis.mvc.util.security.CurrentMember;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * CustomKeyGenerator는 사용자 정의 캐시 키 생성기로, Redis 캐싱에서 사용됩니다.
@@ -13,6 +17,7 @@ import board.mybatis.mvc.util.security.CurrentMember;
  * 이 클래스는 Spring의 {@link KeyGenerator} 인터페이스를 구현하여 캐시 저장시 사용될 키의 형식을 지정합니다.
  * 생성된 키는 현재 사용자의 이메일 주소와 주어진 파라미터를 기반으로 합니다.
  */
+@Log4j2
 @Component("Key_Generator")
 public class CustomKeyGenerator implements KeyGenerator {
 
@@ -30,6 +35,16 @@ public class CustomKeyGenerator implements KeyGenerator {
      */
     @Override
     public Object generate(Object target, Method method, Object... params) {
-        return CurrentMember.getCurrentUserEmail() + "_" + params[0];
+        String paramValue;
+        if (params[0] instanceof MemberUpdateDTO) {
+            paramValue = ((MemberUpdateDTO) params[0]).getEmail();
+        } else if (params[0] instanceof BoardUpdateDTO) {
+            paramValue = ((BoardUpdateDTO) params[0]).getBno().toString();
+        } else if (params[0] instanceof NoticeUpdateDTO) {
+            paramValue = ((NoticeUpdateDTO) params[0]).getNno().toString();
+        } else {
+            paramValue = params[0].toString();
+        }
+        return CurrentMember.getCurrentUserEmail() + "_" + paramValue;
     }
 }
