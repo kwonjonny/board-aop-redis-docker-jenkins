@@ -1,4 +1,4 @@
-package board.mybatis.mvc.config;
+package board.mybatis.mvc.config.swagger;
 
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;

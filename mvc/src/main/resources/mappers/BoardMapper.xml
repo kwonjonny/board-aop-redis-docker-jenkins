@@ -207,7 +207,7 @@ useGeneratedKeys="true" keyProperty="bno">
 <!-- BoardMapper id = "createViewBoardCount" -->
 <insert id="createViewBoardCount" parameterType="long">
         INSERT INTO 
-        tbL_board_views 
+        tbl_board_views 
         (bno)
         VALUES
         (#{bno})

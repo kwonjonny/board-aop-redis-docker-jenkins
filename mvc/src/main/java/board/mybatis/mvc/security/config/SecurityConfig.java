@@ -2,6 +2,8 @@ package board.mybatis.mvc.security.config;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,10 +25,15 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final DataSource dataSource;
+
+    @Autowired
+    public SecurityConfig(@Qualifier("slaveDataSource") DataSource dataSource) {
+        log.info("Inject DataSource");
+        this.dataSource = dataSource;
+    }
 
     /**
      * TokenRepository에 토큰 값을 저장하는 메서드입니다.
