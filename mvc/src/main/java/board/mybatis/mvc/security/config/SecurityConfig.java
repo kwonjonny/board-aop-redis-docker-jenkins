@@ -16,7 +16,6 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 
 import board.mybatis.mvc.security.service.handler.CustomAccessDeniedHandler;
 import board.mybatis.mvc.security.service.handler.CustomOAuthSuccessHandler;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 /**
