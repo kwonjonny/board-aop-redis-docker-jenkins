@@ -1,4 +1,5 @@
 version: '3'
+
 services:
   mysql-master:
     image: mysql:latest
@@ -11,6 +12,8 @@ services:
       - "3307:3306"
     networks:
       - mynetwork
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   mysql-slave:
     image: mysql:latest
@@ -23,6 +26,8 @@ services:
       - "3308:3306"
     networks:
       - mynetwork
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 networks:
   mynetwork:
