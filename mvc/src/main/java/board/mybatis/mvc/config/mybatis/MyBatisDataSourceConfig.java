@@ -22,7 +22,7 @@ import java.util.Map;
  */
 @Configuration
 @EnableTransactionManagement
-@PropertySource(value = { "classpath:/application.db.properties" })
+// @PropertySource(value = { "classpath:/application.docker.properties" })
 public class MyBatisDataSourceConfig {
 
     /**

@@ -183,7 +183,7 @@ public class BoardControllerTests {
                                 .andExpect(status().isOk())
                                 .andExpect(view().name("spring/board/list"))
                                 .andExpect(model().attribute("list", instanceOf(PageResponseDTO.class)))
-                                .andExpect(model().attribute("list", hasProperty("list", hasSize(12))))
+                                .andExpect(model().attribute("list", hasProperty("list", hasSize(11))))
                                 .andExpect(model().attribute("list", hasProperty("list", hasItem(
                                                 allOf(
                                                                 hasProperty("title", is(listGetReady.getTitle())),

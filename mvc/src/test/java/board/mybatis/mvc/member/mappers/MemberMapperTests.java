@@ -38,7 +38,7 @@ public class MemberMapperTests {
 
     // 테스트 시작시 메모리 선 참조
     private static final String JUNIT_TEST_EMAIL = "thistrik@naver.com";
-    private static final String JUNIT_TEST_EMAIL_VERSION_2 = "wndyd0110@naver.com";
+    private static final String JUNIT_TEST_EMAIL_VERSION_2 = "ewfewfieofw@naver.com";
     private static final String JUNIT_TEST_MEMBER_PASSWROD = "1111";
     private static final String JUNIT_TEST_MEMBER_NAME = "권성준";
     private static final String JUNIT_TEST_MEMBER_ROLE = "ADMIN";

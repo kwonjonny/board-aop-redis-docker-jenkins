@@ -8,14 +8,16 @@ plugins {
 group = 'board.mybatis'
 version = '0.0.1-SNAPSHOT'
 
+bootWar {
+    if (project.hasProperty('profile')) {
+        archiveBaseName = "${archiveBaseName}-${profile}"
+        archiveVersion = archiveVersion
+    }
+}
+
 java {
 	sourceCompatibility = '17'
 }
-
-compileJava {
-    options.compilerArgs = ['--parameters']
-}
-
 
 configurations {
 	compileOnly {
@@ -71,6 +73,7 @@ dependencies {
 	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
 	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
 	// 회원가입, 비밀번호 분실, 회원가입 환영 메일, 회원가입 탈퇴 메일 
 	implementation 'org.springframework.boot:spring-boot-starter-mail'

@@ -53,9 +53,9 @@ public class MemberControllerTets {
 
         // 테스트 시작 전 메모리 선 참조
         private static final Long JUNIT_CONTROLLER_RETURN_NUMBER = 2L;
-        private static final String JUNIT_TEST_EMAIL = "rnjstjdwns@naver.com";
+        private static final String JUNIT_TEST_EMAIL = "rewjifewofew@naver.com";
         private static final String JUNIT_TEST_EMAIL_V2 = "thistrik@naver.com";
-        private static final String JUNIT_TEST_PASSWORD = "1111";
+        private static final String JUNIT_TEST_PASSWORD = "Thistrik1!";
         private static final String JUNIT_TEST_MEMBER_NAME = "권성준";
         private static final String JUNIT_TEST_MEMBER_ROLE = "ADMIN";
         private static final String JUNIT_TEST_MEMBER_PHONE = "010-3099-0648";
@@ -151,7 +151,7 @@ public class MemberControllerTets {
                 mockMvc.perform(get("/spring/member/list"))
                                 .andExpect(view().name("spring/member/list"))
                                 .andExpect(model().attribute("list", instanceOf(PageResponseDTO.class)))
-                                .andExpect(model().attribute("list", hasProperty("list", hasSize(1))))
+                                .andExpect(model().attribute("list", hasProperty("list", hasSize(3))))
                                 .andExpect(model().attribute("list", hasProperty("list", hasItem(
                                                 allOf(
                                                                 hasProperty("email", is(listGetReady.getEmail())),
@@ -183,7 +183,7 @@ public class MemberControllerTets {
                                 .param("memberName", JUNIT_TEST_MEMBER_NAME)
                                 .param("memberPw", JUNIT_TEST_PASSWORD))
                                 .andExpect(status().is3xxRedirection())
-                                .andExpect(redirectedUrl("/spring/member/index"))
+                                .andExpect(redirectedUrl("/spring/index"))
                                 .andExpect(flash().attributeExists("message"));
                 log.info("=== End POST Create Member Controller Test ===");
         }
@@ -200,7 +200,7 @@ public class MemberControllerTets {
                 // WHEN & THEN
                 mockMvc.perform(post("/spring/member/delete/" + JUNIT_TEST_EMAIL_V2))
                                 .andExpect(status().is3xxRedirection())
-                                .andExpect(redirectedUrl("/spring/member/index"))
+                                .andExpect(redirectedUrl("/spring/index"))
                                 .andExpect(flash().attributeExists("message"));
                 log.info("=== End POST Delete Member Controller Test ===");
         }

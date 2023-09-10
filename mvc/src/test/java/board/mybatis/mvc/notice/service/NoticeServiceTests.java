@@ -50,7 +50,7 @@ public class NoticeServiceTests {
     private static final String JUNIT_TEST_CONTENT = "Junit_Test_Content";
     private static final String JUNIT_TEST_TITLE = "Junit_Test_Title";
     private static final String JUNIT_TEST_FILE_NAME = "Junit_Test_File_Name.jpg";
-    private static final Long JUNIT_TEST_NNO = 3L;
+    private static final Long JUNIT_TEST_NNO = 101L;
 
     // Beforeach 를 위한 DTO 정의
     private NoticeCreateDTO noticeCreateDTO;

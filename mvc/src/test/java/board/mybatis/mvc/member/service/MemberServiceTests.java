@@ -31,7 +31,7 @@ public class MemberServiceTests {
     private PasswordEncoder passwordEncoder;
 
     // 테스트 시작 시 메모리 선 참조
-    private static final String JUNIT_TEST_EMAIL = "wndyd0110@naver.com";
+    private static final String JUNIT_TEST_EMAIL = "wefowefjoefjwo@naver.com";
     private static final String JUNIT_TEST_ADMIN_EMAIL = "thistrik@naver.com";
     private static final String JUNIT_TEST_PHONE_NUMBER = "010-3099-0648";
     private static final String JUNIT_TEST_PASSWORD = "1111";

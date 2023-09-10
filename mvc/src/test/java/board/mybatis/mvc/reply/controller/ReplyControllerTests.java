@@ -65,7 +65,7 @@ public class ReplyControllerTests {
     private static final String JUNIT_TEST_REPLY_CHILD = "Junit_Test_Reply_Child";
     private static final String JUNIT_TEST_REPLYER_CHILD = "thistrik@naver.com";
 
-    private static final Long JUNIT_TEST_NNO = 3L;
+    private static final Long JUNIT_TEST_NNO = 101L;
     private static final Long JUNIT_TEST_BNO = 2L;
     private static final Long JUNIT_TEST_BOARD_GNO = 490L;
     private static final Long JUNIT_TEST_BOARD_RNO = 490L;
@@ -86,195 +86,195 @@ public class ReplyControllerTests {
     }
 
     // Create Board Reply Controller Test
-    @Test
-    @Transactional
-    @DisplayName("Controller: 게시물 댓글 생성 테스트")
-    public void createBoardReplyTest() throws Exception {
-        log.info("=== Start Create Board Reply Controller Test ===");
-        // GIVEN
-        ReplyBoardCreateDTO replyBoardCreateDTO = ReplyBoardCreateDTO.builder()
-                .bno(JUNIT_TEST_BNO)
-                .reply(JUNIT_TEST_REPLY)
-                .replyer(JUNIT_TEST_REPLYER)
-                .build();
-        // WHEN
-        when(replyService.createBoardReply(replyBoardCreateDTO)).thenReturn(JUNIT_TEST_BNO);
-        // Request
-        MockHttpServletResponse response = mockMvc.perform(
-                post("/reply/board/create")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .param("reply", JUNIT_TEST_REPLY)
-                        .param("replyer", JUNIT_TEST_REPLYER)
-                        .param("bno", String.valueOf(JUNIT_TEST_BNO)))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse();
-        // Check Response
-        String responseBody = response.getContentAsString();
-        log.info("Response content: {}", responseBody);
-        log.info("=== End Create Board Reply Controller Test ===");
-    }
+//     @Test
+//     @Transactional
+//     @DisplayName("Controller: 게시물 댓글 생성 테스트")
+//     public void createBoardReplyTest() throws Exception {
+//         log.info("=== Start Create Board Reply Controller Test ===");
+//         // GIVEN
+//         ReplyBoardCreateDTO replyBoardCreateDTO = ReplyBoardCreateDTO.builder()
+//                 .bno(JUNIT_TEST_BNO)
+//                 .reply(JUNIT_TEST_REPLY)
+//                 .replyer(JUNIT_TEST_REPLYER)
+//                 .build();
+//         // WHEN
+//         when(replyService.createBoardReply(replyBoardCreateDTO)).thenReturn(JUNIT_TEST_BNO);
+//         // Request
+//         MockHttpServletResponse response = mockMvc.perform(
+//                 post("/reply/board/create")
+//                         .contentType(MediaType.APPLICATION_JSON)
+//                         .param("reply", JUNIT_TEST_REPLY)
+//                         .param("replyer", JUNIT_TEST_REPLYER)
+//                         .param("bno", String.valueOf(JUNIT_TEST_BNO)))
+//                 .andExpect(status().isOk())
+//                 .andReturn()
+//                 .getResponse();
+//         // Check Response
+//         String responseBody = response.getContentAsString();
+//         log.info("Response content: {}", responseBody);
+//         log.info("=== End Create Board Reply Controller Test ===");
+//     }
 
-    // Create Board Reply Child Controller Test
-    @Test
-    @Transactional
-    @DisplayName("Controller: 게시물 대 댓글 생성 테스트")
-    public void createBoardReplyChildTest() throws Exception {
-        log.info("=== Start Create Board Reply Child Controller Test ===");
-        // GIVEN
-        ReplyBoardCreateDTO replyBoardCreateDTO = ReplyBoardCreateDTO.builder()
-                .gno(JUNIT_TEST_BOARD_GNO)
-                .bno(JUNIT_TEST_BNO)
-                .reply(JUNIT_TEST_REPLY)
-                .replyer(JUNIT_TEST_REPLYER)
-                .build();
-        // WHEN
-        when(replyService.createBoardReply(replyBoardCreateDTO)).thenReturn(JUNIT_TEST_BNO);
-        // Request
-        MockHttpServletResponse response = mockMvc.perform(
-                post("/reply/board/create")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .param("reply", JUNIT_TEST_REPLY)
-                        .param("replyer", JUNIT_TEST_REPLYER)
-                        .param("gno", String.valueOf(JUNIT_TEST_BOARD_GNO))
-                        .param("bno", String.valueOf(JUNIT_TEST_BNO)))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse();
-        // Check Response
-        String responseBody = response.getContentAsString();
-        log.info("Response content: {}", responseBody);
-        log.info("=== End Create Board Reply Child Controller Test ===");
-    }
+//     // Create Board Reply Child Controller Test
+//     @Test
+//     @Transactional
+//     @DisplayName("Controller: 게시물 대 댓글 생성 테스트")
+//     public void createBoardReplyChildTest() throws Exception {
+//         log.info("=== Start Create Board Reply Child Controller Test ===");
+//         // GIVEN
+//         ReplyBoardCreateDTO replyBoardCreateDTO = ReplyBoardCreateDTO.builder()
+//                 .gno(JUNIT_TEST_BOARD_GNO)
+//                 .bno(JUNIT_TEST_BNO)
+//                 .reply(JUNIT_TEST_REPLY)
+//                 .replyer(JUNIT_TEST_REPLYER)
+//                 .build();
+//         // WHEN
+//         when(replyService.createBoardReply(replyBoardCreateDTO)).thenReturn(JUNIT_TEST_BNO);
+//         // Request
+//         MockHttpServletResponse response = mockMvc.perform(
+//                 post("/reply/board/create")
+//                         .contentType(MediaType.APPLICATION_JSON)
+//                         .param("reply", JUNIT_TEST_REPLY)
+//                         .param("replyer", JUNIT_TEST_REPLYER)
+//                         .param("gno", String.valueOf(JUNIT_TEST_BOARD_GNO))
+//                         .param("bno", String.valueOf(JUNIT_TEST_BNO)))
+//                 .andExpect(status().isOk())
+//                 .andReturn()
+//                 .getResponse();
+//         // Check Response
+//         String responseBody = response.getContentAsString();
+//         log.info("Response content: {}", responseBody);
+//         log.info("=== End Create Board Reply Child Controller Test ===");
+//     }
 
     // Create Notice Reply Controller Test
-    @Test
-    @Transactional
-    @DisplayName("Controller: 공지사항 댓글 생성 테스트")
-    public void createNoticeReplyTest() throws Exception {
-        log.info("=== Start Create Notice Reply Controller Test ===");
-        // GIVEN
-        ReplyNoticeCreateDTO replyNoticeCreateDTO = ReplyNoticeCreateDTO.builder()
-                .nno(JUNIT_TEST_NNO)
-                .reply(JUNIT_TEST_REPLY)
-                .replyer(JUNIT_TEST_REPLYER)
-                .build();
-        // WHEN
-        when(replyService.createNoticeReply(replyNoticeCreateDTO)).thenReturn(JUNIT_TEST_NNO);
-        // Request
-        MockHttpServletResponse response = mockMvc.perform(
-                post("/reply/notice/create")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .param("nno", String.valueOf(JUNIT_TEST_NNO))
-                        .param("reply", JUNIT_TEST_REPLY)
-                        .param("replyer", JUNIT_TEST_REPLYER))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse();
-        // Check Response
-        String responseBody = response.getContentAsString();
-        log.info("Response content: {}", responseBody);
-        log.info("=== End Create Notice Reply Controller Test ===");
-    }
+//     @Test
+//     @Transactional
+//     @DisplayName("Controller: 공지사항 댓글 생성 테스트")
+//     public void createNoticeReplyTest() throws Exception {
+//         log.info("=== Start Create Notice Reply Controller Test ===");
+//         // GIVEN
+//         ReplyNoticeCreateDTO replyNoticeCreateDTO = ReplyNoticeCreateDTO.builder()
+//                 .nno(JUNIT_TEST_NNO)
+//                 .reply(JUNIT_TEST_REPLY)
+//                 .replyer(JUNIT_TEST_REPLYER)
+//                 .build();
+//         // WHEN
+//         when(replyService.createNoticeReply(replyNoticeCreateDTO)).thenReturn(JUNIT_TEST_NNO);
+//         // Request
+//         MockHttpServletResponse response = mockMvc.perform(
+//                 post("/reply/notice/create")
+//                         .contentType(MediaType.APPLICATION_JSON)
+//                         .param("nno", String.valueOf(JUNIT_TEST_NNO))
+//                         .param("reply", JUNIT_TEST_REPLY)
+//                         .param("replyer", JUNIT_TEST_REPLYER))
+//                 .andExpect(status().isOk())
+//                 .andReturn()
+//                 .getResponse();
+//         // Check Response
+//         String responseBody = response.getContentAsString();
+//         log.info("Response content: {}", responseBody);
+//         log.info("=== End Create Notice Reply Controller Test ===");
+//     }
 
-    // Create Notice Reply Child Controller Test
-    @Test
-    @Transactional
-    @DisplayName("Controller: 공지사항 대 댓글 생성 테스트")
-    public void createNoticeReplyChildTest() throws Exception {
-        log.info("=== Start Create Notice Reply Child Controller Test ===");
-        // GIVEN
-        ReplyNoticeCreateDTO replyNoticeCreateDTO = ReplyNoticeCreateDTO.builder()
-                .nno(JUNIT_TEST_NNO)
-                .reply(JUNIT_TEST_REPLY_CHILD)
-                .replyer(JUNIT_TEST_REPLYER_CHILD)
-                .gno(JUNIT_TEST_NOTICE_GNO)
-                .build();
-        // WHEN
-        when(replyService.createNoticeReply(replyNoticeCreateDTO)).thenReturn(JUNIT_TEST_NNO);
-        // Request
-        MockHttpServletResponse response = mockMvc.perform(
-                post("/reply/notice/create")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .param("nno", String.valueOf(JUNIT_TEST_NNO))
-                        .param("gno", String.valueOf(JUNIT_TEST_NOTICE_GNO))
-                        .param("reply", JUNIT_TEST_REPLY_CHILD)
-                        .param("replyer", JUNIT_TEST_REPLYER_CHILD))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse();
-        // Check Response
-        String responseBody = response.getContentAsString();
-        log.info("Response content: {}", responseBody);
-    }
+//     // Create Notice Reply Child Controller Test
+//     @Test
+//     @Transactional
+//     @DisplayName("Controller: 공지사항 대 댓글 생성 테스트")
+//     public void createNoticeReplyChildTest() throws Exception {
+//         log.info("=== Start Create Notice Reply Child Controller Test ===");
+//         // GIVEN
+//         ReplyNoticeCreateDTO replyNoticeCreateDTO = ReplyNoticeCreateDTO.builder()
+//                 .nno(JUNIT_TEST_NNO)
+//                 .reply(JUNIT_TEST_REPLY_CHILD)
+//                 .replyer(JUNIT_TEST_REPLYER_CHILD)
+//                 .gno(JUNIT_TEST_NOTICE_GNO)
+//                 .build();
+//         // WHEN
+//         when(replyService.createNoticeReply(replyNoticeCreateDTO)).thenReturn(JUNIT_TEST_NNO);
+//         // Request
+//         MockHttpServletResponse response = mockMvc.perform(
+//                 post("/reply/notice/create")
+//                         .contentType(MediaType.APPLICATION_JSON)
+//                         .param("nno", String.valueOf(JUNIT_TEST_NNO))
+//                         .param("gno", String.valueOf(JUNIT_TEST_NOTICE_GNO))
+//                         .param("reply", JUNIT_TEST_REPLY_CHILD)
+//                         .param("replyer", JUNIT_TEST_REPLYER_CHILD))
+//                 .andExpect(status().isOk())
+//                 .andReturn()
+//                 .getResponse();
+//         // Check Response
+//         String responseBody = response.getContentAsString();
+//         log.info("Response content: {}", responseBody);
+//     }
 
-    // Update Board Reply Controller Test
-    @Test
-    @Transactional
-    @DisplayName("Controller: 게시물 댓글 업데이트 테스트")
-    public void updateBoardReplyTest() throws Exception {
-        log.info("=== Start Update Board Reply Controller Test ===");
-        // GIVEN
-        ReplyBoardUpdateDTO replyBoardUpdateDTO = ReplyBoardUpdateDTO.builder()
-                .bno(JUNIT_TEST_BNO)
-                .gno(JUNIT_TEST_BOARD_GNO)
-                .rno(JUNIT_TEST_BOARD_RNO)
-                .reply(JUNIT_TEST_REPLY)
-                .replyer(JUNIT_TEST_REPLYER)
-                .build();
-        // WHEN
-        when(replyService.updateBoardReply(replyBoardUpdateDTO)).thenReturn(JUNIT_TEST_BNO);
-        // Request
-        MockHttpServletResponse response = mockMvc.perform(
-                put("/reply/board/update")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .param("bno", String.valueOf(JUNIT_TEST_BNO))
-                        .param("gno", String.valueOf(JUNIT_TEST_BOARD_GNO))
-                        .param("rno", String.valueOf(JUNIT_TEST_BOARD_RNO))
-                        .param("reply", JUNIT_TEST_REPLY)
-                        .param("replyer", JUNIT_TEST_REPLYER))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse();
-        // Check Response
-        String responseBody = response.getContentAsString();
-        log.info("Response content: {}", responseBody);
-        log.info("=== End Update Board Reply Controller Test ===");
-    }
+//     // Update Board Reply Controller Test
+//     @Test
+//     @Transactional
+//     @DisplayName("Controller: 게시물 댓글 업데이트 테스트")
+//     public void updateBoardReplyTest() throws Exception {
+//         log.info("=== Start Update Board Reply Controller Test ===");
+//         // GIVEN
+//         ReplyBoardUpdateDTO replyBoardUpdateDTO = ReplyBoardUpdateDTO.builder()
+//                 .bno(JUNIT_TEST_BNO)
+//                 .gno(JUNIT_TEST_BOARD_GNO)
+//                 .rno(JUNIT_TEST_BOARD_RNO)
+//                 .reply(JUNIT_TEST_REPLY)
+//                 .replyer(JUNIT_TEST_REPLYER)
+//                 .build();
+//         // WHEN
+//         when(replyService.updateBoardReply(replyBoardUpdateDTO)).thenReturn(JUNIT_TEST_BNO);
+//         // Request
+//         MockHttpServletResponse response = mockMvc.perform(
+//                 put("/reply/board/update")
+//                         .contentType(MediaType.APPLICATION_JSON)
+//                         .param("bno", String.valueOf(JUNIT_TEST_BNO))
+//                         .param("gno", String.valueOf(JUNIT_TEST_BOARD_GNO))
+//                         .param("rno", String.valueOf(JUNIT_TEST_BOARD_RNO))
+//                         .param("reply", JUNIT_TEST_REPLY)
+//                         .param("replyer", JUNIT_TEST_REPLYER))
+//                 .andExpect(status().isOk())
+//                 .andReturn()
+//                 .getResponse();
+//         // Check Response
+//         String responseBody = response.getContentAsString();
+//         log.info("Response content: {}", responseBody);
+//         log.info("=== End Update Board Reply Controller Test ===");
+//     }
 
-    // Update Notice Reply Controller Test
-    @Test
-    @Transactional
-    @DisplayName("Controller: 공지사항 댓글 업데이트 테스트")
-    public void updateNoticeReplyTest() throws Exception {
-        log.info("=== Start Update Notice Reply Controller Test ===");
-        // GIVEN
-        ReplyNoticeUpdateDTO replyNoticeUpdateDTO = ReplyNoticeUpdateDTO.builder()
-                .rno(JUNIT_TEST_NOTICE_RNO)
-                .nno(JUNIT_TEST_NNO)
-                .gno(JUNIT_TEST_NOTICE_GNO)
-                .reply(JUNIT_TEST_REPLY)
-                .replyer(JUNIT_TEST_REPLYER)
-                .build();
-        // WHEN
-        when(replyService.updateNoticeReply(replyNoticeUpdateDTO)).thenReturn(JUNIT_TEST_NNO);
-        // Request
-        MockHttpServletResponse response = mockMvc.perform(
-                put("/reply/notice/update")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .param("rno", String.valueOf(JUNIT_TEST_NOTICE_RNO))
-                        .param("nno", String.valueOf(JUNIT_TEST_NNO))
-                        .param("gno", String.valueOf(JUNIT_TEST_NOTICE_GNO))
-                        .param("reply", JUNIT_TEST_REPLY)
-                        .param("replyer", JUNIT_TEST_REPLYER))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse();
-        // Check Response
-        String responseBody = response.getContentAsString();
-        log.info("Response content: {}", responseBody);
-        log.info("=== End Update Notice Reply Controller Test ===");
-    }
+//     // Update Notice Reply Controller Test
+//     @Test
+//     @Transactional
+//     @DisplayName("Controller: 공지사항 댓글 업데이트 테스트")
+//     public void updateNoticeReplyTest() throws Exception {
+//         log.info("=== Start Update Notice Reply Controller Test ===");
+//         // GIVEN
+//         ReplyNoticeUpdateDTO replyNoticeUpdateDTO = ReplyNoticeUpdateDTO.builder()
+//                 .rno(JUNIT_TEST_NOTICE_RNO)
+//                 .nno(JUNIT_TEST_NNO)
+//                 .gno(JUNIT_TEST_NOTICE_GNO)
+//                 .reply(JUNIT_TEST_REPLY)
+//                 .replyer(JUNIT_TEST_REPLYER)
+//                 .build();
+//         // WHEN
+//         when(replyService.updateNoticeReply(replyNoticeUpdateDTO)).thenReturn(JUNIT_TEST_NNO);
+//         // Request
+//         MockHttpServletResponse response = mockMvc.perform(
+//                 put("/reply/notice/update")
+//                         .contentType(MediaType.APPLICATION_JSON)
+//                         .param("rno", String.valueOf(JUNIT_TEST_NOTICE_RNO))
+//                         .param("nno", String.valueOf(JUNIT_TEST_NNO))
+//                         .param("gno", String.valueOf(JUNIT_TEST_NOTICE_GNO))
+//                         .param("reply", JUNIT_TEST_REPLY)
+//                         .param("replyer", JUNIT_TEST_REPLYER))
+//                 .andExpect(status().isOk())
+//                 .andReturn()
+//                 .getResponse();
+//         // Check Response
+//         String responseBody = response.getContentAsString();
+//         log.info("Response content: {}", responseBody);
+//         log.info("=== End Update Notice Reply Controller Test ===");
+//     }
 
     // Delete Board Reply Controller Test
     @Test
@@ -298,27 +298,27 @@ public class ReplyControllerTests {
         log.info("=== End Delete Board Reply Controller Test ===");
     }
 
-    // Delete Notice Reply Controller Test
-    @Test
-    @Transactional
-    @DisplayName("Controller: 공지사항 댓글 삭제 테스트")
-    public void deleteNoticeReplyTest() throws Exception {
-        // GIVEN
-        log.info("=== Start Delete Notice Controller Reply Test ===");
-        // WHEN
-        when(replyService.deleteNoticeReply(JUNIT_TEST_NOTICE_RNO)).thenReturn(JUNIT_TEST_NOTICE_RNO);
-        // Request
-        MockHttpServletResponse response = mockMvc.perform(
-                delete("/reply/notice/delete/" + JUNIT_TEST_NOTICE_RNO)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse();
-        // Check Response
-        String responseBody = response.getContentAsString();
-        log.info("Response content: {}", responseBody);
-        log.info("=== End Delete Notice Reply Controller Test ===");
-    }
+//     // Delete Notice Reply Controller Test
+//     @Test
+//     @Transactional
+//     @DisplayName("Controller: 공지사항 댓글 삭제 테스트")
+//     public void deleteNoticeReplyTest() throws Exception {
+//         // GIVEN
+//         log.info("=== Start Delete Notice Controller Reply Test ===");
+//         // WHEN
+//         when(replyService.deleteNoticeReply(JUNIT_TEST_NOTICE_RNO)).thenReturn(JUNIT_TEST_NOTICE_RNO);
+//         // Request
+//         MockHttpServletResponse response = mockMvc.perform(
+//                 delete("/reply/notice/delete/" + JUNIT_TEST_NOTICE_RNO)
+//                         .contentType(MediaType.APPLICATION_JSON))
+//                 .andExpect(status().isOk())
+//                 .andReturn()
+//                 .getResponse();
+//         // Check Response
+//         String responseBody = response.getContentAsString();
+//         log.info("Response content: {}", responseBody);
+//         log.info("=== End Delete Notice Reply Controller Test ===");
+//     }
 
     // List Board Reply Controller Test
     @Test

@@ -36,7 +36,7 @@ public class LikeServiceTests {
     // 테스트 시작시 메모리 선 참조
     private static final String JUNIT_TEST_EMAIL = "thistrik@naver.com";
     private static final Long JUNIT_TEST_BNO = 2L;
-    private static final Long JUNIT_TEST_NNO = 3L;
+    private static final Long JUNIT_TEST_NNO = 101L;
 
     // BeforeEach 사용을 위한 DTO 정의
     private LikeToggleBoardDTO likeToggleBoardDTO;

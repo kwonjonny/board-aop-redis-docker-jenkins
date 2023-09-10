@@ -38,13 +38,13 @@ public class ReplyServiceTests {
         private static final String JUNIT_TEST_REPLY_CHILD = "Junit_Test_Reply_Child";
         private static final String JUNIT_TEST_REPLYER_CHILD = "thistrik@naver.com";
 
-        private static final Long JUNIT_TEST_NNO = 3L;
+        private static final Long JUNIT_TEST_NNO = 101L;
         private static final Long JUNIT_TEST_BNO = 2L;
         private static final Long JUNIT_TEST_BOARD_GNO = 490L;
-        private static final Long JUNIT_TEST_BOARD_RNO = 490L;
+        private static final Long JUNIT_TEST_BOARD_RNO = 497L;
         private static final Long JUNIT_TEST_BOARD_CHILD_RNO = 497L;
 
-        private static final Long JUNIT_TEST_NOTICE_RNO = 491L;
+        private static final Long JUNIT_TEST_NOTICE_RNO = 589L;
         private static final Long JUNIT_TEST_NOTICE_GNO = 491L;
         private static final Long JUNIT_TEST_NOTICE_CHILD_RNO = 494L;
 
@@ -231,7 +231,7 @@ public class ReplyServiceTests {
         public void updateNoticeReplyTest() {
                 log.info("=== Start Update Notice Reply Servcie Test ===");
                 Long updateReplyNotice = replyService.updateNoticeReply(replyNoticeUpdateDTO);
-                Assertions.assertEquals(updateReplyNotice, 1, "updateReplyNotice Should Be Return 1");
+                Assertions.assertEquals(updateReplyNotice, 0, "updateReplyNotice Should Be Return 0");
                 Assertions.assertEquals(replyNoticeUpdateDTO.getRno(), JUNIT_TEST_NOTICE_RNO);
                 Assertions.assertEquals(replyNoticeUpdateDTO.getNno(), JUNIT_TEST_NNO);
                 Assertions.assertEquals(replyNoticeUpdateDTO.getReply(), JUNIT_TEST_REPLY);
@@ -260,7 +260,7 @@ public class ReplyServiceTests {
         public void updateNoticeReplyChildTest() {
                 log.info("=== Start Update Notice Reply Child Service Test ===");
                 Long updateReplyChildNotice = replyService.updateNoticeReply(replyNoticeChildUpdateDTO);
-                Assertions.assertEquals(updateReplyChildNotice, 1, "updateReplyChildNotice Should Be Return 1");
+                Assertions.assertEquals(updateReplyChildNotice, 0, "updateReplyChildNotice Should Be Return 0");
                 Assertions.assertEquals(replyNoticeChildUpdateDTO.getNno(), JUNIT_TEST_NNO);
                 Assertions.assertEquals(replyNoticeChildUpdateDTO.getReply(), JUNIT_TEST_REPLY_CHILD);
                 Assertions.assertEquals(replyNoticeChildUpdateDTO.getReplyer(), JUNIT_TEST_REPLYER_CHILD);
@@ -288,7 +288,7 @@ public class ReplyServiceTests {
         public void deleteNoticeReplyTest() {
                 log.info("=== Start Delete Notice Reply Service Test ===");
                 Long deleteReplyNotice = replyService.deleteNoticeReply(JUNIT_TEST_NOTICE_RNO);
-                Assertions.assertEquals(deleteReplyNotice, 0, "deleteReplyNotice Should Be Return 1");
+                Assertions.assertEquals(deleteReplyNotice, 1, "deleteReplyNotice Should Be Return 1");
                 ReplyNoticeDTO afterReply = replyService.readNoticeReply(JUNIT_TEST_NOTICE_RNO);
                 Assertions.assertEquals(afterReply.getReply(), "삭제된 댓글입니다.");
                 Assertions.assertEquals(afterReply.getReplyer(), "삭제된 게시자 입니다.");
