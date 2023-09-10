@@ -1,11 +1,27 @@
 version: "3"
 
 services:
-  aroundhub_reids:
+  redis-master:
     image: redis:7.0.0
-    restart: always
     ports:
       - "6379:6379"
     volumes:
-      - ./redis.conf:/usr/local/etc/redis/redis.conf
-    command: redis-server /usr/local/etc/redis/redis.conf/redis.conf
+      - ./redis-master.conf/master.conf:/usr/local/etc/redis/master.conf
+    command: redis-server /usr/local/etc/redis/master.conf
+
+  redis-slave:
+    image: redis:7.0.0
+    ports:
+      - "6380:6379"
+    volumes:
+      - ./redis-slave.conf/slave.conf:/usr/local/etc/redis/slave.conf
+    command: redis-server /usr/local/etc/redis/slave.conf
+
+  sentinel:
+    image: redis:7.0.0
+    ports:
+      - "26379:26379"
+    volumes:
+      - ./redis-sentinel.conf/sentinel.conf:/usr/local/etc/redis/sentinel.conf
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+

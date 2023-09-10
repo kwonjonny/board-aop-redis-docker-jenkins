@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.RedisNode;
+import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -29,23 +31,16 @@ import lombok.extern.log4j.Log4j2;
 @EnableCaching
 public class RedisCacheConfig {
 
-    /**
-     * Redis 서버의 호스트 주소입니다.
-     * 
-     * 이 값은 application.properties 또는 application.yml 파일의 'spring.data.redis.host'
-     * 속성에서 가져옵니다.
-     */
     @Value("${spring.data.redis.host}")
     private String host;
-
-    /**
-     * Redis 서버의 포트 번호입니다.
-     * 
-     * 이 값은 application.properties 또는 application.yml 파일의 'spring.data.redis.port'
-     * 속성에서 가져옵니다.
-     */
     @Value("${spring.data.redis.port}")
     private String port;
+
+    @Value("${spring.redis.sentinel.master}")
+    private String sentinelMaster;
+
+    @Value("${spring.redis.sentinel.nodes}")
+    private String sentinelNodes;
 
     /**
      * `redisConnectionFactory` 메서드는 Redis 서버와의 연결을 설정하고 관리하기 위한 Lettuce 연결 팩토리 빈을
@@ -55,12 +50,30 @@ public class RedisCacheConfig {
      *
      * @return LettuceConnectionFactory Redis 서버와의 연결 설정 및 관리를 위한 연결 팩토리 객체
      */
+    // @Bean
+    // public LettuceConnectionFactory redisConnectionFactory() {
+    // RedisStandaloneConfiguration redisStandaloneConfiguration = new
+    // RedisStandaloneConfiguration();
+    // redisStandaloneConfiguration.setHostName(host);
+    // redisStandaloneConfiguration.setPort(Integer.parseInt(port));
+    // LettuceConnectionFactory lettuceConnectionFactory = new
+    // LettuceConnectionFactory(redisStandaloneConfiguration);
+    // return lettuceConnectionFactory;
+    // }
+
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
-        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
-        redisStandaloneConfiguration.setHostName(host);
-        redisStandaloneConfiguration.setPort(Integer.parseInt(port));
-        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(redisStandaloneConfiguration);
+        // Redis Sentinel 구성 설정
+        RedisSentinelConfiguration sentinelConfig = new RedisSentinelConfiguration()
+                .master(sentinelMaster);
+        // 각 센티널 노드를 구성에 추가
+        String[] nodes = sentinelNodes.split(",");
+        for (String node : nodes) {
+            String[] hostAndPort = node.split(":");
+            sentinelConfig.sentinel(new RedisNode(hostAndPort[0], Integer.valueOf(hostAndPort[1])));
+        }
+        // LettuceConnectionFactory에 Sentinel 구성 적용
+        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(sentinelConfig);
         return lettuceConnectionFactory;
     }
 
