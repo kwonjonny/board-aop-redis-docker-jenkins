@@ -10,7 +10,6 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisNode;
 import org.springframework.data.redis.connection.RedisSentinelConfiguration;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
@@ -33,6 +32,7 @@ public class RedisCacheConfig {
 
     @Value("${spring.data.redis.host}")
     private String host;
+    
     @Value("${spring.data.redis.port}")
     private String port;
 
@@ -43,24 +43,11 @@ public class RedisCacheConfig {
     private String sentinelNodes;
 
     /**
-     * `redisConnectionFactory` 메서드는 Redis 서버와의 연결을 설정하고 관리하기 위한 Lettuce 연결 팩토리 빈을
-     * 생성합니다.
-     * Lettuce는 Redis 클라이언트 중 하나로, 비동기로 작동하며, 이를 위한 Netty NIO 프레임워크를 활용합니다.
-     * 본 메서드를 통해 생성된 연결 팩토리는 Redis 서버의 호스트와 포트 정보를 사용하여 설정됩니다.
-     *
-     * @return LettuceConnectionFactory Redis 서버와의 연결 설정 및 관리를 위한 연결 팩토리 객체
+     * Redis 연결 팩토리를 생성하는 메서드입니다.
+     * Redis Sentinel을 활용한 구성으로, 여러 Sentinel 노드를 구성에 추가할 수 있습니다.
+     * 
+     * @return LettuceConnectionFactory Redis 서버와의 연결을 위한 Lettuce 연결 팩토리 객체
      */
-    // @Bean
-    // public LettuceConnectionFactory redisConnectionFactory() {
-    // RedisStandaloneConfiguration redisStandaloneConfiguration = new
-    // RedisStandaloneConfiguration();
-    // redisStandaloneConfiguration.setHostName(host);
-    // redisStandaloneConfiguration.setPort(Integer.parseInt(port));
-    // LettuceConnectionFactory lettuceConnectionFactory = new
-    // LettuceConnectionFactory(redisStandaloneConfiguration);
-    // return lettuceConnectionFactory;
-    // }
-
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
         // Redis Sentinel 구성 설정
