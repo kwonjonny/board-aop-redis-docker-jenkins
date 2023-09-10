@@ -22,8 +22,8 @@ import lombok.extern.log4j.Log4j2;
 /**
  * {@code CustomOAuth2UserService}는 카카오 로그인 사용자 정보를 처리하는 서비스 클래스입니다.
  */
-@Service
 @Log4j2
+@Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 

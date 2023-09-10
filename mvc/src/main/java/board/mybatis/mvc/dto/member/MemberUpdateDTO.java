@@ -3,7 +3,6 @@ package board.mybatis.mvc.dto.member;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import board.mybatis.mvc.redis.provider.CacheKeyProvider;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
