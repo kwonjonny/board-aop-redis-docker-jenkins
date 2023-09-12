@@ -1,12 +1,7 @@
-# 기본 Java 이미지를 사용합니다.
-FROM tomcat:9-jdk11
+FROM redis:7.0.0
 
-# WAR 파일을 복사합니다.
-ARG WAR_FILE=build/libs/mvc-0.0.1-SNAPSHOT.war
-COPY ${WAR_FILE} /usr/local/tomcat/webapps/ROOT.war
+# Redis 사용자로 변경
+USER redis
 
-# 8084 포트를 노출합니다.
-EXPOSE 8084
-
-# Tomcat 실행
-CMD ["catalina.sh", "run"]
+# 컨테이너 시작 시 실행될 명령어 설정 (예: /etc/redis-config/master.conf로 설정)
+CMD ["redis-server", "/etc/redis-config/master.conf"]

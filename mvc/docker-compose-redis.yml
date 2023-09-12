@@ -3,25 +3,42 @@ version: "3"
 services:
   redis-master:
     image: redis:7.0.0
+    environment:
+      REDIS_REPLICATION_MODE: master
+      REDIS_MASTER_HOST: redis-master
     ports:
       - "6379:6379"
     volumes:
-      - ./redis-master.conf/master.conf:/usr/local/etc/redis/master.conf
-    command: redis-server /usr/local/etc/redis/master.conf
+      - ./config/redis-master/master.conf:/etc/redis-config/master.conf
+    command: redis-server /etc/redis-config/master.conf
 
   redis-slave:
     image: redis:7.0.0
+    environment:
+      REDIS_REPLICATION_MODE: slave
+      REDIS_MASTER_HOST: redis-master
+      ALLOW_EMPTY_PASSWORD: "yes"
     ports:
       - "6380:6379"
     volumes:
-      - ./redis-slave.conf/slave.conf:/usr/local/etc/redis/slave.conf
-    command: redis-server /usr/local/etc/redis/slave.conf
+      - ./config/redis-slave/slave.conf:/etc/redis-config/slave.conf 
+    command: redis-server /etc/redis-config/slave.conf
+    depends_on:
+      - redis-master
 
-  sentinel:
+  redis-sentinel:
     image: redis:7.0.0
     ports:
       - "26379:26379"
+    environment:
+      REDIS_SENTINEL_DOWN_AFTER_MILLISECONDS: 3000
+      REDIS_MASTER_HOST: redis-master
+      REDIS_MASTER_PORT_NUMBER: 6379
+      REDIS_MASTER_SET: mymaster
+      REDIS_SENTINEL_QUORUM: 1
     volumes:
-      - ./redis-sentinel.conf/sentinel.conf:/usr/local/etc/redis/sentinel.conf
-    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
-
+      - ./config/redis-sentinel/sentinel.conf:/etc/sentinel.conf
+    command: redis-server /etc/sentinel.conf --sentinel
+    depends_on:
+      - redis-master
+      - redis-slave

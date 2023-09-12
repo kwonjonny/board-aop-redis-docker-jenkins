@@ -32,7 +32,7 @@ public class RedisCacheConfig {
 
     @Value("${spring.data.redis.host}")
     private String host;
-    
+
     @Value("${spring.data.redis.port}")
     private String port;
 
@@ -52,16 +52,18 @@ public class RedisCacheConfig {
     public LettuceConnectionFactory redisConnectionFactory() {
         // Redis Sentinel 구성 설정
         RedisSentinelConfiguration sentinelConfig = new RedisSentinelConfiguration()
-                .master(sentinelMaster);
+                .master(sentinelMaster); // Sentinel의 마스터 이름 설정
         // 각 센티널 노드를 구성에 추가
-        String[] nodes = sentinelNodes.split(",");
+        String[] nodes = sentinelNodes.split(","); // 콤마를 기준으로 Sentinel 노드들 분리
         for (String node : nodes) {
-            String[] hostAndPort = node.split(":");
-            sentinelConfig.sentinel(new RedisNode(hostAndPort[0], Integer.valueOf(hostAndPort[1])));
+            String[] hostAndPort = node.split(":"); // 각 노드의 호스트와 포트 정보 분리
+            sentinelConfig.sentinel(new RedisNode(hostAndPort[0], Integer.valueOf(hostAndPort[1]))); // Sentinel 구성에 해당
+                                                                                                     // 노드 추가
         }
         // LettuceConnectionFactory에 Sentinel 구성 적용
-        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(sentinelConfig);
-        return lettuceConnectionFactory;
+        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(sentinelConfig); // Sentinel
+                                                                                                          // 팩토리 생성
+        return lettuceConnectionFactory; // 연결 팩토리 반환
     }
 
     /**
