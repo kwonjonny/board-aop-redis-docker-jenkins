@@ -258,7 +258,7 @@ useGeneratedKeys="true" keyProperty="rno">
         tbl_reply_notice
         WHERE nno = #{nno}
         ORDER BY
-        rno ASC, 
+        rno ASC,
         gno ASC
         LIMIT #{pr.skip}, #{pr.size}
 </select>

@@ -1,0 +1,14 @@
+version: "3"
+services:
+  spring-app:
+    build: 
+      context:  .
+      dockerfile: Dockerfile
+    image: my-spring-app 
+    ports:
+      - "8084:8084"
+    networks:
+      - mvc_default
+networks:
+  mvc_default:
+    name: spring-project

@@ -1,7 +1,21 @@
-FROM redis:7.0.0
+# Dockerfile
 
-# Redis 사용자로 변경
-USER redis
+# 기본 Java 이미지를 사용합니다.
+FROM openjdk:17-jdk-slim
 
-# 컨테이너 시작 시 실행될 명령어 설정 (예: /etc/redis-config/master.conf로 설정)
-CMD ["redis-server", "/etc/redis-config/master.conf"]
+WORKDIR /app
+
+# 소스 코드를 복사합니다.
+COPY . /app
+
+# 어플리케이션을 빌드하되, 테스트를 건너뜁니다.
+RUN ./gradlew build -x test
+
+# WAR 파일을 복사합니다.
+COPY ./build/libs/mvc-0.0.1-SNAPSHOT.war /app/mvc.war
+
+# 8084 포트를 노출합니다.
+EXPOSE 8084
+
+# 어플리케이션을 실행합니다.
+ENTRYPOINT ["java", "-jar", "/app/mvc.war"]

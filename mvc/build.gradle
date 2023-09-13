@@ -8,13 +8,6 @@ plugins {
 group = 'board.mybatis'
 version = '0.0.1-SNAPSHOT'
 
-bootWar {
-    if (project.hasProperty('profile')) {
-        archiveBaseName = "${archiveBaseName}-${profile}"
-        archiveVersion = archiveVersion
-    }
-}
-
 java {
 	sourceCompatibility = '17'
 }

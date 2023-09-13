@@ -6,11 +6,15 @@ services:
     environment:
       REDIS_REPLICATION_MODE: master
       REDIS_MASTER_HOST: redis-master
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "6379:6379"
     volumes:
       - ./config/redis-master/master.conf:/etc/redis-config/master.conf
     command: redis-server /etc/redis-config/master.conf
+    networks:
+      - mvc_default
 
   redis-slave:
     image: redis:7.0.0
@@ -18,6 +22,8 @@ services:
       REDIS_REPLICATION_MODE: slave
       REDIS_MASTER_HOST: redis-master
       ALLOW_EMPTY_PASSWORD: "yes"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "6380:6379"
     volumes:
@@ -25,6 +31,8 @@ services:
     command: redis-server /etc/redis-config/slave.conf
     depends_on:
       - redis-master
+    networks:
+      - mvc_default
 
   redis-sentinel:
     image: redis:7.0.0
@@ -36,9 +44,44 @@ services:
       REDIS_MASTER_PORT_NUMBER: 6379
       REDIS_MASTER_SET: mymaster
       REDIS_SENTINEL_QUORUM: 1
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - ./config/redis-sentinel/sentinel.conf:/etc/sentinel.conf
     command: redis-server /etc/sentinel.conf --sentinel
     depends_on:
       - redis-master
       - redis-slave
+    networks:
+      - mvc_default
+
+  spring-app:
+    build: 
+      context:  .
+      dockerfile: Dockerfile
+    image: my-spring-app 
+    ports:
+      - "8084:8084"
+    volumes:
+      - upload-data:/var/www/upload
+    networks:
+      - mvc_default
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8082:8082"
+    volumes:
+      - upload-data:/var/www/upload
+      - ./config/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+    depends_on:
+      - spring-app
+    networks:
+      - mvc_default
+
+networks:
+  mvc_default:
+    name: spring-project
+
+volumes:
+  upload-data: {}
