@@ -29,9 +29,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
 
-	// Srping boot devtools
-	// developmentOnly 'org.springframework.boot:spring-boot-devtools'
-
 	// Database
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
@@ -73,9 +70,7 @@ dependencies {
 
 	// Spring Data Redis 
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	// Spring boot cache  
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
-	// Redis Date Time
 	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.15.2'
 }
 

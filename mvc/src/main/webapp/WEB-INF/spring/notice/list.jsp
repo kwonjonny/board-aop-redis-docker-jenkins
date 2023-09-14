@@ -69,7 +69,7 @@
                         <td>${notice.createDate}</td>
                         <td>
                         <c:if test="${not empty notice.fileName}"><img src="http://localhost:8082/s_${notice.fileName}"></c:if>
-                        <c:if test="${empty notice.fileName}"><img src="http://localhost/Default.jpg" width="105px" height="105px"/></c:if>
+                        <c:if test="${empty notice.fileName}"><img src="http://localhost:8082/Default.jpg" width="105px" height="105px"/></c:if>
                         </td>
                     </tr>
                 </c:forEach>

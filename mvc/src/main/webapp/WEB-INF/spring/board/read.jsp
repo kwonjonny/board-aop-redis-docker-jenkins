@@ -59,7 +59,7 @@
 							style="display: flex; gap: 10px; flex-wrap: wrap;">
 							<c:forEach items="${list.fileName}" var="fileName"
 								varStatus="status">
-								<li><img src="http://localhost/${fileName}" width="500px"
+								<li><img src="http://localhost:8082/${fileName}" width="500px"
 										height="500px" style="border-radius: 5px;" /></li>
 							</c:forEach>
 						</ul>

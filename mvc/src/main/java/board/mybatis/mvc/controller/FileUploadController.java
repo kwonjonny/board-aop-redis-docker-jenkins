@@ -2,6 +2,9 @@ package board.mybatis.mvc.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,11 +46,13 @@ public class FileUploadController {
      *
      * @param files 업로드할 파일 배열
      * @return 업로드 결과 목록
+     * @throws UnsupportedEncodingException
      */
     @PostMapping("/upload")
     @Operation(summary = "파일 업로드", description = "파일을 업로드합니다.")
     public List<UploadResultDTO> postFileUpload(
-            @Parameter(description = "업로드할 파일 배열", required = true) @Valid MultipartFile[] files) {
+            @Parameter(description = "업로드할 파일 배열", required = true) @Valid MultipartFile[] files)
+            throws UnsupportedEncodingException {
         log.info("RestController | Upload File");
         if (files == null || files.length == 0) {
             return null;
@@ -57,8 +62,11 @@ public class FileUploadController {
             UploadResultDTO result = null;
             String fileNmae = file.getOriginalFilename();
             Long size = file.getSize();
+
             String uuidStr = UUID.randomUUID().toString();
-            String saveFileName = uuidStr + "_" + fileNmae;
+            String encodedFileName = URLEncoder.encode(fileNmae, "UTF-8");
+            String saveFileName = uuidStr + "_" + encodedFileName;
+
             File saveFile = new File(uploadPath, saveFileName);
             try {
                 FileCopyUtils.copy(file.getBytes(), saveFile);
@@ -83,19 +91,22 @@ public class FileUploadController {
      *
      * @param fileName 삭제할 파일 이름
      * @return 삭제 결과 메시지
+     * @throws UnsupportedEncodingException
      */
     @DeleteMapping("removeFile/{fileName}")
     @Operation(summary = "파일 삭제", description = "특정 파일을 삭제합니다.")
     public Map<String, String> deleteFile(
-            @Parameter(description = "삭제할 파일 이름", required = true) @PathVariable("fileName") String fileName) {
+            @Parameter(description = "삭제할 파일 이름", required = true) @PathVariable("fileName") String fileName)
+            throws UnsupportedEncodingException {
         log.info("RestController | Delete File");
-        File originFile = new File(uploadPath, fileName);
+        String decodedFileName = URLDecoder.decode(fileName, "UTF-8");
+        File originFile = new File(uploadPath, decodedFileName);
         // JVM외부랑 연결되는 소스는 exception 처리
         try {
             String mimeType = Files.probeContentType(originFile.toPath());
 
             if (mimeType.startsWith("image")) {
-                File thumbFile = new File(uploadPath, "s_" + fileName);
+                File thumbFile = new File(uploadPath, "s_" + decodedFileName);
                 thumbFile.delete();
             }
             originFile.delete();

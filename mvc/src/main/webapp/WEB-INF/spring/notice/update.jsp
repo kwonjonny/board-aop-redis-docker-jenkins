@@ -49,8 +49,8 @@
 	<ul class="uploadUL">
 		<c:forEach items="${list.fileName}" var="fileName" varStatus="status">
 			<li data-originName="${fileName}">
-				<a href="http://localhost/${fileName}" target="_blank">
-					<img src="http://localhost/s_${fileName}" />
+				<a href="http://localhost:8082/${fileName}" target="_blank">
+					<img src="http://localhost:8082/s_${fileName}" />
 				</a>
 				<p>${fn:substring(product,37,fn:length(product))}</p>
 				<button class="btn btn-danger" onclick="javascript:removeFile(event, '${product}')">X</button>

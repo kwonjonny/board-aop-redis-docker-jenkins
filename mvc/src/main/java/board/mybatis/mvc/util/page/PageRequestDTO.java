@@ -9,10 +9,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @Builder
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class PageRequestDTO {
@@ -25,7 +27,6 @@ public class PageRequestDTO {
   private String keyword; // 검색어
   private String link; // 검색조건, 페이지, 사이즈 통합
   private boolean replyLast; // 댓글 페이징 마지막 페이지 유무
-
 
   private LocalDate startDate;
   private LocalDate endDate;

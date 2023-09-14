@@ -1,7 +1,10 @@
-# Dockerfile
-
 # 기본 Java 이미지를 사용합니다.
 FROM openjdk:17-jdk-slim
+
+# 한글 로케일 설정
+RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
+    && localedef -i ko_KR -c -f UTF-8 -A /usr/share/locale/locale.alias ko_KR.UTF-8
+ENV LANG ko_KR.utf8
 
 WORKDIR /app
 

@@ -82,8 +82,8 @@ background-color: #EEEEEE;
                 <span class="badge bg-success" style="font-size: 1.2rem; padding: 5px 10px;">조회:${board.viewCount}</span>
             </td>
             <td>${board.createDate}</td>
-            <td><c:if test="${not empty board.fileName}"><img src="http://localhost/s_${board.fileName}"></c:if>
-                <c:if test="${empty board.fileName}"><img src="http://localhost/Default.jpg" width="105px" height="105px"/></c:if>
+            <td><c:if test="${not empty board.fileName}"><img src="http://localhost:8082/s_${board.fileName}"></c:if>
+                <c:if test="${empty board.fileName}"><img src="http://localhost:8082/Default.jpg" width="105px" height="105px"/></c:if>
             </td>
         </tr>
     </c:forEach>

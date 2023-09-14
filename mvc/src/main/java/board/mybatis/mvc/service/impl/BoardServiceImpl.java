@@ -176,9 +176,9 @@ public class BoardServiceImpl implements BoardService {
         List<BoardListDTO> list = boardMapper.listBoard(pageRequestDTO);
         int total = boardMapper.total(pageRequestDTO);
         return PageResponseDTO.<BoardListDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
                 .list(list)
                 .total(total)
-                .pageRequestDTO(pageRequestDTO)
                 .build();
     }
 

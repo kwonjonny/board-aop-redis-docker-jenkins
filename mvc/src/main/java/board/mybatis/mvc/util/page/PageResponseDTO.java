@@ -2,13 +2,14 @@ package board.mybatis.mvc.util.page;
 
 import java.util.List;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@ToString
 public class PageResponseDTO<E> {
     // 변수
     private List<E> list; // 리스트 출력해줄 List
