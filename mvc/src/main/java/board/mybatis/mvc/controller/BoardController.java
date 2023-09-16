@@ -90,7 +90,6 @@ public class BoardController {
     @GetMapping("list")
     @Operation(summary = "게시물 리스트", description = "게시물 목록을 조회하는 API")
     public String getListBoard(PageRequestDTO pageRequestDTO, Model model) {
-        log.info("코드변경 젠킨스");
         log.info("GET | List Board Controller");
         PageResponseDTO<BoardListDTO> list = boardService.listBoard(pageRequestDTO);
         model.addAttribute("list", list);
