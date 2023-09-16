@@ -85,6 +85,8 @@ useGeneratedKeys="true" keyProperty="nno">
         n.writer,
         n.createDate,
         n.updateDate,
+        n.likeCount,
+        n.replyCount,
         n.viewCount,
         CONCAT(ni.uuid, '_' ,ni.fileName) AS fileName
         FROM tbl_notice n 

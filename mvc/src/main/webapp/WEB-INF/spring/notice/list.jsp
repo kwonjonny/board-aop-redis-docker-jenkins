@@ -62,9 +62,9 @@
                         <td>${notice.title}</td>
                         <td>${notice.writer}</td>
                         <td>
-                            <span class="badge bg-primary" style="font-size: 1.2rem; padding: 5px 10px;">댓글:${notice.replyCount}</span>
-                            <span class="badge bg-success" style="font-size: 1.2rem; padding: 5px 10px;">좋아요:${notice.likeCount}</span>
-                            <span class="badge bg-info" style="font-size: 1.2rem; padding: 5px 10px;">조회:${notice.viewCount}</span>
+                            <span class="badge bg-primary" style="font-size: 1.2rem; padding: 5px 10px;">댓글:<c:out value="${notice.replyCount}"/></span>
+                            <span class="badge bg-success" style="font-size: 1.2rem; padding: 5px 10px;">좋아요:<c:out value="${notice.likeCount}"/></span>
+                            <span class="badge bg-info" style="font-size: 1.2rem; padding: 5px 10px;">조회:<c:out value="${notice.viewCount}"/></span>
                         </td>
                         <td>${notice.createDate}</td>
                         <td>

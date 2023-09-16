@@ -121,61 +121,61 @@ public class ReplyMapperTests {
                                 .build();
         }
 
-        // // Create Notice Reply Test
-        // @Test
-        // @Transactional
-        // @DisplayName("Mapper: 공지사항 댓글 생성 테스트")
-        // public void createNoticeReplyTest() {
-        //         // GIVEN
-        //         log.info("=== Start Create Notice Reply Mapper Test ===");
-        //         // WHEN
-        //         if (replyNoticeCreateDTO.getNno() == null) {
-        //                 throw new NoticeNumberNotFoundException("해당하는 공지사항 번호가 없습니다.");
-        //         }
-        //         if (replyNoticeCreateDTO.getReply() == null || replyNoticeCreateDTO.getReplyer() == null
-        //                         || replyNoticeCreateDTO.getNno() == null) {
-        //                 throw new DataNotFoundException("댓글내용, 작성자, 공지사항 번호는 필수입니다.");
-        //         }
-        //         Long createNoticeReply = replyMapper.createNoticeReply(replyNoticeCreateDTO);
-        //         if (replyNoticeCreateDTO.getRno() == null) {
-        //                 throw new ReplyNumberNotFoundException("해당하는 댓글 번호가 없습니다.");
-        //         }
-        //         Long updateGno = replyMapper.updateNoticeReplyGno(replyNoticeCreateDTO.getRno(),
-        //                         replyNoticeCreateDTO.getRno());
-        //         Long incrementReplyCount = replyMapper.incrementNoticeReplyCount(replyNoticeCreateDTO.getNno());
-        //         // THEN
-        //         Assertions.assertEquals(createNoticeReply, 1, "createNoticeReply Should Be Return 1");
-        //         Assertions.assertEquals(replyNoticeCreateDTO.getNno(), JUNIT_TEST_NNO);
-        //         Assertions.assertEquals(replyNoticeCreateDTO.getReply(), JUNIT_TEST_REPLY);
-        //         Assertions.assertEquals(replyNoticeCreateDTO.getReplyer(), JUNIT_TEST_REPLYER);
-        //         log.info("=== End Create Notice Reply Mapper Test ===");
-        // }
+        // Create Notice Reply Test
+        @Test
+        @Transactional
+        @DisplayName("Mapper: 공지사항 댓글 생성 테스트")
+        public void createNoticeReplyTest() {
+                // GIVEN
+                log.info("=== Start Create Notice Reply Mapper Test ===");
+                // WHEN
+                if (replyNoticeCreateDTO.getNno() == null) {
+                        throw new NoticeNumberNotFoundException("해당하는 공지사항 번호가 없습니다.");
+                }
+                if (replyNoticeCreateDTO.getReply() == null || replyNoticeCreateDTO.getReplyer() == null
+                                || replyNoticeCreateDTO.getNno() == null) {
+                        throw new DataNotFoundException("댓글내용, 작성자, 공지사항 번호는 필수입니다.");
+                }
+                Long createNoticeReply = replyMapper.createNoticeReply(replyNoticeCreateDTO);
+                if (replyNoticeCreateDTO.getRno() == null) {
+                        throw new ReplyNumberNotFoundException("해당하는 댓글 번호가 없습니다.");
+                }
+                Long updateGno = replyMapper.updateNoticeReplyGno(replyNoticeCreateDTO.getRno(),
+                                replyNoticeCreateDTO.getRno());
+                Long incrementReplyCount = replyMapper.incrementNoticeReplyCount(replyNoticeCreateDTO.getNno());
+                // THEN
+                Assertions.assertEquals(createNoticeReply, 1, "createNoticeReply Should Be Return 1");
+                Assertions.assertEquals(replyNoticeCreateDTO.getNno(), JUNIT_TEST_NNO);
+                Assertions.assertEquals(replyNoticeCreateDTO.getReply(), JUNIT_TEST_REPLY);
+                Assertions.assertEquals(replyNoticeCreateDTO.getReplyer(), JUNIT_TEST_REPLYER);
+                log.info("=== End Create Notice Reply Mapper Test ===");
+        }
 
-        // // Create Notice Reply Child Test
-        // @Test
-        // @Transactional
-        // @DisplayName("Mapper: 공지사항 대댓글 생성 테스트")
-        // public void createNoticeReplyChildTest() {
-        //         // GIVEN
-        //         log.info("=== Start Create Notice Reply Child Mapper Test ===");
-        //         // WHEN
-        //         if (replyNoticeChildCreateDTO.getNno() == null) {
-        //                 throw new NoticeNumberNotFoundException("해당하는 공지사항 번호가 없습니다.");
-        //         }
-        //         if (replyNoticeChildCreateDTO.getReply() == null || replyNoticeChildCreateDTO.getReplyer() == null
-        //                         || replyNoticeChildCreateDTO.getNno() == null) {
-        //                 throw new DataNotFoundException("댓글내용, 작성자, 공지사항 번호는 필수입니다.");
-        //         }
-        //         replyNoticeChildCreateDTO.setGno(JUNIT_TEST_NOTICE_GNO);
-        //         Long createNoticeReplyChild = replyMapper.createNoticeReplyChild(replyNoticeChildCreateDTO);
-        //         Long incrementReplyCount = replyMapper.incrementNoticeReplyCount(replyNoticeChildCreateDTO.getNno());
-        //         // THEN
-        //         Assertions.assertEquals(createNoticeReplyChild, 1, "createNoticeReplyChild Should Be Return 1");
-        //         Assertions.assertEquals(replyNoticeChildCreateDTO.getNno(), JUNIT_TEST_NNO);
-        //         Assertions.assertEquals(replyNoticeChildCreateDTO.getReply(), JUNIT_TEST_REPLY_CHILD);
-        //         Assertions.assertEquals(replyNoticeChildCreateDTO.getReplyer(), JUNIT_TEST_REPLYER_CHILD);
-        //         log.info("=== End Create Notice Reply Child Mapper Test ===");
-        // }
+        // Create Notice Reply Child Test
+        @Test
+        @Transactional
+        @DisplayName("Mapper: 공지사항 대댓글 생성 테스트")
+        public void createNoticeReplyChildTest() {
+                // GIVEN
+                log.info("=== Start Create Notice Reply Child Mapper Test ===");
+                // WHEN
+                if (replyNoticeChildCreateDTO.getNno() == null) {
+                        throw new NoticeNumberNotFoundException("해당하는 공지사항 번호가 없습니다.");
+                }
+                if (replyNoticeChildCreateDTO.getReply() == null || replyNoticeChildCreateDTO.getReplyer() == null
+                                || replyNoticeChildCreateDTO.getNno() == null) {
+                        throw new DataNotFoundException("댓글내용, 작성자, 공지사항 번호는 필수입니다.");
+                }
+                replyNoticeChildCreateDTO.setGno(JUNIT_TEST_NOTICE_GNO);
+                Long createNoticeReplyChild = replyMapper.createNoticeReplyChild(replyNoticeChildCreateDTO);
+                Long incrementReplyCount = replyMapper.incrementNoticeReplyCount(replyNoticeChildCreateDTO.getNno());
+                // THEN
+                Assertions.assertEquals(createNoticeReplyChild, 1, "createNoticeReplyChild Should Be Return 1");
+                Assertions.assertEquals(replyNoticeChildCreateDTO.getNno(), JUNIT_TEST_NNO);
+                Assertions.assertEquals(replyNoticeChildCreateDTO.getReply(), JUNIT_TEST_REPLY_CHILD);
+                Assertions.assertEquals(replyNoticeChildCreateDTO.getReplyer(), JUNIT_TEST_REPLYER_CHILD);
+                log.info("=== End Create Notice Reply Child Mapper Test ===");
+        }
 
         // Read Notice Reply Test
         @Test

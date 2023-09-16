@@ -56,10 +56,7 @@ services:
       - mvc_default
 
   spring-app:
-    build: 
-      context:  .
-      dockerfile: Dockerfile
-    image: my-spring-app 
+    image: kwonseongjoon/spring-mvc-app:latest
     ports:
       - "8084:8084"
     volumes:
