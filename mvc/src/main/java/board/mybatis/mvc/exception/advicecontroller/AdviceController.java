@@ -17,13 +17,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.ModelAndView;
 
-import board.mybatis.mvc.controller.BoardController;
-import board.mybatis.mvc.controller.FileUploadController;
-import board.mybatis.mvc.controller.LikeController;
-import board.mybatis.mvc.controller.MemberController;
-import board.mybatis.mvc.controller.NoticeController;
-import board.mybatis.mvc.controller.ReplyController;
-import board.mybatis.mvc.controller.StatsController;
 import board.mybatis.mvc.exception.AuthorizationException;
 import board.mybatis.mvc.exception.BoardNumberNotFoundException;
 import board.mybatis.mvc.exception.DataNotFoundException;
@@ -36,8 +29,7 @@ import board.mybatis.mvc.exception.NoticeNumberNotFoundException;
 import board.mybatis.mvc.exception.PasswordIllegalArgumentException;
 import board.mybatis.mvc.exception.ReplyNumberNotFoundException;
 import board.mybatis.mvc.exception.VerifyEmailException;
-import board.mybatis.mvc.security.service.CustomUserDetailsService;
-import board.mybatis.mvc.util.email.JSPToEmailService;
+
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -45,9 +37,8 @@ import lombok.extern.log4j.Log4j2;
  * 에러가 발생할 경우 상태, 메시지 및 발생 시점을 error.jsp에 전달합니다.
  */
 @Log4j2
-@ControllerAdvice(assignableTypes = { BoardController.class, MemberController.class, NoticeController.class,
-    StatsController.class, CustomUserDetailsService.class, JSPToEmailService.class })
-@RestControllerAdvice(assignableTypes = { ReplyController.class, FileUploadController.class, LikeController.class })
+@ControllerAdvice
+@RestControllerAdvice
 public class AdviceController {
 
   /**
