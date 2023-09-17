@@ -185,6 +185,24 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
+     * 주어진 이메일 주소의 회원 인증 상태를 검증하고 업데이트합니다.
+     * 이 메서드는 이메일 주소의 유효성을 검사하고 해당 이메일 주소를 가진 회원의 인증 상태를 변경합니다.
+     * 
+     * @param email 검증할 이메일 주소
+     * @throws EmailValidationException 이메일 주소가 유효하지 않은 경우
+     * @throws MemberNotFoundException  해당 이메일 주소를 가진 회원이 존재하지 않는 경우
+     *                                  
+     */
+    @Override
+    @Transactional
+    public void verifyEmail(String email) {
+        log.info("Is Running VerifiyEmail Member ServiceImpl");
+        MemberValidator.validateEmail(email);
+        notFoundMember(email);
+        memberMapper.verifyEmail(email);
+    }
+
+    /**
      * 회원 이메일 중복 체크 서비스.
      * 회원 이메일 중복 체크 메서드.
      * 제공된 이메일을 사용하여 이미 등록된 회원이 있는지 중복 체크를 수행합니다.

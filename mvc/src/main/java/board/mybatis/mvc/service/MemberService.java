@@ -59,4 +59,11 @@ public interface MemberService {
      * @return 중복되지 않는 경우 1, 중복되는 경우 0을 반환합니다.
      */
     Long duplicateEmail(String email);
+
+    /**
+     * 이메일 인증을 완료합니다 
+     * 
+     * @param email 인증을 완료할 이메일 
+     */
+    void verifyEmail(String email);
 }

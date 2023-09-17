@@ -48,7 +48,9 @@ public enum AdviceErrorEnum {
 
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, ex -> "Resource Not Found " + ex.getMessage()),
 
-    ACCESS_DENIED(HttpStatus.FORBIDDEN, ex -> "Access Denied " + ex.getMessage());
+    ACCESS_DENIED(HttpStatus.FORBIDDEN, ex -> "Access Denied " + ex.getMessage()),
+
+    VERIFY_EMAIL(HttpStatus.BAD_REQUEST, ex -> "No Verify Email " + ex.getMessage());
 
     private final HttpStatus status;
     private final Function<Exception, String> messageExtractor;

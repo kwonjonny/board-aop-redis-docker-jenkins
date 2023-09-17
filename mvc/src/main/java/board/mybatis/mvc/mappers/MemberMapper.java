@@ -96,4 +96,11 @@ public interface MemberMapper {
      * @return 검증 결과를 나타내는 값 (존재하면 해당 회원의 ID, 없으면 null)
      */
     Long findMemberEmail(String email);
+
+    /**
+     * 회원가입 이메일 인증을 완료합니다.
+     * 
+     * @param email 인증할 회원의 이메일
+     */
+    void verifyEmail(String email);
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import board.mybatis.mvc.annotation.role.CheckMemberMatch;
@@ -19,6 +20,7 @@ import board.mybatis.mvc.dto.member.MemberConvertDTO;
 import board.mybatis.mvc.dto.member.MemberCreateDTO;
 import board.mybatis.mvc.dto.member.MemberListDTO;
 import board.mybatis.mvc.dto.member.MemberUpdateDTO;
+import board.mybatis.mvc.service.EmailService;
 import board.mybatis.mvc.service.MemberService;
 import board.mybatis.mvc.util.page.PageRequestDTO;
 import board.mybatis.mvc.util.page.PageResponseDTO;
@@ -38,16 +40,19 @@ import lombok.extern.log4j.Log4j2;
 public class MemberController {
 
     private final MemberService memberService;
+    private final EmailService emailService;
 
     /**
      * 생성자를 통한 의존성 주입
      *
      * @param memberService 회원 서비스
+     * @param emailService  이메일 서비스
      */
     @Autowired
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, EmailService emailService) {
         log.info("Inject MemberService");
         this.memberService = memberService;
+        this.emailService = emailService;
     }
 
     // GET : Create Member
@@ -93,14 +98,34 @@ public class MemberController {
         return "spring/member/list";
     }
 
+    // GET | Duplicate Member Email
+    @GetMapping("duplicate/{email}")
+    @Operation(summary = "중복 이메일 확인", description = "이메일 중복 여부를 확인합니다.")
+    public ResponseEntity<Map<String, Object>> checkDuplicateEmail(
+            @Parameter(description = "회원 이메일", required = true) @PathVariable("email") final String email) {
+        log.info("Checking for duplicate email");
+        Long isDuplicate = memberService.duplicateEmail(email);
+        return new ResponseEntity<>(Map.of("isDuplicate", isDuplicate), HttpStatus.OK);
+    }
+
+    // GET | Verified Member Email
+    @GetMapping("verify")
+    public String verifyEmail(@RequestParam("email") final String email, RedirectAttributes redirectAttributes) {
+        log.info("GET | Verify Member Email Controller");
+        memberService.verifyEmail(email);
+        redirectAttributes.addFlashAttribute("message", "이메일 인증 완료 로그인해주세요.");
+        return "redirect:/spring/index";
+    }
+
     // POST | Create Member
     @PostMapping("create")
-    @Operation(summary = "회원 생성", description = "새로운 회원을 생성합니다.")
+    @Operation(summary = "회원 생성", description = "새로운 회원을 생성하고 이메일 인증 코드를 발송합니다.")
     public String postCreateMember(
             @Valid MemberCreateDTO memberCreateDTO, RedirectAttributes redirectAttributes) {
         log.info("POST | Create Member Controller");
         Long createMember = memberService.joinMember(memberCreateDTO);
-        redirectAttributes.addFlashAttribute("message", "회원 가입 완료.");
+        emailService.sendCreateMail(memberCreateDTO.getEmail());
+        redirectAttributes.addFlashAttribute("message", "회원 가입 완료 이메일 인증을 완료해주세요.");
         return "redirect:/spring/index";
     }
 
@@ -128,15 +153,5 @@ public class MemberController {
         Long deleteMember = memberService.deleteMember(email);
         redirectAttributes.addFlashAttribute("message", "회원 탈퇴 완료.");
         return "redirect:/spring/index";
-    }
-
-    // GET | Duplicate Member Email
-    @GetMapping("duplicate/{email}")
-    @Operation(summary = "중복 이메일 확인", description = "이메일 중복 여부를 확인합니다.")
-    public ResponseEntity<Map<String, Object>> checkDuplicateEmail(
-            @Parameter(description = "회원 이메일", required = true) @PathVariable("email") final String email) {
-        log.info("Checking for duplicate email");
-        Long isDuplicate = memberService.duplicateEmail(email);
-        return new ResponseEntity<>(Map.of("isDuplicate", isDuplicate), HttpStatus.OK);
     }
 }

@@ -153,5 +153,12 @@
         WHERE email = #{email}
 </select>
 
+<!-- MemberMapper id = "verifyEmail" -->
+<update id="verifyEmail" parameterType="java.lang.String">
+        UPDATE 
+        tbl_member 
+        SET isVerified = "T"
+        WHERE email = #{email}
+</update>
 
 </mapper>

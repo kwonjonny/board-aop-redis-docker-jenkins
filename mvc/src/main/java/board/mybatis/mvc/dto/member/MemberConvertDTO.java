@@ -40,4 +40,6 @@ public class MemberConvertDTO implements Serializable {
 
     @NotBlank(message = "rolename Should Be Not Blank")
     private List<String> rolenames;
+
+    private String isVerified;
 }

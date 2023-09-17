@@ -33,6 +33,7 @@ import board.mybatis.mvc.exception.MemberPhoneIllegalArgumentException;
 import board.mybatis.mvc.exception.NoticeNumberNotFoundException;
 import board.mybatis.mvc.exception.PasswordIllegalArgumentException;
 import board.mybatis.mvc.exception.ReplyNumberNotFoundException;
+import board.mybatis.mvc.exception.VerifyEmailException;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -340,5 +341,19 @@ public class AdviceController {
   public ModelAndView handleAccessDeniedException(AuthorizationException ex) {
     log.info("Is Running HandleAccessDeniedException");
     return generateErrorModelAndView(AdviceErrorEnum.ACCESS_DENIED, ex);
+  }
+
+  /**
+   * 예외 처리 메서드: VerifyEmailException 처리
+   *
+   * 이 메서드는 {@link VerifyEmailException} 예외가 발생했을 때 실행됩니다. 이메일 인증 예외를 처리합니다.
+   *
+   * @param ex VerifyEmailException 예외 객체
+   * @return ModelAndView 객체를 반환하여 에러 페이지를 생성합니다.
+   */
+  @ExceptionHandler(VerifyEmailException.class)
+  public ModelAndView handleVerifyEmailException(VerifyEmailException ex) {
+    log.info("Is Running HandleVerifyEmailException");
+    return generateErrorModelAndView(AdviceErrorEnum.VERIFY_EMAIL, ex);
   }
 }

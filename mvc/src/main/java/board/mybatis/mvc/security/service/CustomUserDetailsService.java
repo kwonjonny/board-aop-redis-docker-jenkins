@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import board.mybatis.mvc.dto.member.MemberConvertDTO;
 import board.mybatis.mvc.dto.member.MemberDTO;
+import board.mybatis.mvc.exception.VerifyEmailException;
 import board.mybatis.mvc.mappers.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -39,6 +40,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         MemberConvertDTO readDTO = memberMapper.selectOne(username);
         log.info("readDTO", readDTO);
         log.info(readDTO);
+
+        if ("N".equals(readDTO.getIsVerified())) {
+            throw new VerifyEmailException("이메일 인증을 완료해주세요.");
+        }
 
         MemberDTO memberDTO = new MemberDTO(username,
                 readDTO.getMemberPw(),
