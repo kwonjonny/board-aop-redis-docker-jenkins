@@ -28,6 +28,7 @@ import board.mybatis.mvc.exception.AuthorizationException;
 import board.mybatis.mvc.exception.BoardNumberNotFoundException;
 import board.mybatis.mvc.exception.DataNotFoundException;
 import board.mybatis.mvc.exception.InvalidEmailException;
+import board.mybatis.mvc.exception.JSPNotFoundException;
 import board.mybatis.mvc.exception.MemberEmailDuplicateException;
 import board.mybatis.mvc.exception.MemberNotFoundException;
 import board.mybatis.mvc.exception.MemberPhoneIllegalArgumentException;
@@ -371,5 +372,20 @@ public class AdviceController {
   public ModelAndView handleInternalAuthenticationServiceException(InternalAuthenticationServiceException ex) {
     log.info("Is Running HandleInternalAuthenticationServiceException");
     return generateErrorModelAndView(AdviceErrorEnum.AUTHENTICATION_SERVICE_ERROR, ex);
+  }
+
+  /**
+   * 예외 처리 메서드: JSPNotFoundException 처리
+   *
+   * 이 메서드는 {@link JSPNotFoundException} 예외가 발생했을 때 실행됩니다.
+   * JSP 페이지를 찾을 수 없는 예외를 처리합니다.
+   *
+   * @param ex JSPNotFoundException 예외 객체
+   * @return ModelAndView 객체를 반환하여 에러 페이지를 생성합니다.
+   */
+  @ExceptionHandler(JSPNotFoundException.class)
+  public ModelAndView handleJSPNotFoundException(JSPNotFoundException ex) {
+    log.info("Is Running HandleJSPNotFoundException");
+    return generateErrorModelAndView(AdviceErrorEnum.JSP_NOT_FOUND, ex);
   }
 }

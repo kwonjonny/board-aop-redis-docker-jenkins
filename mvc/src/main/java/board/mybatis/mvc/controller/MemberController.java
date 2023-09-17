@@ -146,13 +146,14 @@ public class MemberController {
     // POST | Delete Member
     @CheckMemberMatch
     @PostMapping("delete/{email}")
-    @Operation(summary = "회원 탈퇴", description = "특정 회원을 탈퇴시킵니다.")
+    @Operation(summary = "회원 탈퇴", description = "회원을 탈퇴시키고 탈퇴 이메일을 전송합니다.")
     public String postDeleteMember(
             @Parameter(description = "회원 이메일", required = true) @PathVariable("email") final String email,
             RedirectAttributes redirectAttributes, Authentication authentication) {
         log.info("POST | Delete Member Controller");
         Long deleteMember = memberService.deleteMember(email);
-        redirectAttributes.addFlashAttribute("message", "회원 탈퇴 완료.");
+        emailService.sendDeleteMail(email);
+        redirectAttributes.addFlashAttribute("message", "회원 탈퇴 완료 및 탈퇴 이메일 전송.");
         return "redirect:/spring/index";
     }
 }

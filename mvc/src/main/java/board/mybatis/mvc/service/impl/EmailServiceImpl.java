@@ -47,11 +47,10 @@ public class EmailServiceImpl implements EmailService {
     }
 
     /**
-     * 주어진 이메일 주소로 회원가입 인증 이메일을 전송합니다.
-     * 이 메서드는 주어진 이메일 주소에 인증 URL을 포함한 이메일을 전송합니다.
-     * 사용자가 이 URL을 클릭하면 회원가입 인증이 완료됩니다.
-     * 
-     * @param toMember 회원가입 인증 이메일을 받을 사용자의 이메일 주소
+     * 사용자에게 회원가입 인증 이메일을 발송합니다.
+     * 인증 이메일에는 주어진 사용자의 이메일 주소를 인증하기 위한 링크가 포함됩니다.
+     *
+     * @param toMember 이메일을 받을 사용자의 이메일 주소입니다.
      */
     @Override
     @Transactional(readOnly = true)
@@ -67,6 +66,24 @@ public class EmailServiceImpl implements EmailService {
             messageHelper.setFrom(email);
             messageHelper.setTo(toMember);
             messageHelper.setSubject("회원가입 인증 이메일입니다.");
+            messageHelper.setText(htmlContent, true);
+        };
+        javaMailSender.send(messagePreparator);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public void sendDeleteMail(String toMember) {
+        log.info("Is Running SnedDeleteMail Email ServiceImpl");
+        Map<String, Object> model = new HashMap<>();
+        String htmlContent = jspToEmailService
+                .getRenderedHTMLString("/WEB-INF/spring/email/deleteemail.jsp", model);
+
+        MimeMessagePreparator messagePreparator = mimeMessage -> {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+            messageHelper.setFrom(email);
+            messageHelper.setTo(toMember);
+            messageHelper.setSubject("회원탈퇴 이메일입니다.");
             messageHelper.setText(htmlContent, true);
         };
         javaMailSender.send(messagePreparator);

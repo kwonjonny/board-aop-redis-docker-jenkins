@@ -52,7 +52,9 @@ public enum AdviceErrorEnum {
 
     VERIFY_EMAIL(HttpStatus.BAD_REQUEST, ex -> "No Verify Email " + ex.getMessage()),
 
-    AUTHENTICATION_SERVICE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, ex -> "Authentication Service Error: " + ex.getMessage());
+    AUTHENTICATION_SERVICE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, ex -> "Authentication Service Error: " + ex.getMessage()),
+
+    JSP_NOT_FOUND(HttpStatus.BAD_REQUEST, ex -> "JSP Not Found " + ex.getMessage());
 
 
     private final HttpStatus status;

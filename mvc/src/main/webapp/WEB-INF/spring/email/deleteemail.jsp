@@ -28,10 +28,9 @@
         <div class="col-sm-5 col-xl-5 sigin_content">
             <div class="bg-body rounded p-4">
                 <div style="text-align: center; font-size: 20px;">
-                    <h3 style="font-size: 40px; margin-bottom: 20px;">회원가입 인증 이메일입니다.</h3>
-                    <h2 style="font-size: 35px; margin-bottom: 30px;">아래 링크를 클릭하여 회원가입 인증을 완료하세요</h2>
+                    <h3 style="font-size: 40px; margin-bottom: 20px;">회원탈퇴 인증 이메일입니다.</h3>
+                    <h2 style="font-size: 35px; margin-bottom: 30px;">회원님의 관련 개인정보는 더 이상 보존되지 않음을 알려드립니다.</h2>
                     <div style="margin-bottom: 20px;">
-                        <a style="display: inline-block; width: 50px;" href="${verificationUrl}">인증 링크</a>
                     </div>
                 </div>
             </div>
