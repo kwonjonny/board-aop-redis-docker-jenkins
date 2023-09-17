@@ -36,6 +36,8 @@ import board.mybatis.mvc.exception.NoticeNumberNotFoundException;
 import board.mybatis.mvc.exception.PasswordIllegalArgumentException;
 import board.mybatis.mvc.exception.ReplyNumberNotFoundException;
 import board.mybatis.mvc.exception.VerifyEmailException;
+import board.mybatis.mvc.security.service.CustomUserDetailsService;
+import board.mybatis.mvc.util.email.JSPToEmailService;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -44,7 +46,7 @@ import lombok.extern.log4j.Log4j2;
  */
 @Log4j2
 @ControllerAdvice(assignableTypes = { BoardController.class, MemberController.class, NoticeController.class,
-    StatsController.class })
+    StatsController.class, CustomUserDetailsService.class, JSPToEmailService.class })
 @RestControllerAdvice(assignableTypes = { ReplyController.class, FileUploadController.class, LikeController.class })
 public class AdviceController {
 

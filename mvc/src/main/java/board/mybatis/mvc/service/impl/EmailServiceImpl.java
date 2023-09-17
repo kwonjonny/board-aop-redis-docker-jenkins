@@ -71,6 +71,11 @@ public class EmailServiceImpl implements EmailService {
         javaMailSender.send(messagePreparator);
     }
 
+    /**
+     * 사용자에게 회원탈퇴 이메일을 발송합니다.
+     * 
+     * @param toMember 이메일을 받을 사용자의 이메일의 주소입니다.
+     */
     @Override
     @Transactional(readOnly = true)
     public void sendDeleteMail(String toMember) {
