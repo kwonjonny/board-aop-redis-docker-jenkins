@@ -67,6 +67,7 @@ dependencies {
 
 	// 회원가입, 비밀번호 분실, 회원가입 환영 메일, 회원가입 탈퇴 메일 
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation group: 'javax.mail', name: 'mail', version: '1.4.7'
 
 	// Spring Data Redis 
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
