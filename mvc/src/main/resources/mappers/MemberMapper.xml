@@ -20,6 +20,7 @@
         <id property ="email" column ="email"/>
         <result property="memberName" column="memberName"/>
         <result property="memberPw" column="memberPw"/>
+        <result property="isVerified" column="isVerified"/>
         <collection property="rolenames" resultMap="authMap"/>
 </resultMap>
 
