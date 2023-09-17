@@ -1,12 +1,18 @@
 package board.mybatis.mvc.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.mail.SimpleMailMessage;
 import board.mybatis.mvc.service.EmailService;
+import board.mybatis.mvc.util.email.JSPToEmailService;
 import lombok.extern.log4j.Log4j2;
 
 /**
@@ -22,6 +28,7 @@ public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender javaMailSender;
     private final SimpleMailMessage simpleMailMessage;
+    private final JSPToEmailService jspToEmailService;
 
     /**
      * EmailServiceImpl 생성자.
@@ -30,10 +37,13 @@ public class EmailServiceImpl implements EmailService {
      * @param simpleMailMessage 이메일의 내용 및 구성을 위한 SimpleMailMessage 인스턴스
      */
     @Autowired
-    public EmailServiceImpl(JavaMailSender javaMailSender, SimpleMailMessage simpleMailMessage) {
+    public EmailServiceImpl(JavaMailSender javaMailSender, SimpleMailMessage simpleMailMessage,
+            JSPToEmailService jspToEmailService) {
         log.info("Inject JavaMailSender");
         this.javaMailSender = javaMailSender;
         this.simpleMailMessage = simpleMailMessage;
+        this.jspToEmailService = jspToEmailService;
+
     }
 
     /**
@@ -47,11 +57,18 @@ public class EmailServiceImpl implements EmailService {
     @Transactional(readOnly = true)
     public void sendCreateMail(String toMember) {
         log.info("Is Running SendCreateMail Email ServiceImpl");
-        String verificationUrl = "http://localhost:8084/spring/member/verify?email=" + toMember;
-        simpleMailMessage.setFrom(email);
-        simpleMailMessage.setTo(toMember);
-        simpleMailMessage.setSubject("회원가입 인증 이메일입니다.");
-        simpleMailMessage.setText("클릭 후 회원가입 인증을 완료하세요: " + verificationUrl);
-        javaMailSender.send(simpleMailMessage);
+        Map<String, Object> model = new HashMap<>();
+        model.put("verificationUrl", "http://localhost:8084/spring/member/verify?email=" + toMember);
+        String htmlContent = jspToEmailService
+                .getRenderedHTMLString("/WEB-INF/spring/email/verfiyemail.jsp", model);
+
+        MimeMessagePreparator messagePreparator = mimeMessage -> {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+            messageHelper.setFrom(email);
+            messageHelper.setTo(toMember);
+            messageHelper.setSubject("회원가입 인증 이메일입니다.");
+            messageHelper.setText(htmlContent, true);
+        };
+        javaMailSender.send(messagePreparator);
     }
 }
