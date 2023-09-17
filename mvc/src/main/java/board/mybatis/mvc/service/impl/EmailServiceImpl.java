@@ -42,7 +42,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     @Transactional(readOnly = true)
     public void sendCreateMail(String toMember) {
-        log.info("Is Running SendCreateMail EmailServiceImpl");
+        log.info("Is Running SendCreateMail Email ServiceImpl");
         String verificationUrl = "http://localhost:8084/spring/member/verify?email=" + toMember;
         simpleMailMessage.setTo(toMember);
         simpleMailMessage.setSubject("회원가입 인증 이메일입니다.");
