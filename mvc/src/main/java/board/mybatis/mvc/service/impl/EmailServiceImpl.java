@@ -1,6 +1,7 @@
 package board.mybatis.mvc.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,9 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Service
 public class EmailServiceImpl implements EmailService {
+
+    @Value("${spring.mail.username}")
+    private String email;
 
     private final JavaMailSender javaMailSender;
     private final SimpleMailMessage simpleMailMessage;
@@ -44,10 +48,10 @@ public class EmailServiceImpl implements EmailService {
     public void sendCreateMail(String toMember) {
         log.info("Is Running SendCreateMail Email ServiceImpl");
         String verificationUrl = "http://localhost:8084/spring/member/verify?email=" + toMember;
+        simpleMailMessage.setFrom(email);
         simpleMailMessage.setTo(toMember);
         simpleMailMessage.setSubject("회원가입 인증 이메일입니다.");
         simpleMailMessage.setText("클릭 후 회원가입 인증을 완료하세요: " + verificationUrl);
         javaMailSender.send(simpleMailMessage);
     }
-
 }
