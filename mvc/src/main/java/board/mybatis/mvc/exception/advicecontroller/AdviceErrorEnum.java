@@ -50,7 +50,10 @@ public enum AdviceErrorEnum {
 
     ACCESS_DENIED(HttpStatus.FORBIDDEN, ex -> "Access Denied " + ex.getMessage()),
 
-    VERIFY_EMAIL(HttpStatus.BAD_REQUEST, ex -> "No Verify Email " + ex.getMessage());
+    VERIFY_EMAIL(HttpStatus.BAD_REQUEST, ex -> "No Verify Email " + ex.getMessage()),
+
+    AUTHENTICATION_SERVICE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, ex -> "Authentication Service Error: " + ex.getMessage());
+
 
     private final HttpStatus status;
     private final Function<Exception, String> messageExtractor;

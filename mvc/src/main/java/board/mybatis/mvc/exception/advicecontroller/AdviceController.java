@@ -10,6 +10,7 @@ import java.util.NoSuchElementException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -355,5 +356,20 @@ public class AdviceController {
   public ModelAndView handleVerifyEmailException(VerifyEmailException ex) {
     log.info("Is Running HandleVerifyEmailException");
     return generateErrorModelAndView(AdviceErrorEnum.VERIFY_EMAIL, ex);
+  }
+
+  /**
+   * 예외 처리 메서드: VerifyEmailException 처리
+   *
+   * 이 메서드는 {@link InternalAuthenticationServiceException} 예외가 발생했을 때 실행됩니다. 시큐리티
+   * 인증 예외를 처리합니다.
+   *
+   * @param ex InternalAuthenticationServiceException 예외 객체
+   * @return ModelAndView 객체를 반환하여 에러 페이지를 생성합니다.
+   */
+  @ExceptionHandler(InternalAuthenticationServiceException.class)
+  public ModelAndView handleInternalAuthenticationServiceException(InternalAuthenticationServiceException ex) {
+    log.info("Is Running HandleInternalAuthenticationServiceException");
+    return generateErrorModelAndView(AdviceErrorEnum.AUTHENTICATION_SERVICE_ERROR, ex);
   }
 }
