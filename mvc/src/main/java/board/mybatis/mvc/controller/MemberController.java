@@ -111,7 +111,9 @@ public class MemberController {
     // GET | Verified Member Email
     @GetMapping("verify")
     @Operation(summary = "회원 가입 이메일 인증", description = "회원의 이메일 인증을 완료합니다.")
-    public String verifyEmail(@RequestParam("email") final String email, RedirectAttributes redirectAttributes) {
+    public String verifyEmail(
+            @Parameter(description = "회원 이메일", required = true) @RequestParam("email") final String email,
+            RedirectAttributes redirectAttributes) {
         log.info("GET | Verify Member Email Controller");
         memberService.verifyEmail(email);
         redirectAttributes.addFlashAttribute("message", "이메일 인증 완료! 로그인해주세요.");
