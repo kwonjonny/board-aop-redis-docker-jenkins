@@ -101,6 +101,17 @@
 <p dir="auto">👉 <a href="https://github.com/kwonjonny/board-aop-redis-docker-jenkins/wiki/Business"><strong>각 기능별 비지니스 로직</strong></a><br>
 👉 <a href="https://github.com/kwonjonny/board-aop-redis-docker-jenkins/wiki/Use-Case"><strong>각 기능별 Use Case</strong></a></p>
 
-<p dir="auto">👥 <strong>사용자</strong></p>
+<p dir="auto">👥 <strong>사용자</strong>
+<ul dir="auto">
+<li>회원가입, 탈퇴</li>
+<li>로그인, 로그아웃</li>
+<li>마이페이지, 정보수정</li>
+<li>자유게시판 등록, 수정, 삭제</li>
+<li>댓글 대댓글 등록, 수정, 삭제</li>
+<li>좋아요 기능</li>
+<li>통합검색 기능, 날짜검색 기능</li>
+<li>조회수 기능</li>
+</ul>
+</p>
 
 <p dir="auto">💂‍♂️ <strong>관리자</strong></p>
