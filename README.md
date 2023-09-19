@@ -98,7 +98,8 @@
 
 
 <h2 tabindex="-1" dir="auto"><a id="user-content-computer-주요-기능" class="anchor" aria-hidden="true" tabindex="-1" href="#computer-주요-기능"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>💻 주요 기능</h2>
-
+<p dir="auto">👉 <a href="https://github.com/kwonjonny/board-aop-redis-docker-jenkins/wiki/Business"><strong>각 기능별 비지니스 로직</strong></a><br>
+👉 <a href="https://github.com/kwonjonny/board-aop-redis-docker-jenkins/wiki/Use-Case"><strong>각 기능별 Use Case</strong></a></p>
 
 <p dir="auto">👥 <strong>사용자</strong></p>
 
