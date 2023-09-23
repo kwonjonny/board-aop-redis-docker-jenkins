@@ -103,7 +103,7 @@ public class MemberController {
     @Operation(summary = "중복 이메일 확인", description = "이메일 중복 여부를 확인합니다.")
     public ResponseEntity<Map<String, Object>> checkDuplicateEmail(
             @Parameter(description = "회원 이메일", required = true) @PathVariable("email") final String email) {
-        log.info("Checking for duplicate email");
+        log.info("GET | Checking For Duplicate Email Controller");
         Long isDuplicate = memberService.duplicateEmail(email);
         return new ResponseEntity<>(Map.of("isDuplicate", isDuplicate), HttpStatus.OK);
     }
@@ -111,13 +111,32 @@ public class MemberController {
     // GET | Verified Member Email
     @GetMapping("verify")
     @Operation(summary = "회원 가입 이메일 인증", description = "회원의 이메일 인증을 완료합니다.")
-    public String verifyEmail(
+    public String getVerifyEmail(
             @Parameter(description = "회원 이메일", required = true) @RequestParam("email") final String email,
             RedirectAttributes redirectAttributes) {
         log.info("GET | Verify Member Email Controller");
         memberService.verifyEmail(email);
         redirectAttributes.addFlashAttribute("message", "이메일 인증 완료! 로그인해주세요.");
         return "redirect:/spring/index";
+    }
+
+    // GET | Forgot Member Password
+    @GetMapping("forgot/password")
+    @Operation(summary = "회원 패스워드 페이지 조회", description = "회원의 패스워드 재 설정 이메일 페이지를 조회합니다.")
+    public String getForgotMemberPassword() {
+        log.info("GET | Forgot Member Password Controller");
+        return "spring/member/password";
+    }
+
+    // POST | Forgot Member Password
+    @PostMapping("forgot/password")
+    public String postForgotMemberPassword(
+            @Parameter(description = "회원 이메일", required = true) @RequestParam("email") String email,
+            RedirectAttributes redirectAttributes) {
+        log.info("POST | Forgot Member Password Controller");
+        redirectAttributes.addFlashAttribute("message", "회원 패스워드 재 설정 이메일 전송.");
+        emailService.sendPasswordResetMail(email);
+        return "spring/index";
     }
 
     // POST | Create Member

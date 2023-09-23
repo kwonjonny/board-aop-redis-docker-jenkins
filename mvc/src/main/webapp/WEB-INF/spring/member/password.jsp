@@ -26,49 +26,17 @@
 	<div class="col-sm-5 col-xl-5 sigin_content">
 		<h1><img src="/imgs/login_logo.png" alt="logo" /></h1>
 		<div class="bg-body rounded h-100 p-4">
-			<h3>로그인</h3>
-			<form action="/spring/index" method="post">
+			<h3>비밀번호 찾기</h3>
+			<form action="/spring/member/forgot/password" method="post">
 				<div class="mb-3">
-					<label for="username" class="form-label">Email address</label>
-					<input type="email" class="form-control" id="username" name="username"
-						aria-describedby="username">
+					<label for="email" class="form-label">Email</label>
+					<input type="email" class="form-control" id="email" name="email" aria-describedby="email">
 				</div>
-				<div class="mb-3">
-					<label for="password" class="form-label">Password</label>
-					<input type="password" class="form-control" id="password" name="password">
-				</div>
-				<!-- Remember Me checkbox -->
-				<div>
-					<input type="checkbox" name="remember-me"> 이 컴퓨터에 쿠키를 저장하실겁니까 ?
-				</div>
-				<div class="button_wrap">
-					<button type="submit" class="btn btn-dark">로그인</button>
-					<a href="http://localhost:8084/oauth2/authorization/kakao" class="btn btn-kakao">
-						<img src="/imgs/kakao.png">Kakao 로그인</a>
-				</div>
-			</form>
-			<div class="button_wrap button_wrap2 d-flex justify-content-center align-items-center">
-				<a href="/spring/member/create" class="btn btn-outline-dark">회원 가입</a>
-			</div>
-			<div class="button_wrap button_wrap2 d-flex justify-content-center align-items-center">
-				<a href="/spring/member/forgot/password" class="btn btn-outline-dark">비밀번호를 잊으셨나요?</a>
-			</div>
+				<button type="submit" class="btn btn-primary">비밀번호 재설정 이메일 보내기</button>
+			</form>			
 		</div>
 	</div>
 </div>
-<!-- Update Complete Message Start -->
-<div class="modal alertModal" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-body">${message}</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-			</div>
-		</div>
-	</div>
-</div>
-</div>
-<!-- Update Complete Message End -->
 <!-- JavaScript Libraries -->
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -79,15 +47,5 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 <!-- Template Javascript -->
 <script src="/js/main.js"></script>
-<script>
-	const alertModal = new bootstrap.Modal(document.querySelector(".alertModal"))
-	let message = "${message}";
-	if (message !== "") {
-		alertModal.show();
-	}
-	setTimeout(function () {
-		alertModal.hide();
-	}, 1500);
-</script>
 </body>
 </html>

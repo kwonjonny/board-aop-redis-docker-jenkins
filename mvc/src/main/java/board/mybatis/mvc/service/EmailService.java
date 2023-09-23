@@ -17,4 +17,11 @@ public interface EmailService {
      * @param toMember 이메일을 받을 주소 
      */
     void sendDeleteMail(String toMember);
+
+    /**
+     * 주어진 이메일 주소로 회원 비밀번호 재설정 이메일을 전송합니다.
+     * 
+     * @param toMember
+     */
+    void sendPasswordResetMail(String toMember);
 }

@@ -1,4 +1,4 @@
-package board.mybatis.mvc.config.simplemail;
+package board.mybatis.mvc.config.mail;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

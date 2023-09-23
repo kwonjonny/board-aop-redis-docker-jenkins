@@ -99,8 +99,8 @@ public class MemberServiceImpl implements MemberService {
      * @throws InvalidEmailException   이메일 형식에 맞지 않을때 발생하는 예외.
      */
     @Override
-    @KwonCacheable(value = "Member", key = "")
     @Transactional(readOnly = true)
+    @KwonCacheable(value = "Member", key = "")
     public MemberConvertDTO readMember(String email) {
         log.info("Is Running Read Member ServiceImpl");
         notFoundMember(email);
@@ -191,7 +191,7 @@ public class MemberServiceImpl implements MemberService {
      * @param email 검증할 이메일 주소
      * @throws EmailValidationException 이메일 주소가 유효하지 않은 경우
      * @throws MemberNotFoundException  해당 이메일 주소를 가진 회원이 존재하지 않는 경우
-     *                                  
+     * 
      */
     @Override
     @Transactional
