@@ -32,6 +32,8 @@ useGeneratedKeys="true" keyProperty="bno">
   <result property="createDate" column="createDate"/>
   <result property="updateDate" column="updateDate"/>
   <result property="viewCount" column="viewCount"/>
+  <result property="likeCount" column="likeCount"/>
+  <result property="replyCount" column="replyCount"/>
   <collection property="fileName" column="fileName" ofType="java.lang.String" resultMap="FileNameResultMap"/>
 </resultMap>
 <!-- BoardMapper id = "readBoard" -->
