@@ -49,8 +49,6 @@
 			</form>
 			<div class="button_wrap button_wrap2 d-flex justify-content-center align-items-center">
 				<a href="/spring/member/create" class="btn btn-outline-dark">회원 가입</a>
-			</div>
-			<div class="button_wrap button_wrap2 d-flex justify-content-center align-items-center">
 				<a href="/spring/member/forgot/password" class="btn btn-outline-dark">비밀번호를 잊으셨나요?</a>
 			</div>
 		</div>

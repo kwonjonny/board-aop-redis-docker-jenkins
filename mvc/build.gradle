@@ -65,7 +65,7 @@ dependencies {
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
-	// 회원가입, 비밀번호 분실, 회원가입 환영 메일, 회원가입 탈퇴 메일 
+	// 회원가입 인증 이메일, 비밀번호 분실, 회원가입 탈퇴 메일 
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
 	// Spring Data Redis 
