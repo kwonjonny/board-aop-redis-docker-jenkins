@@ -137,7 +137,7 @@ public class MemberController {
         log.info("POST | Forgot Member Password Controller");
         emailService.sendPasswordResetMail(email);
         redirectAttributes.addFlashAttribute("message", "회원 패스워드 재 설정 이메일 전송.");
-        return "spring/index";
+        return "redirect:spring/index";
     }
 
     // POST | Create Member

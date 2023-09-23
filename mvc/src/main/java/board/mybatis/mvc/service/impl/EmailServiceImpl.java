@@ -118,7 +118,7 @@ public class EmailServiceImpl implements EmailService {
         MemberValidator.validateEmail(toMember);
         notFoundMember(toMember);
         Map<String, Object> model = new HashMap<>();
-        String resetUrl = "http://localhost:8084/spring/member/update/" + "?email=" + toMember;
+        String resetUrl = "http://localhost:8084/spring/member/update/" + toMember; 
         model.put("passwordResetUrl", resetUrl);
         String htmlContent = jspToEmailService
                 .getRenderedHTMLString("/WEB-INF/spring/email/resetpassword.jsp", model);
