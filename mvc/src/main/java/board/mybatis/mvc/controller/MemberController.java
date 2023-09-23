@@ -130,12 +130,13 @@ public class MemberController {
 
     // POST | Forgot Member Password
     @PostMapping("forgot/password")
+    @Operation(summary = "회원 패스워드 재설정 이메일", description = "회원의 패스워드 재 설정 이메일 발송합니다.")
     public String postForgotMemberPassword(
             @Parameter(description = "회원 이메일", required = true) @RequestParam("email") String email,
             RedirectAttributes redirectAttributes) {
         log.info("POST | Forgot Member Password Controller");
-        redirectAttributes.addFlashAttribute("message", "회원 패스워드 재 설정 이메일 전송.");
         emailService.sendPasswordResetMail(email);
+        redirectAttributes.addFlashAttribute("message", "회원 패스워드 재 설정 이메일 전송.");
         return "spring/index";
     }
 
