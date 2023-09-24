@@ -47,7 +47,7 @@ public class MemberServiceImpl implements MemberService {
      * @param passwordEncoder 패스워드 인코딩 관련 데이터 액세스 객체
      */
     @Autowired
-    public MemberServiceImpl(MemberMapper memberMapper, PasswordEncoder passwordEncoder) {
+    public MemberServiceImpl(final MemberMapper memberMapper, final PasswordEncoder passwordEncoder) {
         log.info("Inject MemberMapper");
         this.memberMapper = memberMapper;
         this.passwordEncoder = passwordEncoder;
@@ -70,7 +70,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     @Transactional
-    public Long joinMember(MemberCreateDTO memberCreateDTO) {
+    public Long joinMember(final MemberCreateDTO memberCreateDTO) {
         log.info("Is Running JoinMember ServiceImpl");
         if (memberCreateDTO.getEmail() == null || memberCreateDTO.getMemberName() == null
                 || memberCreateDTO.getMemberPhone() == null || memberCreateDTO.getMemberPw() == null) {
@@ -101,7 +101,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional(readOnly = true)
     @KwonCacheable(value = "Member", key = "")
-    public MemberConvertDTO readMember(String email) {
+    public MemberConvertDTO readMember(final String email) {
         log.info("Is Running Read Member ServiceImpl");
         notFoundMember(email);
         MemberValidator.validateEmail(email);
@@ -126,7 +126,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     @KwonCacheEvict(value = "Member", key = "")
-    public Long updateMember(MemberUpdateDTO memberUpdateDTO) {
+    public Long updateMember(final MemberUpdateDTO memberUpdateDTO) {
         log.info("Is Running Update Member ServiceImpl");
         if (memberUpdateDTO.getEmail() == null || memberUpdateDTO.getMemberName() == null
                 || memberUpdateDTO.getMemberPhone() == null || memberUpdateDTO.getMemberPw() == null) {
@@ -154,7 +154,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     @KwonCacheEvict(value = "Member", key = "")
-    public Long deleteMember(String email) {
+    public Long deleteMember(final String email) {
         log.info("Is Running Delete Member ServiceImpl");
         notFoundMember(email);
         MemberValidator.validateEmail(email);
@@ -173,7 +173,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     @Transactional(readOnly = true)
-    public PageResponseDTO<MemberListDTO> listMember(PageRequestDTO pageRequestDTO) {
+    public PageResponseDTO<MemberListDTO> listMember(final PageRequestDTO pageRequestDTO) {
         log.info("Is Running List Member ServiceImpl");
         List<MemberListDTO> list = memberMapper.listMember(pageRequestDTO);
         int total = memberMapper.total(pageRequestDTO);
@@ -195,7 +195,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     @Transactional
-    public void verifyEmail(String email) {
+    public void verifyEmail(final String email) {
         log.info("Is Running VerifiyEmail Member ServiceImpl");
         MemberValidator.validateEmail(email);
         notFoundMember(email);
@@ -212,7 +212,7 @@ public class MemberServiceImpl implements MemberService {
      * @throws MemberEmailDuplicateException 이미 등록된 이메일일 경우 발생하는 예외.
      */
     @Transactional(readOnly = true)
-    private void duplicateMemberEmail(String email) {
+    private void duplicateMemberEmail(final String email) {
         log.info("Is Running Duplicate Member Email ServiceImpl");
         MemberValidator.validateEmail(email);
         if (memberMapper.findMemberEmail(email) == 1) {
@@ -230,7 +230,7 @@ public class MemberServiceImpl implements MemberService {
      * @throws MemberNotFoundException 해당 이메일의 회원이 없을 경우 발생하는 예외.
      */
     @Transactional(readOnly = true)
-    private void notFoundMember(String email) {
+    private void notFoundMember(final String email) {
         log.info("Is Running Not Found Member Email ServiceImpl");
         MemberValidator.validateEmail(email);
         if (memberMapper.findMemberEmail(email) == 0 || memberMapper.findMemberEmail(email) == null) {
@@ -249,7 +249,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Long duplicateEmail(String email) {
+    public Long duplicateEmail(final String email) {
         log.info("Is Running Duplicate Email ServiceImpl");
         MemberValidator.validateEmail(email);
         return memberMapper.findMemberEmail(email);

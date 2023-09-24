@@ -37,7 +37,7 @@ public class StatsServiceImpl implements StatsService {
      * @param statsMapper 통계 관련 데이터 엑세스 객체
      */
     @Autowired
-    public StatsServiceImpl(StatsMapper statsMapper) {
+    public StatsServiceImpl(final StatsMapper statsMapper) {
         log.info("Inject StatsMapper");
         this.statsMapper = statsMapper;
     }

@@ -6,8 +6,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,7 +44,7 @@ public class NoticeServiceImpl implements NoticeService {
      * @param fileMapper   파일 업로드 관련 데이터 엑세스 객체
      */
     @Autowired
-    public NoticeServiceImpl(NoticeMapper noticeMapper, FileMapper fileMapper) {
+    public NoticeServiceImpl(final NoticeMapper noticeMapper, final FileMapper fileMapper) {
         log.info("Inect NoticeMapper");
         this.noticeMapper = noticeMapper;
         this.fileMapper = fileMapper;
@@ -62,7 +60,7 @@ public class NoticeServiceImpl implements NoticeService {
      */
     @Override
     @Transactional
-    public Long createNotice(NoticeCreateDTO noticeCreateDTO) {
+    public Long createNotice(final NoticeCreateDTO noticeCreateDTO) {
         log.info("Is Running Create Notice ServiceImpl");
         if (noticeCreateDTO.getContent() == null || noticeCreateDTO.getWriter() == null
                 || noticeCreateDTO.getTitle() == null) {
@@ -97,7 +95,7 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     @Transactional(readOnly = true)
     @KwonCacheable(value = "Notice", key = "")
-    public NoticeDTO readNotice(Long nno) {
+    public NoticeDTO readNotice(final Long nno) {
         log.info("Is Running Read Notice ServiceImpl");
         validateNoticeNumber(nno);
         return noticeMapper.readNotice(nno);
@@ -117,7 +115,7 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     @Transactional
     @KwonCacheEvict(value = "Notice", key = "")
-    public Long updateNotice(NoticeUpdateDTO noticeUpdateDTO) {
+    public Long updateNotice(final NoticeUpdateDTO noticeUpdateDTO) {
         log.info("Is Running Update Notice ServiceImpl");
         if (noticeUpdateDTO.getNno() == null || noticeUpdateDTO.getContent() == null
                 || noticeUpdateDTO.getWriter() == null || noticeUpdateDTO.getTitle() == null) {
@@ -154,8 +152,8 @@ public class NoticeServiceImpl implements NoticeService {
      */
     @Override
     @Transactional
-    @CacheEvict(value = "Notice", key = "")
-    public Long deleteNotice(Long nno) {
+    @KwonCacheEvict(value = "Notice", key = "")
+    public Long deleteNotice(final Long nno) {
         log.info("Is Running Delete Notice ServiceImpl");
         validateNoticeNumber(nno);
         fileMapper.deleteNoticeImage(nno);
@@ -171,7 +169,7 @@ public class NoticeServiceImpl implements NoticeService {
      */
     @Override
     @Transactional(readOnly = true)
-    public PageResponseDTO<NoticeListDTO> listNotice(PageRequestDTO pageRequestDTO) {
+    public PageResponseDTO<NoticeListDTO> listNotice(final PageRequestDTO pageRequestDTO) {
         log.info("Is Running List Notice ServiceImpl");
         List<NoticeListDTO> list = noticeMapper.listNotice(pageRequestDTO);
         int total = noticeMapper.total(pageRequestDTO);
@@ -192,7 +190,7 @@ public class NoticeServiceImpl implements NoticeService {
      */
     @Override
     @Transactional
-    public int countViewNotice(Long nno) {
+    public int countViewNotice(final Long nno) {
         log.info("Is Running Notice View Count");
         validateNoticeNumber(nno);
         noticeMapper.createViewNoticeCount(nno);
@@ -206,7 +204,7 @@ public class NoticeServiceImpl implements NoticeService {
      * @throws NoticeNumberNotFoundException 해당 번호의 공지사항이 없을 때 발생하는 예외.
      */
     @Transactional(readOnly = true)
-    private void validateNoticeNumber(Long nno) {
+    private void validateNoticeNumber(final Long nno) {
         log.info("Is Running Validate Notice Number ServiceImpl");
         if (noticeMapper.findNoticeNumber(nno) == null || noticeMapper.findNoticeNumber(nno) == 0) {
             throw new NoticeNumberNotFoundException("해당하는 공지사항 번호가 없습니다.");

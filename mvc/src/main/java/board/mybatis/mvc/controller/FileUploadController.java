@@ -51,7 +51,7 @@ public class FileUploadController {
     @PostMapping("/upload")
     @Operation(summary = "파일 업로드", description = "파일을 업로드합니다.")
     public List<UploadResultDTO> postFileUpload(
-            @Parameter(description = "업로드할 파일 배열", required = true) @Valid MultipartFile[] files)
+            @Parameter(description = "업로드할 파일 배열", required = true) @Valid final MultipartFile[] files)
             throws UnsupportedEncodingException {
         log.info("RestController | Upload File");
         if (files == null || files.length == 0) {
@@ -96,7 +96,7 @@ public class FileUploadController {
     @DeleteMapping("removeFile/{fileName}")
     @Operation(summary = "파일 삭제", description = "특정 파일을 삭제합니다.")
     public Map<String, String> deleteFile(
-            @Parameter(description = "삭제할 파일 이름", required = true) @PathVariable("fileName") String fileName)
+            @Parameter(description = "삭제할 파일 이름", required = true) @PathVariable("fileName") final String fileName)
             throws UnsupportedEncodingException {
         log.info("RestController | Delete File");
         String decodedFileName = URLDecoder.decode(fileName, "UTF-8");

@@ -28,7 +28,7 @@ public class CurrentMemberAspect {
      * @throws Throwable 원래 메서드에서 발생하는 예외를 포함하여 다양한 예외 발생 가능
      */
     @Around("@annotation(board.mybatis.mvc.annotation.role.CurrentMember)")
-    public Object handleCurrentMember(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object handleCurrentMember(final ProceedingJoinPoint joinPoint) throws Throwable {
         // 현재 인증 컨텍스트에서 Authentication 객체를 가져옵니다.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // Authentication 객체에서 UserDetails 객체를 가져와 현재 사용자의 정보를 얻습니다.

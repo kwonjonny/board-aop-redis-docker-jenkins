@@ -3,6 +3,7 @@ package board.mybatis.mvc.security.service;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
@@ -38,7 +39,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
      * @throws OAuth2AuthenticationException OAuth2 인증 예외
      */
     @Override
-    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+    public OAuth2User loadUser(final OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         log.info("Is Running Load By User Request");
         log.info(userRequest);
 
@@ -83,7 +84,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
     }
 
-    private String getKakaoEmail(Map<String, Object> paramMap) {
+    private String getKakaoEmail(final Map<String, Object> paramMap) {
         Object value = paramMap.get("kakao_account");
         log.info("value: " + value);
         LinkedHashMap accountMap = (LinkedHashMap) value;

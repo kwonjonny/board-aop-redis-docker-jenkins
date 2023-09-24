@@ -47,7 +47,7 @@ public class ReplyController {
      * @param replyService 댓글 서비스
      */
     @Autowired
-    public ReplyController(ReplyService replyService) {
+    public ReplyController(final ReplyService replyService) {
         log.info("Inject ReplyService");
         this.replyService = replyService;
     }
@@ -55,7 +55,7 @@ public class ReplyController {
     // GET | List Board Reply
     @GetMapping("board/list/{bno}")
     @Operation(summary = "게시판 댓글 목록 조회", description = "게시판의 댓글 목록을 조회하는 API")
-    public ResponseEntity<Map<String, Object>> listBoardReply(PageRequestDTO pageRequestDTO,
+    public ResponseEntity<Map<String, Object>> listBoardReply(final PageRequestDTO pageRequestDTO,
             @Parameter(description = "게시판 번호", required = true) @PathVariable("bno") final Long bno) {
         log.info("GET | Reply Board List RestController");
         PageResponseDTO<ReplyBoardListDTO> result = replyService.listBoardReply(pageRequestDTO, bno);
@@ -66,8 +66,8 @@ public class ReplyController {
     @PostMapping("board/create")
     @Operation(summary = "게시판 댓글 생성", description = "게시판에 댓글을 추가하는 API")
     public ResponseEntity<Map<String, Object>> createBoardReply(
-            @Parameter(description = "댓글 생성 정보", required = true) @RequestBody ReplyBoardCreateDTO replyBoardCreateDTO,
-            Authentication authentication) {
+            @Parameter(description = "댓글 생성 정보", required = true) @RequestBody final ReplyBoardCreateDTO replyBoardCreateDTO,
+            final Authentication authentication) {
         log.info("POST | Reply Board Create RestController");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         replyBoardCreateDTO.setReplyer(userDetails.getUsername());
@@ -79,8 +79,8 @@ public class ReplyController {
     @PutMapping("board/update")
     @Operation(summary = "게시판 댓글 업데이트", description = "특정 게시판의 댓글을 업데이트합니다.")
     public ResponseEntity<Map<String, Object>> updateBoardReply(
-            @Parameter(description = "업데이트할 댓글 정보", required = true) @RequestBody ReplyBoardUpdateDTO replyBoardUpdateDTO,
-            @Parameter(description = "사용자 인증 정보", required = true) Authentication authentication) {
+            @Parameter(description = "업데이트할 댓글 정보", required = true) @RequestBody final ReplyBoardUpdateDTO replyBoardUpdateDTO,
+            @Parameter(description = "사용자 인증 정보", required = true) final Authentication authentication) {
         log.info("PUT | Reply Board Update RestController");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         replyBoardUpdateDTO.setReplyer(userDetails.getUsername());
@@ -111,7 +111,7 @@ public class ReplyController {
     // GET | Get User Details
     @GetMapping("board/user/email")
     @Operation(summary = "사용자 이메일 조회", description = "인증된 사용자의 이메일을 조회합니다.")
-    public ResponseEntity<Map<String, Object>> getBoardUserDetails(Authentication authentication) {
+    public ResponseEntity<Map<String, Object>> getBoardUserDetails(final Authentication authentication) {
         log.info("GET | Reply Board User Details RestController");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();
@@ -122,7 +122,7 @@ public class ReplyController {
     @GetMapping("notice/list/{nno}")
     @Operation(summary = "공지사항 댓글 목록 조회", description = "특정 공지사항의 댓글 목록을 조회합니다.")
     public ResponseEntity<Map<String, Object>> listNoticeReply(
-            @Parameter(description = "페이지 정보") PageRequestDTO pageRequestDTO,
+            @Parameter(description = "페이지 정보") final PageRequestDTO pageRequestDTO,
             @Parameter(description = "공지사항 번호", required = true) @PathVariable("nno") final Long nno) {
         log.info("GET | Reply Notice List RestController");
         PageResponseDTO<ReplyNoticeListDTO> result = replyService.listNoticeReply(pageRequestDTO, nno);
@@ -133,7 +133,7 @@ public class ReplyController {
     @PostMapping("notice/create")
     @Operation(summary = "공지사항 댓글 생성", description = "새로운 공지사항 댓글을 생성합니다.")
     public ResponseEntity<Map<String, Object>> createNoticeReply(
-            @RequestBody ReplyNoticeCreateDTO replyNoticeCreateDTO, Authentication authentication) {
+            @RequestBody final ReplyNoticeCreateDTO replyNoticeCreateDTO, final Authentication authentication) {
         log.info("POST | Reply Notice Create RestController");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         replyNoticeCreateDTO.setReplyer(userDetails.getUsername());
@@ -145,7 +145,7 @@ public class ReplyController {
     @PutMapping("notice/update")
     @Operation(summary = "공지사항 댓글 수정", description = "기존 공지사항 댓글을 수정합니다.")
     public ResponseEntity<Map<String, Object>> updateNoticeReply(
-            @RequestBody ReplyNoticeUpdateDTO replyNoticeUpdateDTO, Authentication authentication) {
+            @RequestBody final ReplyNoticeUpdateDTO replyNoticeUpdateDTO, final Authentication authentication) {
         log.info("PUT | Reply Notice Update RestController");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         replyNoticeUpdateDTO.setReplyer(userDetails.getUsername());
@@ -176,7 +176,7 @@ public class ReplyController {
     // GET | Get Notice User Details
     @GetMapping("notice/user/email")
     @Operation(summary = "사용자 이메일 조회", description = "인증된 사용자의 이메일을 조회합니다.")
-    public ResponseEntity<Map<String, Object>> getNoticeUserDetails(Authentication authentication) {
+    public ResponseEntity<Map<String, Object>> getNoticeUserDetails(final Authentication authentication) {
         log.info("GET | Reply Notice User Details RestController");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();

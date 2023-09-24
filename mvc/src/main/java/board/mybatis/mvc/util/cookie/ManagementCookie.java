@@ -1,6 +1,7 @@
 package board.mybatis.mvc.util.cookie;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * 조회수를 관리하기 위한 쿠키 유틸리티 클래스입니다.
  */
-@Configuration
+@Component
 public class ManagementCookie {
 
     private static final String COOKIE_NAME = "read_board_";
@@ -22,7 +23,7 @@ public class ManagementCookie {
      * @param bno      게시글 번호.
      * @return 쿠키가 생성되어 조회수가 증가할 경우 true를 반환하고, 이미 존재하는 쿠키인 경우 false를 반환합니다.
      */
-    public boolean createCookie(HttpServletRequest request, HttpServletResponse response, Long bno) {
+    public boolean createCookie(final HttpServletRequest request, final HttpServletResponse response, final Long bno) {
         String cookieName = COOKIE_NAME + bno;
 
         Cookie[] cookies = request.getCookies();

@@ -22,7 +22,7 @@ public class StringWriterResponseWrapper extends HttpServletResponseWrapper {
      * @param stringWriter JSP 렌더링 결과를 저장할 StringWriter
      * @param response     원래의 HttpServletResponse
      */
-    public StringWriterResponseWrapper(StringWriter stringWriter, HttpServletResponse response) {
+    public StringWriterResponseWrapper(final StringWriter stringWriter, final HttpServletResponse response) {
         super(response);
         this.stringWriter = stringWriter;
         this.writer = new PrintWriter(stringWriter);

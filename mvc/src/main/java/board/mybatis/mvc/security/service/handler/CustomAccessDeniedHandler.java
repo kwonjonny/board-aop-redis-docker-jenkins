@@ -26,7 +26,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
      * @throws ServletException 서블릿 예외
      */
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response,
+    public void handle(final HttpServletRequest request, final HttpServletResponse response,
             AccessDeniedException accessDeniedException) throws IOException, ServletException {
         log.info("Is Running AccessDenied Handler");
         log.info(accessDeniedException);

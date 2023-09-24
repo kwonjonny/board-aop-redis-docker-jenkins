@@ -41,7 +41,7 @@ public class StatsController {
      * @param statsService 통계 서비스
      */
     @Autowired
-    public StatsController(StatsService statsService) {
+    public StatsController(final StatsService statsService) {
         log.info("Inject StatsService");
         this.statsService = statsService;
     }
@@ -49,7 +49,7 @@ public class StatsController {
     // GET | Stats List
     @GetMapping("list")
     @Operation(summary = "통계 목록 조회", description = "다양한 통계 데이터의 목록을 조회하는 API")
-    public String getListStats(PageRequestDTO pageRequestDTO, Model model) {
+    public String getListStats(final PageRequestDTO pageRequestDTO, final Model model) {
         log.info("GET | List Stats Controller");
         List<BoardDayEntryDTO> boardDayStats = statsService.boardDayEntryData();
         List<BoardMonthEntryDTO> boardMonthStats = statsService.boardMonthEntryData();

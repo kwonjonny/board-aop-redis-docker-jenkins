@@ -31,7 +31,7 @@ public class CustomOAuthSuccessHandler implements AuthenticationSuccessHandler {
      * @throws ServletException 서블릿 예외
      */
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+    public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response,
             Authentication authentication) throws IOException, ServletException {
         log.info("Is Running Success Handler Method");
         log.info("authentication.getPrincipal" + authentication.getPrincipal());

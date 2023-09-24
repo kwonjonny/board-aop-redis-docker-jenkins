@@ -43,8 +43,8 @@ public class EmailServiceImpl implements EmailService {
      * @param simpleMailMessage 이메일의 내용 및 구성을 위한 SimpleMailMessage 인스턴스
      */
     @Autowired
-    public EmailServiceImpl(JavaMailSender javaMailSender, SimpleMailMessage simpleMailMessage,
-            JSPToEmailService jspToEmailService, MemberMapper memberMapper) {
+    public EmailServiceImpl(final JavaMailSender javaMailSender, final SimpleMailMessage simpleMailMessage,
+            final JSPToEmailService jspToEmailService, final MemberMapper memberMapper) {
         log.info("Inject JavaMailSender");
         this.javaMailSender = javaMailSender;
         this.simpleMailMessage = simpleMailMessage;
@@ -61,7 +61,7 @@ public class EmailServiceImpl implements EmailService {
      */
     @Override
     @Transactional(readOnly = true)
-    public void sendCreateMail(String toMember) {
+    public void sendCreateMail(final String toMember) {
         log.info("Is Running SendCreateMail Email ServiceImpl");
         MemberValidator.validateEmail(toMember);
         Map<String, Object> model = new HashMap<>();
@@ -87,8 +87,8 @@ public class EmailServiceImpl implements EmailService {
      */
     @Override
     @Transactional(readOnly = true)
-    public void sendDeleteMail(String toMember) {
-        log.info("Is Running SnedDeleteMail Email ServiceImpl");
+    public void sendDeleteMail(final String toMember) {
+        log.info("Is Running Send DeleteMail Email ServiceImpl");
         MemberValidator.validateEmail(toMember);
         Map<String, Object> model = new HashMap<>();
         String htmlContent = jspToEmailService
@@ -108,17 +108,17 @@ public class EmailServiceImpl implements EmailService {
      * 사용자에게 비밀번호 재설정 이메일을 발송합니다.
      * 
      * @param toMember 이메일을 받을 사용자의 이메일의 주소입니다.
-     * @throws InvalidEmailException 이메일 형식에 맞지 않을때 발생하는 예외.
+     * @throws InvalidEmailException   이메일 형식에 맞지 않을때 발생하는 예외.
      * @throws MemberNotFoundException 해당하는 회원의 이메일이 없을때 발생하는 예외.
      */
     @Override
     @Transactional(readOnly = true)
-    public void sendPasswordResetMail(String toMember) {
-        log.info("Sending Password Reset Email");
+    public void sendPasswordResetMail(final String toMember) {
+        log.info("Is Running Send Password Reset Email ServiceImpl");
         MemberValidator.validateEmail(toMember);
         notFoundMember(toMember);
         Map<String, Object> model = new HashMap<>();
-        String resetUrl = "http://localhost:8084/spring/member/update/" + toMember; 
+        String resetUrl = "http://localhost:8084/spring/member/update/" + toMember;
         model.put("passwordResetUrl", resetUrl);
         String htmlContent = jspToEmailService
                 .getRenderedHTMLString("/WEB-INF/spring/email/resetpassword.jsp", model);
@@ -143,7 +143,7 @@ public class EmailServiceImpl implements EmailService {
      * @throws MemberNotFoundException 해당 이메일의 회원이 없을 경우 발생하는 예외.
      */
     @Transactional(readOnly = true)
-    private void notFoundMember(String email) {
+    private void notFoundMember(final String email) {
         MemberValidator.validateEmail(email);
         if (memberMapper.findMemberEmail(email) == 0 || memberMapper.findMemberEmail(email) == null) {
             throw new MemberNotFoundException("해당하는 이메일의 회원이 없습니다.");

@@ -48,7 +48,7 @@ public class CacheableAspect {
      * @throws Throwable 예외 발생시
      */
     @Around("execution(* *(..)) && @annotation(kwonCacheable)")
-    public Object kwonCacheable(ProceedingJoinPoint pjp, KwonCacheable kwonCacheable) throws Throwable {
+    public Object kwonCacheable(final ProceedingJoinPoint pjp, final KwonCacheable kwonCacheable) throws Throwable {
         MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
         Method method = methodSignature.getMethod();
 

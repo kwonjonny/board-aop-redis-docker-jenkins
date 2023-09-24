@@ -19,7 +19,7 @@ public class PublicInternalResourceView extends InternalResourceView {
      *
      * @param url 렌더링할 JSP의 경로
      */
-    public PublicInternalResourceView(String url) {
+    public PublicInternalResourceView(final String url) {
         super(url);
     }
 
@@ -32,7 +32,7 @@ public class PublicInternalResourceView extends InternalResourceView {
      * @throws Exception 뷰 렌더링 중 발생할 수 있는 예외
      */
     @Override
-    public void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,
+    public void renderMergedOutputModel(final Map<String, Object> model, final HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         super.renderMergedOutputModel(model, request, response);
     }

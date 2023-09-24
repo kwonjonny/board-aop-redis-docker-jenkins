@@ -28,7 +28,7 @@ public class AdminRoleAspect {
      * @throws Throwable 원래 메서드에서 발생하는 예외 및 권한 관련 예외를 포함하여 다양한 예외가 발생할 수 있습니다.
      */
     @Around("@annotation(board.mybatis.mvc.annotation.role.RoleAdmin)")
-    public Object handleCheckAdminRole(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object handleCheckAdminRole(final ProceedingJoinPoint joinPoint) throws Throwable {
         // joinPoint에서 메서드 인수를 가져옵니다.
         Object[] args = joinPoint.getArgs();
         // 인수 목록을 순회하면서 Authentication 타입의 인수를 찾습니다.

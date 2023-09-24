@@ -38,7 +38,7 @@ public class LikeController {
      * @param likeService 좋아요 서비스
      */
     @Autowired
-    public LikeController(LikeService likeService) {
+    public LikeController(final LikeService likeService) {
         log.info("Inject LikeService");
         this.likeService = likeService;
     }
@@ -48,7 +48,7 @@ public class LikeController {
     @Operation(summary = "게시물 좋아요 토글", description = "특정 게시물에 대한 좋아요를 토글합니다.")
     public ResponseEntity<Map<String, Object>> toggleLikeBoard(
             @Parameter(description = "게시물 번호", required = true) @PathVariable("bno") final Long bno,
-            Authentication authentication) {
+            final Authentication authentication) {
         log.info("Toggle Like Board RestController");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();
@@ -72,7 +72,7 @@ public class LikeController {
     @Operation(summary = "회원의 게시물 좋아요 여부 확인", description = "특정 회원이 특정 게시물에 대한 좋아요 여부를 확인합니다.")
     public ResponseEntity<Map<String, Object>> checkLikeBoardMember(
             @Parameter(description = "게시물 번호", required = true) @PathVariable("bno") final Long bno,
-            Authentication authentication) {
+            final Authentication authentication) {
         log.info("Check Like Board Member RestController");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();
@@ -85,7 +85,7 @@ public class LikeController {
     @Operation(summary = "공지사항 좋아요 토글", description = "특정 공지사항에 대한 좋아요를 토글합니다.")
     public ResponseEntity<Map<String, Object>> toggleLikeNotice(
             @Parameter(description = "공지사항 번호", required = true) @PathVariable("nno") final Long nno,
-            Authentication authentication) {
+            final Authentication authentication) {
         log.info("Toggle Like Notice RestController");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();
@@ -109,7 +109,7 @@ public class LikeController {
     @Operation(summary = "회원의 공지사항 좋아요 여부 확인", description = "특정 회원이 특정 공지사항에 대한 좋아요 여부를 확인합니다.")
     public ResponseEntity<Map<String, Object>> checkLikeNoticeMember(
             @Parameter(description = "공지사항 번호", required = true) @PathVariable("nno") final Long nno,
-            Authentication authentication) {
+            final Authentication authentication) {
         log.info("Check Like Notice Member RestController");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String email = userDetails.getUsername();

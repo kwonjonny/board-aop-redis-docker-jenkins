@@ -24,7 +24,7 @@ public class MemberValidator {
      *              - 도메인은 영문 대소문자로만 이루어져야 하며, 최소 2글자에서 최대 4글자까지 허용됩니다.
      * @throws InvalidEmailException 이메일 형식이 올바르지 않을 경우 발생합니다.
      */
-    public static void validateEmail(String email) {
+    public static void validateEmail(final String email) {
         Pattern pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}$");
         Matcher matcher = pattern.matcher(email);
         if (!matcher.matches()) {
@@ -41,7 +41,7 @@ public class MemberValidator {
      * 
      * @throws PasswordIllegalArgumentException 비밀번호 형식이 올바르지 않을 경우 발생합니다.
      */
-    public static void validatePassword(String password) {
+    public static void validatePassword(final String password) {
         Pattern pattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_-]).{8,}$");
         Matcher matcher = pattern.matcher(password);
         if (!matcher.matches()) {
@@ -57,7 +57,7 @@ public class MemberValidator {
      * 
      * @throws MemberPhoneIllegalArgumentException 전화번호 형식이 올바르지 않을 경우 발생합니다.
      */
-    public static void validatePhoneNumber(String phoneNumber) {
+    public static void validatePhoneNumber(final String phoneNumber) {
         Pattern pattern = Pattern.compile("^010-\\d{4}-\\d{4}$");
         Matcher matcher = pattern.matcher(phoneNumber);
         if (!matcher.matches()) {

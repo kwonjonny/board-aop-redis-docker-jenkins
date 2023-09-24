@@ -33,7 +33,7 @@ public class JSPToEmailService {
      * @param webApplicationContext JSP 뷰를 렌더링하는 데 사용되는 WebApplicationContext
      */
     @Autowired
-    public JSPToEmailService(WebApplicationContext webApplicationContext) {
+    public JSPToEmailService(final WebApplicationContext webApplicationContext) {
         log.info("Inject WebApplicationContext");
         this.webApplicationContext = webApplicationContext;
     }
@@ -45,7 +45,7 @@ public class JSPToEmailService {
      * @param model   JSP에 전달될 데이터
      * @return 렌더링된 HTML 문자열
      */
-    public String getRenderedHTMLString(String jspPath, Map<String, Object> model) {
+    public String getRenderedHTMLString(final String jspPath, final Map<String, Object> model) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())

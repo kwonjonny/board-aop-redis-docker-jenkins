@@ -49,7 +49,7 @@ public class MemberController {
      * @param emailService  이메일 서비스
      */
     @Autowired
-    public MemberController(MemberService memberService, EmailService emailService) {
+    public MemberController(final MemberService memberService, final EmailService emailService) {
         log.info("Inject MemberService");
         this.memberService = memberService;
         this.emailService = emailService;
@@ -68,7 +68,7 @@ public class MemberController {
     @Operation(summary = "회원 조회", description = "특정 회원을 조회합니다.")
     public String getReadMember(
             @Parameter(description = "회원 이메일", required = true) @PathVariable("email") final String email,
-            Model model, PageRequestDTO pageRequestDTO) {
+            final Model model, final PageRequestDTO pageRequestDTO) {
         log.info("GET | Read Member Controller");
         MemberConvertDTO list = memberService.readMember(email);
         model.addAttribute("list", list);
@@ -81,7 +81,7 @@ public class MemberController {
     @Operation(summary = "회원 수정 페이지 조회", description = "회원 정보를 수정하는 페이지를 조회합니다.")
     public String geteUpdateMember(
             @Parameter(description = "회원 이메일", required = true) @PathVariable("email") final String email,
-            Model model, PageRequestDTO pageRequestDTO, Authentication authentication) {
+            final Model model, final PageRequestDTO pageRequestDTO, final Authentication authentication) {
         log.info("GET | Update Member Controller");
         MemberConvertDTO list = memberService.readMember(email);
         model.addAttribute("list", list);
@@ -91,7 +91,8 @@ public class MemberController {
     // GET | List Member
     @GetMapping("list")
     @Operation(summary = "회원 목록 조회", description = "회원 목록을 조회합니다.")
-    public String getListMember(@Parameter(description = "페이지 정보") PageRequestDTO pageRequestDTO, Model model) {
+    public String getListMember(@Parameter(description = "페이지 정보") final PageRequestDTO pageRequestDTO,
+            final Model model) {
         log.info("GET | List Member Controller");
         PageResponseDTO<MemberListDTO> list = memberService.listMember(pageRequestDTO);
         model.addAttribute("list", list);
@@ -113,7 +114,7 @@ public class MemberController {
     @Operation(summary = "회원 가입 이메일 인증", description = "회원의 이메일 인증을 완료합니다.")
     public String getVerifyEmail(
             @Parameter(description = "회원 이메일", required = true) @RequestParam("email") final String email,
-            RedirectAttributes redirectAttributes) {
+            final RedirectAttributes redirectAttributes) {
         log.info("GET | Verify Member Email Controller");
         memberService.verifyEmail(email);
         redirectAttributes.addFlashAttribute("message", "이메일 인증 완료! 로그인해주세요.");
@@ -132,8 +133,8 @@ public class MemberController {
     @PostMapping("forgot/password")
     @Operation(summary = "회원 패스워드 재설정 이메일", description = "회원의 패스워드 재 설정 이메일 발송합니다.")
     public String postForgotMemberPassword(
-            @Parameter(description = "회원 이메일", required = true) @RequestParam("email") String email,
-            RedirectAttributes redirectAttributes) {
+            @Parameter(description = "회원 이메일", required = true) @RequestParam("email") final String email,
+            final RedirectAttributes redirectAttributes) {
         log.info("POST | Forgot Member Password Controller");
         emailService.sendPasswordResetMail(email);
         redirectAttributes.addFlashAttribute("message", "회원 패스워드 재 설정 이메일 전송.");
@@ -144,7 +145,7 @@ public class MemberController {
     @PostMapping("create")
     @Operation(summary = "회원 생성", description = "새로운 회원을 생성하고 이메일 인증 코드를 발송합니다.")
     public String postCreateMember(
-            @Valid MemberCreateDTO memberCreateDTO, RedirectAttributes redirectAttributes) {
+            @Valid final MemberCreateDTO memberCreateDTO, final RedirectAttributes redirectAttributes) {
         log.info("POST | Create Member Controller");
         Long createMember = memberService.joinMember(memberCreateDTO);
         emailService.sendCreateMail(memberCreateDTO.getEmail());
@@ -157,8 +158,8 @@ public class MemberController {
     @PostMapping("update")
     @Operation(summary = "회원 업데이트", description = "기존 회원 정보를 업데이트합니다.")
     public String postUpdateMember(
-            @Valid MemberUpdateDTO memberUpdateDTO, RedirectAttributes redirectAttributes,
-            Authentication authentication) {
+            @Valid final MemberUpdateDTO memberUpdateDTO, final RedirectAttributes redirectAttributes,
+            final Authentication authentication) {
         log.info("POST | Update Member Controller");
         Long updateMember = memberService.updateMember(memberUpdateDTO);
         redirectAttributes.addFlashAttribute("message", "회원 업데이트 완료.");
@@ -171,7 +172,7 @@ public class MemberController {
     @Operation(summary = "회원 탈퇴", description = "회원을 탈퇴시키고 탈퇴 이메일을 전송합니다.")
     public String postDeleteMember(
             @Parameter(description = "회원 이메일", required = true) @PathVariable("email") final String email,
-            RedirectAttributes redirectAttributes, Authentication authentication) {
+            final RedirectAttributes redirectAttributes, final Authentication authentication) {
         log.info("POST | Delete Member Controller");
         Long deleteMember = memberService.deleteMember(email);
         emailService.sendDeleteMail(email);

@@ -1,6 +1,5 @@
 package board.mybatis.mvc.service.impl;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +32,7 @@ public class LikeServiceImpl implements LikeService {
      * @param likeMapper 좋아요 관련 데이터 액세스 객체
      */
     @Autowired
-    public LikeServiceImpl(LikeMapper likeMapper) {
+    public LikeServiceImpl(final LikeMapper likeMapper) {
         log.info("Inject LikeService");
         this.likeMapper = likeMapper;
     }
@@ -53,7 +52,7 @@ public class LikeServiceImpl implements LikeService {
      */
     @Override
     @Transactional
-    public Long toggleLikeBoard(Long bno, String email) {
+    public Long toggleLikeBoard(final Long bno, final String email) {
         log.info("Is Running Toggle Like Board ServiceImpl");
         validateBoardNumber(bno);
         validateMemberEmail(email);
@@ -82,7 +81,7 @@ public class LikeServiceImpl implements LikeService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Long countLikeBoard(Long bno) {
+    public Long countLikeBoard(final Long bno) {
         log.info("Is Running Count Like Board ServiceImpl");
         validateBoardNumber(bno);
         return likeMapper.countLikeBoard(bno);
@@ -100,7 +99,7 @@ public class LikeServiceImpl implements LikeService {
      */
     @Override
     @Transactional(readOnly = true)
-    public LikeToggleBoardDTO checkToggleLikeBoard(Long bno, String email) {
+    public LikeToggleBoardDTO checkToggleLikeBoard(final Long bno, final String email) {
         log.info("Is Running Check Toggle Like Board ServiceImpl");
         validateBoardNumber(bno);
         MemberValidator.validateEmail(email);
@@ -122,11 +121,11 @@ public class LikeServiceImpl implements LikeService {
      */
     @Override
     @Transactional
-    public Long toggleLikeNotice(Long nno, String email) {
+    public Long toggleLikeNotice(final Long nno, final String email) {
         log.info("Is Running Toggle Like Notice ServiceImpl");
-        validateNoticeNumber(nno);  
-        validateMemberEmail(email); 
-        MemberValidator.validateEmail(email); 
+        validateNoticeNumber(nno);
+        validateMemberEmail(email);
+        MemberValidator.validateEmail(email);
         LikeToggleNoticeDTO likeToggleNoticeDTO = LikeToggleNoticeDTO.builder()
                 .nno(nno)
                 .email(email)
@@ -151,7 +150,7 @@ public class LikeServiceImpl implements LikeService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Long countLikeNotice(Long nno) {
+    public Long countLikeNotice(final Long nno) {
         validateNoticeNumber(nno);
         log.info("Is Running Count Like Notice ServiceImpl");
         return likeMapper.countLikeNotice(nno);
@@ -169,7 +168,7 @@ public class LikeServiceImpl implements LikeService {
      */
     @Override
     @Transactional(readOnly = true)
-    public LikeToggleNoticeDTO checkToggleLikeNotice(Long nno, String emaiil) {
+    public LikeToggleNoticeDTO checkToggleLikeNotice(final Long nno, final String emaiil) {
         log.info("Is Running Check Toggle Like Notice ServiceImpl");
         validateNoticeNumber(nno);
         MemberValidator.validateEmail(emaiil);
@@ -184,7 +183,7 @@ public class LikeServiceImpl implements LikeService {
      * @throws BoardNumberNotFoundException 해당 게시물 번호가 없을 때 발생하는 예외
      */
     @Transactional(readOnly = true)
-    private void validateBoardNumber(Long bno) {
+    private void validateBoardNumber(final Long bno) {
         log.info("Is Validate Board Number ServiceImpl");
         if (likeMapper.findBoardNumber(bno) == null || likeMapper.findBoardNumber(bno) == 0) {
             throw new BoardNumberNotFoundException("해당하는 게시물 번호가 없습니다.");
@@ -199,7 +198,7 @@ public class LikeServiceImpl implements LikeService {
      * @throws NoticeNumberNotFoundException 해당 공지사항 번호가 없을 때 발생하는 예외
      */
     @Transactional(readOnly = true)
-    private void validateNoticeNumber(Long nno) {
+    private void validateNoticeNumber(final Long nno) {
         log.info("Is Validate Notice Number ServiceImpl");
         if (likeMapper.findNoticeNumber(nno) == null || likeMapper.findNoticeNumber(nno) == 0) {
             throw new NoticeNumberNotFoundException("해당하는 공지사항 번호가 없습니다.");
@@ -214,7 +213,7 @@ public class LikeServiceImpl implements LikeService {
      * @throws MemberNotFoundException 회원 이메일이 없을 때 발생하는 예외
      */
     @Transactional(readOnly = true)
-    private void validateMemberEmail(String email) {
+    private void validateMemberEmail(final String email) {
         log.info("Is Running Validate Member Email ServiceImpl");
         MemberValidator.validateEmail(email);
         if (likeMapper.findMemberEmail(email) == 0 || likeMapper.findMemberEmail(email) == null) {

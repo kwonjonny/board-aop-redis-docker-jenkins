@@ -34,7 +34,7 @@ public class CustomKeyGenerator implements KeyGenerator {
      * @return String 사용자 정의 캐시 키
      */
     @Override
-    public Object generate(Object target, Method method, Object... params) {
+    public Object generate(final Object target, final Method method, final Object... params) {
         String paramValue;
         if (params[0] instanceof MemberUpdateDTO) {
             paramValue = ((MemberUpdateDTO) params[0]).getEmail();

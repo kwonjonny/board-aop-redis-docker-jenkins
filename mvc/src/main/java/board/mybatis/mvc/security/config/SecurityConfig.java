@@ -29,7 +29,7 @@ public class SecurityConfig {
     private final DataSource dataSource;
 
     @Autowired
-    public SecurityConfig(@Qualifier("slaveDataSource") DataSource dataSource) {
+    public SecurityConfig(@Qualifier("slaveDataSource") final  DataSource dataSource) {
         log.info("Inject DataSource");
         this.dataSource = dataSource;
     }
@@ -74,7 +74,7 @@ public class SecurityConfig {
      * @throws Exception 예외
      */
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
         log.info("Spring Seucirty Filter Chain Is Running");
 
         // 커스텀 로그인 페이지 경로 지정

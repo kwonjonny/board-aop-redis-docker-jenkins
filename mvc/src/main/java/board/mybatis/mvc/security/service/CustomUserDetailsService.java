@@ -33,7 +33,7 @@ public class CustomUserDetailsService implements UserDetailsService {
      * @throws UsernameNotFoundException 사용자명을 찾을 수 없을 때 발생하는 예외
      */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         log.info("Is Running LoadUserByUserName");
         log.info(username);
 
