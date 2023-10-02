@@ -50,7 +50,7 @@ public class MemberController {
      */
     @Autowired
     public MemberController(final MemberService memberService, final EmailService emailService) {
-        log.info("Inject MemberService");
+        log.info("Inject MemberService, EmailService");
         this.memberService = memberService;
         this.emailService = emailService;
     }

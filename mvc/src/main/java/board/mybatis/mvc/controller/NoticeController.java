@@ -46,7 +46,7 @@ public class NoticeController {
      * @param managementCookie 쿠키 관리 유틸리티
      */
     @Autowired
-    public NoticeController(final NoticeService noticeService, ManagementCookie managementCookie) {
+    public NoticeController(final NoticeService noticeService, final ManagementCookie managementCookie) {
         log.info("Inject NoticeServices");
         this.noticeService = noticeService;
         this.managementCookie = managementCookie;

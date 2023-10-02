@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import board.mybatis.mvc.annotation.role.CheckMemberMatch;
 import board.mybatis.mvc.dto.board.BoardCreateDTO;
 import board.mybatis.mvc.dto.board.BoardDTO;
 import board.mybatis.mvc.dto.board.BoardListDTO;
@@ -75,6 +76,7 @@ public class BoardController {
     }
 
     // GET | Update Board
+    @CheckMemberMatch
     @GetMapping("update/{bno}")
     @Operation(summary = "게시물 수정 페이지", description = "게시물 수정 페이지를 조회하는 API")
     public String getUpdateBoard(
@@ -102,13 +104,13 @@ public class BoardController {
     public String postCreateBoard(@Valid final BoardCreateDTO boardCreateDTO,
             final RedirectAttributes redirectAttributes) {
         log.info("POST | Create Board Controller");
-        log.info("boardCreateDTO: " + boardCreateDTO);
         Long createBoard = boardService.createBoard(boardCreateDTO);
         redirectAttributes.addFlashAttribute("message", "게시물 생성 완료.");
         return "redirect:/spring/board/list";
     }
 
     // POST | Update Board
+    @CheckMemberMatch
     @PostMapping("update")
     @Operation(summary = "게시물 수정", description = "게시물의 내용을 수정하는 API")
     public String postUpdateBoard(@Valid final BoardUpdateDTO boardUpdateDTO,
@@ -120,6 +122,7 @@ public class BoardController {
     }
 
     // POST | Delete Board
+    @CheckMemberMatch
     @PostMapping("delete/{bno}")
     @Operation(summary = "게시물 삭제", description = "특정 게시물을 삭제하는 API")
     public String postDeleteBoard(
